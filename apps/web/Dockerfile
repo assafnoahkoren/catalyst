@@ -16,7 +16,7 @@ RUN bun install --frozen-lockfile
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=prune /app/out/full/ .
-RUN bun run --filter @catalyst/web build
+RUN cd apps/web && bun run build
 
 # --- Stage 4: Serve ---
 FROM nginx:alpine AS runner

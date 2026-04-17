@@ -16,8 +16,8 @@ RUN bun install --frozen-lockfile
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=prune /app/out/full/ .
-RUN bun run --filter @catalyst/db -- bunx prisma generate
-RUN bun run --filter @catalyst/server build
+RUN cd packages/db && bunx prisma generate
+RUN cd apps/server && bun run build
 
 # --- Stage 4: Run ---
 FROM oven/bun:1-slim AS runner
