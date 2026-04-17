@@ -11,32 +11,5 @@ services:
       timeout: 5s
       retries: 5
 
-  server:
-    build:
-      context: .
-      dockerfile: apps/server/Dockerfile
-    ports:
-      - "3001:3001"
-    depends_on:
-      mongodb:
-        condition: service_healthy
-    environment:
-      - DATABASE_URL=mongodb://mongodb:27017/catalyst
-      - BETTER_AUTH_SECRET=dev-secret-change-in-production
-      - BETTER_AUTH_URL=http://localhost:3001
-      - LOG_TRANSPORT=stdout
-      - LOG_LEVEL=debug
-      - CORS_ORIGIN=http://localhost:5173
-      - PORT=3001
-
-  web:
-    build:
-      context: .
-      dockerfile: apps/web/Dockerfile
-    ports:
-      - "5173:80"
-    depends_on:
-      - server
-
 volumes:
   mongo-data:
