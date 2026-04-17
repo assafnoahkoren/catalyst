@@ -1,3 +1,4 @@
+import { prisma } from '@catalyst/db'
 import { initTRPC, TRPCError } from '@trpc/server'
 import type { Context } from '../middleware/context'
 
@@ -14,6 +15,27 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
     ctx: {
       user: ctx.user,
       session: ctx.session,
+    },
+  })
+})
+
+export const tenantProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  const membership = await prisma.tenantMember.findFirst({
+    where: { userId: ctx.user.id },
+  })
+
+  if (!membership) {
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'User is not a member of any tenant',
+    })
+  }
+
+  return next({
+    ctx: {
+      ...ctx,
+      tenantId: membership.tenantId,
+      memberRole: membership.role as string,
     },
   })
 })
