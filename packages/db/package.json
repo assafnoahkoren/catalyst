@@ -2,7 +2,8 @@
   "name": "@catalyst/db",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./generated/prisma/runtime/library": "./src/generated/prisma/runtime/library.js"
   },
   "scripts": {
     "build": "tsc --noEmit",
