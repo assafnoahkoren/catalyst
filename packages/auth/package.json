@@ -9,7 +9,7 @@
     "build": "tsc --noEmit",
     "lint": "oxlint -c ../lint-config/oxlint.json src/",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run --passWithNoTests"
   },
   "devDependencies": {
     "@catalyst/tsconfig": "workspace:*",
