@@ -1,0 +1,23 @@
+{
+  "name": "@catalyst/i18n",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./locales/en": "./src/locales/en.ts",
+    "./locales/he": "./src/locales/he.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "oxlint -c ../lint-config/oxlint.json src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "i18next": "^26.0.5",
+    "react-i18next": "^17.0.4"
+  },
+  "devDependencies": {
+    "@catalyst/tsconfig": "workspace:*",
+    "typescript": "^5"
+  }
+}

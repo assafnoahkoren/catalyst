@@ -1,4 +1,5 @@
 import { authClient } from '@catalyst/auth/client'
+import { useTranslation } from '@catalyst/i18n'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -8,6 +9,7 @@ export const Route = createFileRoute('/register')({
 
 function RegisterPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -28,7 +30,7 @@ function RegisterPage() {
     setLoading(false)
 
     if (result.error) {
-      setError(result.error.message ?? 'Registration failed')
+      setError(result.error.message ?? t('registrationFailed'))
       return
     }
 
@@ -39,9 +41,9 @@ function RegisterPage() {
     <main className='flex min-h-screen items-center justify-center p-8'>
       <div className='w-full max-w-sm space-y-6'>
         <div className='space-y-2 text-center'>
-          <h1 className='text-2xl font-bold'>Create Account</h1>
+          <h1 className='text-2xl font-bold'>{t('signUpTitle')}</h1>
           <p className='text-sm text-muted-foreground'>
-            Fill in your details to get started
+            {t('signUpDescription')}
           </p>
         </div>
 
@@ -53,7 +55,7 @@ function RegisterPage() {
           )}
 
           <div className='space-y-2'>
-            <label htmlFor='name' className='text-sm font-medium'>Name</label>
+            <label htmlFor='name' className='text-sm font-medium'>{t('name')}</label>
             <input
               id='name'
               type='text'
@@ -61,12 +63,12 @@ function RegisterPage() {
               onChange={(e) => setName(e.target.value)}
               required
               className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
-              placeholder='Your name'
+              placeholder={t('namePlaceholder')}
             />
           </div>
 
           <div className='space-y-2'>
-            <label htmlFor='email' className='text-sm font-medium'>Email</label>
+            <label htmlFor='email' className='text-sm font-medium'>{t('email')}</label>
             <input
               id='email'
               type='email'
@@ -74,12 +76,12 @@ function RegisterPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
-              placeholder='you@example.com'
+              placeholder={t('emailPlaceholder')}
             />
           </div>
 
           <div className='space-y-2'>
-            <label htmlFor='password' className='text-sm font-medium'>Password</label>
+            <label htmlFor='password' className='text-sm font-medium'>{t('password')}</label>
             <input
               id='password'
               type='password'
@@ -88,7 +90,7 @@ function RegisterPage() {
               required
               minLength={8}
               className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
-              placeholder='••••••••'
+              placeholder={t('passwordPlaceholder')}
             />
           </div>
 
@@ -97,14 +99,14 @@ function RegisterPage() {
             disabled={loading}
             className='w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50'
           >
-            {loading ? 'Creating account...' : 'Register'}
+            {loading ? t('creatingAccount') : t('signUp')}
           </button>
         </form>
 
         <p className='text-center text-sm text-muted-foreground'>
-          Already have an account?{' '}
+          {t('hasAccount')}{' '}
           <Link to='/login' className='text-primary underline'>
-            Sign In
+            {t('signIn')}
           </Link>
         </p>
       </div>

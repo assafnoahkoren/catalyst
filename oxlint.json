@@ -7,7 +7,7 @@
     "perf": "warn",
     "style": "off"
   },
-  "plugins": ["typescript", "unicorn"],
+  "plugins": ["typescript", "unicorn", "react"],
   "rules": {
     "no-console": "warn",
     "typescript/no-explicit-any": "error"

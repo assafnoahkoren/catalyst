@@ -22,3 +22,7 @@ Thumbs.db
 
 # Docker
 docker-compose.override.yml
+
+# Playwright
+playwright-report
+test-results

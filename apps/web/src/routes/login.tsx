@@ -1,4 +1,5 @@
 import { authClient } from '@catalyst/auth/client'
+import { useTranslation } from '@catalyst/i18n'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -8,6 +9,7 @@ export const Route = createFileRoute('/login')({
 
 function LoginPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -26,7 +28,7 @@ function LoginPage() {
     setLoading(false)
 
     if (result.error) {
-      setError(result.error.message ?? 'Sign in failed')
+      setError(result.error.message ?? t('signInFailed'))
       return
     }
 
@@ -37,9 +39,9 @@ function LoginPage() {
     <main className='flex min-h-screen items-center justify-center p-8'>
       <div className='w-full max-w-sm space-y-6'>
         <div className='space-y-2 text-center'>
-          <h1 className='text-2xl font-bold'>Sign In</h1>
+          <h1 className='text-2xl font-bold'>{t('signInTitle')}</h1>
           <p className='text-sm text-muted-foreground'>
-            Enter your credentials to continue
+            {t('signInDescription')}
           </p>
         </div>
 
@@ -51,7 +53,7 @@ function LoginPage() {
           )}
 
           <div className='space-y-2'>
-            <label htmlFor='email' className='text-sm font-medium'>Email</label>
+            <label htmlFor='email' className='text-sm font-medium'>{t('email')}</label>
             <input
               id='email'
               type='email'
@@ -59,12 +61,12 @@ function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
-              placeholder='you@example.com'
+              placeholder={t('emailPlaceholder')}
             />
           </div>
 
           <div className='space-y-2'>
-            <label htmlFor='password' className='text-sm font-medium'>Password</label>
+            <label htmlFor='password' className='text-sm font-medium'>{t('password')}</label>
             <input
               id='password'
               type='password'
@@ -72,7 +74,7 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
-              placeholder='••••••••'
+              placeholder={t('passwordPlaceholder')}
             />
           </div>
 
@@ -81,14 +83,14 @@ function LoginPage() {
             disabled={loading}
             className='w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50'
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? t('signingIn') : t('signIn')}
           </button>
         </form>
 
         <p className='text-center text-sm text-muted-foreground'>
-          Don't have an account?{' '}
+          {t('noAccount')}{' '}
           <Link to='/register' className='text-primary underline'>
-            Register
+            {t('signUp')}
           </Link>
         </p>
       </div>

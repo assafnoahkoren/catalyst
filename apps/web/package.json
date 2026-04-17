@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@catalyst/auth": "workspace:*",
+    "@catalyst/i18n": "workspace:*",
     "@catalyst/ui": "workspace:*",
     "@catalyst/validation": "workspace:*",
     "@tanstack/react-query": "^5.99.0",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@catalyst/tsconfig": "workspace:*",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/router-plugin": "^1.167.22",
     "@types/react": "^19.2.14",

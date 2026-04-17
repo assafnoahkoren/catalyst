@@ -14,6 +14,7 @@
     "format": "turbo run format",
     "format:check": "turbo run format:check",
     "typecheck": "turbo run typecheck",
+    "lint:i18n": "bun run scripts/lint-i18n.ts",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -27,10 +28,14 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "oxlint",
-      "dprint check"
+      "dprint fmt"
     ],
     "*.{json,md}": [
-      "dprint check"
+      "dprint fmt"
     ]
+  },
+  "dependencies": {
+    "i18next": "^26.0.5",
+    "react-i18next": "^17.0.4"
   }
 }

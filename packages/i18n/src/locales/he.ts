@@ -1,0 +1,25 @@
+import type { Translations } from './en'
+
+export const he: Translations = {
+  appName: 'קטליסט',
+  tagline: 'תבנית מונורפו פול-סטאק',
+  signIn: 'התחברות',
+  signUp: 'הרשמה',
+  signOut: 'התנתקות',
+  email: 'אימייל',
+  password: 'סיסמה',
+  name: 'שם',
+  emailPlaceholder: 'you@example.com',
+  passwordPlaceholder: '••••••••',
+  namePlaceholder: 'השם שלך',
+  signingIn: 'מתחבר...',
+  creatingAccount: 'יוצר חשבון...',
+  signInTitle: 'התחברות',
+  signInDescription: 'הזן את פרטי ההתחברות שלך כדי להמשיך',
+  signUpTitle: 'יצירת חשבון',
+  signUpDescription: 'מלא את הפרטים שלך כדי להתחיל',
+  noAccount: 'אין לך חשבון?',
+  hasAccount: 'כבר יש לך חשבון?',
+  signInFailed: 'ההתחברות נכשלה',
+  registrationFailed: 'ההרשמה נכשלה',
+}
