@@ -76,6 +76,8 @@ model Tenant {
   conversations    Conversation[]
   notes            Note[]
   activities       Activity[]
+  automationFlows  AutomationFlow[]
+  webhookEndpoints WebhookEndpoint[]
 }
 
 model TenantMember {
@@ -234,6 +236,70 @@ model Activity {
   customerId String   @db.ObjectId
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   actorId    String?  @db.ObjectId
+}
+
+enum AutomationLogStatus {
+  SUCCESS
+  FAILED
+  PENDING
+}
+
+enum ScheduledTaskStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+model AutomationFlow {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  isActive Boolean @default(false)
+  trigger  Json
+  steps    Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenantId       String            @db.ObjectId
+  tenant         Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  automationLogs AutomationLog[]
+  scheduledTasks ScheduledTask[]
+}
+
+model AutomationLog {
+  id         String              @id @default(auto()) @map("_id") @db.ObjectId
+  stepIndex  Int
+  status     AutomationLogStatus
+  result     Json                @default("{}")
+  executedAt DateTime            @default(now())
+
+  flowId     String         @db.ObjectId
+  flow       AutomationFlow @relation(fields: [flowId], references: [id], onDelete: Cascade)
+  customerId String         @db.ObjectId
+}
+
+model WebhookEndpoint {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  token        String  @unique
+  fieldMapping Json    @default("{}")
+  isActive     Boolean @default(true)
+  createdAt    DateTime @default(now())
+
+  tenantId String @db.ObjectId
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+model ScheduledTask {
+  id        String              @id @default(auto()) @map("_id") @db.ObjectId
+  stepIndex Int
+  executeAt DateTime
+  status    ScheduledTaskStatus @default(PENDING)
+  createdAt DateTime            @default(now())
+
+  flowId     String         @db.ObjectId
+  flow       AutomationFlow @relation(fields: [flowId], references: [id], onDelete: Cascade)
+  customerId String         @db.ObjectId
 }
 
 model Verification {
