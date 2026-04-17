@@ -1,0 +1,9 @@
+{
+  "name": "@catalyst/tsconfig",
+  "private": true,
+  "files": [
+    "base.json",
+    "server.json",
+    "react.json"
+  ]
+}

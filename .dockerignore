@@ -1,0 +1,13 @@
+node_modules
+.turbo
+dist
+.git
+.github
+skills
+docs
+*.md
+!README.md
+.env*
+*.log
+.vscode
+.idea

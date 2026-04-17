@@ -1,0 +1,8 @@
+{
+  "name": "@catalyst/lint-config",
+  "private": true,
+  "files": [
+    "oxlint.json",
+    "dprint.json"
+  ]
+}

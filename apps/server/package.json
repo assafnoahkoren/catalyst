@@ -1,0 +1,28 @@
+{
+  "name": "@catalyst/server",
+  "private": true,
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "dev": "bun run --watch src/index.ts",
+    "lint": "oxlint -c ../../packages/lint-config/oxlint.json src/",
+    "format": "dprint fmt -c ../../packages/lint-config/dprint.json",
+    "format:check": "dprint check -c ../../packages/lint-config/dprint.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@catalyst/auth": "workspace:*",
+    "@catalyst/db": "workspace:*",
+    "@catalyst/logger": "workspace:*",
+    "@catalyst/validation": "workspace:*",
+    "@hono/trpc-server": "^0.4.2",
+    "@trpc/server": "^11.16.0",
+    "hono": "^4.12.14",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@catalyst/tsconfig": "workspace:*",
+    "typescript": "^5",
+    "vitest": "^4.1.4"
+  }
+}

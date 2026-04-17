@@ -1,0 +1,22 @@
+{
+  "name": "@catalyst/auth",
+  "private": true,
+  "exports": {
+    "./server": "./src/server.ts",
+    "./client": "./src/client.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "oxlint -c ../lint-config/oxlint.json src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@catalyst/tsconfig": "workspace:*",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@catalyst/db": "workspace:*",
+    "better-auth": "^1.6.5"
+  }
+}

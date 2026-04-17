@@ -1,0 +1,38 @@
+{
+  "name": "@catalyst/web",
+  "private": true,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "oxlint -c ../../packages/lint-config/oxlint.json src/",
+    "format": "dprint fmt -c ../../packages/lint-config/dprint.json",
+    "format:check": "dprint check -c ../../packages/lint-config/dprint.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@catalyst/auth": "workspace:*",
+    "@catalyst/ui": "workspace:*",
+    "@catalyst/validation": "workspace:*",
+    "@tanstack/react-query": "^5.99.0",
+    "@tanstack/react-router": "^1.168.22",
+    "@trpc/client": "^11.16.0",
+    "@trpc/tanstack-react-query": "^11.16.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@catalyst/tsconfig": "workspace:*",
+    "@tailwindcss/vite": "^4.2.2",
+    "@tanstack/router-plugin": "^1.167.22",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.5.0",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5",
+    "vite": "^8.0.8",
+    "vitest": "^4.1.4"
+  }
+}

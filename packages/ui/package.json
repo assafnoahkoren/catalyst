@@ -1,0 +1,17 @@
+{
+  "name": "@catalyst/ui",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "oxlint -c ../lint-config/oxlint.json src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@catalyst/tsconfig": "workspace:*",
+    "typescript": "^5"
+  }
+}

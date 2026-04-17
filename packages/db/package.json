@@ -1,0 +1,21 @@
+{
+  "name": "@catalyst/db",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "oxlint -c ../lint-config/oxlint.json src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@catalyst/tsconfig": "workspace:*",
+    "prisma": "6",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/client": "6"
+  }
+}

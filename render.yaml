@@ -1,0 +1,76 @@
+services:
+  # Dev environment
+  - type: web
+    name: catalyst-server-dev
+    runtime: image
+    image:
+      url: ghcr.io/${GITHUB_REPO}/server:latest
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: BETTER_AUTH_SECRET
+        generateValue: true
+      - key: BETTER_AUTH_URL
+        value: https://catalyst-server-dev.onrender.com
+      - key: LOG_TRANSPORT
+        value: axiom
+      - key: AXIOM_DATASET
+        value: catalyst-dev
+      - key: AXIOM_TOKEN
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://catalyst-web-dev.onrender.com
+      - key: PORT
+        value: 3001
+
+  - type: web
+    name: catalyst-web-dev
+    runtime: static
+    buildCommand: cd apps/web && bun install && bun run build
+    staticPublishPath: apps/web/dist
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # Production environment
+  - type: web
+    name: catalyst-server-prod
+    runtime: image
+    image:
+      url: ghcr.io/${GITHUB_REPO}/server:latest
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: BETTER_AUTH_SECRET
+        generateValue: true
+      - key: BETTER_AUTH_URL
+        value: https://catalyst-server.onrender.com
+      - key: LOG_TRANSPORT
+        value: axiom
+      - key: AXIOM_DATASET
+        value: catalyst-prod
+      - key: AXIOM_TOKEN
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://catalyst.onrender.com
+      - key: PORT
+        value: 3001
+
+  - type: web
+    name: catalyst-web-prod
+    runtime: static
+    buildCommand: cd apps/web && bun install && bun run build
+    staticPublishPath: apps/web/dist
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
