@@ -73,6 +73,9 @@ model Tenant {
   customerStatuses CustomerStatus[]
   customers        Customer[]
   customFields     CustomFieldDefinition[]
+  conversations    Conversation[]
+  notes            Note[]
+  activities       Activity[]
 }
 
 model TenantMember {
@@ -138,6 +141,10 @@ model Customer {
   statusId     String         @db.ObjectId
   status       CustomerStatus @relation(fields: [statusId], references: [id])
   assignedToId String?        @db.ObjectId
+
+  conversations Conversation[]
+  notes         Note[]
+  activities    Activity[]
 }
 
 model CustomFieldDefinition {
@@ -154,6 +161,79 @@ model CustomFieldDefinition {
   tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, key])
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum MessageSender {
+  BOT
+  HUMAN
+  CUSTOMER
+}
+
+enum ActivityType {
+  STATUS_CHANGE
+  MESSAGE
+  NOTE
+  ASSIGNMENT
+  CREATED
+  CUSTOM_FIELD_CHANGE
+}
+
+model Conversation {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  channel   String   @default("WHATSAPP")
+  isBot     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenantId     String    @db.ObjectId
+  tenant       Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customerId   String    @db.ObjectId
+  customer     Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  assignedToId String?   @db.ObjectId
+  messages     Message[]
+}
+
+model Message {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  direction MessageDirection
+  sender    MessageSender
+  body      String
+  mediaUrl  String?
+  sentAt    DateTime         @default(now())
+
+  conversationId String       @db.ObjectId
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenantId   String   @db.ObjectId
+  tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customerId String   @db.ObjectId
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  authorId   String   @db.ObjectId
+}
+
+model Activity {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  type      ActivityType
+  data      Json         @default("{}")
+  createdAt DateTime     @default(now())
+
+  tenantId   String   @db.ObjectId
+  tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customerId String   @db.ObjectId
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  actorId    String?  @db.ObjectId
 }
 
 model Verification {
