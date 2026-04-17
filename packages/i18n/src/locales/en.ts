@@ -22,6 +22,18 @@ export const en = {
   hasAccount: 'Already have an account?',
   signInFailed: 'Sign in failed',
   registrationFailed: 'Registration failed',
+  onboardingTitle: 'Create Your Organization',
+  onboardingDescription: 'Set up your workspace to get started',
+  organizationName: 'Organization Name',
+  organizationNamePlaceholder: 'My Company',
+  organizationSlug: 'URL Slug',
+  organizationSlugPlaceholder: 'my-company',
+  selectLanguage: 'Language',
+  languageEnglish: 'English',
+  languageHebrew: 'עברית',
+  createOrganization: 'Create Organization',
+  creatingOrganization: 'Creating...',
+  slugTaken: 'This slug is already taken',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed
