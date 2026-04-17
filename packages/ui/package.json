@@ -2,7 +2,10 @@
   "name": "@catalyst/ui",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./styles": "./src/styles/globals.css",
+    "./components/*": "./src/components/*.tsx",
+    "./lib/*": "./src/lib/*.ts"
   },
   "scripts": {
     "build": "tsc --noEmit",
@@ -10,8 +13,21 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
+  "peerDependencies": {
+    "react": ">=18"
+  },
   "devDependencies": {
     "@catalyst/tsconfig": "workspace:*",
+    "@types/react": "^19",
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "@tailwindcss/vite": "^4.2.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.8.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.2"
   }
 }

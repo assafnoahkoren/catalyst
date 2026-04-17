@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "bun build src/index.ts --outdir dist --target bun",
-    "dev": "bun run --watch src/index.ts",
+    "dev": "bun run --env-file ../../.env --watch src/index.ts",
     "lint": "oxlint -c ../../packages/lint-config/oxlint.json src/",
     "format": "dprint fmt -c ../../packages/lint-config/dprint.json",
     "format:check": "dprint check -c ../../packages/lint-config/dprint.json",

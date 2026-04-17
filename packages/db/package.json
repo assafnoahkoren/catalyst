@@ -8,7 +8,10 @@
     "build": "tsc --noEmit",
     "lint": "oxlint -c ../lint-config/oxlint.json src/",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "seed": "bun run --env-file ../../.env src/seed.ts",
+    "db:push": "bunx prisma db push",
+    "db:generate": "bunx prisma generate"
   },
   "devDependencies": {
     "@catalyst/tsconfig": "workspace:*",
