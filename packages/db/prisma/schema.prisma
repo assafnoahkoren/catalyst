@@ -69,7 +69,10 @@ model Tenant {
   greenApiToken    String?
   createdAt        DateTime @default(now())
 
-  members TenantMember[]
+  members          TenantMember[]
+  customerStatuses CustomerStatus[]
+  customers        Customer[]
+  customFields     CustomFieldDefinition[]
 }
 
 model TenantMember {
@@ -84,6 +87,73 @@ model TenantMember {
   tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@unique([userId, tenantId])
+}
+
+enum CustomerSource {
+  WEBHOOK
+  MANUAL
+  FACEBOOK
+  IMPORT
+}
+
+enum CustomFieldType {
+  TEXT
+  NUMBER
+  DATE
+  SELECT
+  MULTI_SELECT
+  BOOLEAN
+  URL
+  PHONE
+}
+
+model CustomerStatus {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  color       String   @default("#6B7280")
+  order       Int
+  isDefault   Boolean  @default(false)
+  isClosed    Boolean  @default(false)
+  autoMessage String?
+  createdAt   DateTime @default(now())
+
+  tenantId  String     @db.ObjectId
+  tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customers Customer[]
+}
+
+model Customer {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  email        String?
+  phone        String?
+  source       CustomerSource @default(MANUAL)
+  customFields Json           @default("{}")
+  tags         String[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  tenantId     String         @db.ObjectId
+  tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  statusId     String         @db.ObjectId
+  status       CustomerStatus @relation(fields: [statusId], references: [id])
+  assignedToId String?        @db.ObjectId
+}
+
+model CustomFieldDefinition {
+  id         String          @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  key        String
+  type       CustomFieldType @default(TEXT)
+  options    String[]
+  isRequired Boolean         @default(false)
+  order      Int             @default(0)
+  createdAt  DateTime        @default(now())
+
+  tenantId String @db.ObjectId
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, key])
 }
 
 model Verification {
