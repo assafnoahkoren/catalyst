@@ -6,54 +6,112 @@ user_invocable: true
 
 # Orchestrator
 
-You are the task orchestrator for the Catalyst monorepo. You receive a task and decide which skill(s) to invoke and in what order, chaining them until the task is complete.
+You receive a task and decide which skill(s) to invoke and in what order, chaining them until complete.
 
-## Decision Framework
+## Pre-flight Checks
 
-Analyze the task and classify it into one of these patterns:
+Before routing any task:
 
-### Feature Request
+```bash
+# 1. Verify the stack is healthy
+docker compose ps                        # MongoDB should be running
+curl -s http://localhost:3001/health      # Server responds (if running)
+git status                               # Clean working tree
+```
 
-> "Add X", "Build Y", "Implement Z"
+## Task Classification
 
-1. Invoke `/dev` — implement the feature
-2. Invoke `/manual-testing` — validate the implementation
-3. Invoke `/devops` — deploy to dev environment
+Read the task and match it to a pattern below. If unclear, ask the user.
 
-### Bug Fix
+### Pattern: Feature Request
 
-> "Fix X", "X is broken", "Error in Y"
+> Triggers: "Add X", "Build Y", "Implement Z", "Create a page for..."
 
-1. Invoke `/support` — investigate root cause via logs
-2. Invoke `/dev` — implement the fix
-3. Invoke `/manual-testing` — verify the fix
-4. Invoke `/devops` — deploy hotfix
+```
+1. /dev          — implement the feature
+2. /manual-testing — validate it works
+3. /devops       — deploy to dev (if GitHub repo exists)
+```
 
-### Production Incident
+**Verification after chain:**
 
-> "Production error", "Users reporting X", "Alert from Y"
+```bash
+turbo build                              # All packages build
+turbo test                               # All unit tests pass
+cd apps/web && bunx playwright test      # All E2E tests pass
+bun run lint:i18n                        # No hardcoded strings
+```
 
-1. Invoke `/support` — investigate via Axiom MCP logs
-2. Invoke `/dev` — fix if root cause identified
-3. Invoke `/manual-testing` — verify fix
-4. Invoke `/devops` — deploy hotfix to prod
+### Pattern: Bug Fix
 
-### Maintenance Task
+> Triggers: "Fix X", "X is broken", "Error when Y", "Bug in Z"
 
-> "Update deps", "Upgrade X", "Clean up Y", "Audit Z"
+```
+1. /support       — investigate root cause (logs, traces)
+2. /dev           — implement the fix
+3. /manual-testing — verify the fix, add regression test
+4. /devops        — deploy hotfix
+```
 
-1. Invoke `/maintenance` — perform the maintenance
-2. Invoke `/devops` — deploy if changes were made
+### Pattern: Production Incident
 
-### Infrastructure Task
+> Triggers: "Production error", "Users can't X", "500 on Y", "Alert from Z"
 
-> "Deploy X", "Check deploy status", "Update env vars", "Create service"
+```
+1. /support       — investigate via Axiom MCP logs (catalyst-prod dataset)
+2. /dev           — fix if root cause identified
+3. /manual-testing — verify fix
+4. /devops        — deploy hotfix to prod (v* tag)
+```
 
-1. Invoke `/devops` — handle directly
+**Escalation:** If root cause is unclear after log investigation, report findings and ask the user before proceeding.
 
-## Rules
+### Pattern: Maintenance
 
-- Always invoke skills in sequence, waiting for each to complete before the next
-- If a skill reports failure, assess whether to retry, skip, or escalate
-- After deployment, verify health via the health check endpoint
-- Log your routing decisions so the user can trace what happened
+> Triggers: "Update deps", "Upgrade X", "Clean up Y", "Audit Z", "Migrate schema"
+
+```
+1. /maintenance   — perform the maintenance
+2. /manual-testing — verify nothing broke
+3. /devops        — deploy if changes were made
+```
+
+### Pattern: Infrastructure
+
+> Triggers: "Deploy X", "Check deploy", "Update env vars", "Create service", "Check logs"
+
+```
+1. /devops        — handle directly
+```
+
+### Pattern: Investigation Only
+
+> Triggers: "Why is X slow", "Check logs for Y", "What's the error rate"
+
+```
+1. /support       — investigate and report
+```
+
+## Chaining Rules
+
+1. **Sequential only** — wait for each skill to complete before the next
+2. **Fail fast** — if a skill reports failure, do NOT proceed to the next. Assess:
+   - Can I retry? (transient error like network timeout)
+   - Can I fix it? (missing i18n key, lint error)
+   - Should I escalate? (unclear root cause, destructive action needed)
+3. **Always verify** — after the last skill in the chain, run the full verification:
+   ```bash
+   turbo build && turbo test && bun run lint:i18n
+   cd apps/web && bunx playwright test
+   ```
+4. **Report** — summarize what was done, what was verified, and any remaining concerns
+
+## Rollback
+
+If a deployed change causes issues:
+
+```
+1. /support       — confirm the issue via logs
+2. /devops        — rollback to previous image
+3. /support       — verify the rollback resolved it
+```

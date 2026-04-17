@@ -6,9 +6,18 @@ user_invocable: true
 
 # Dev
 
-You are a developer working on the Catalyst monorepo. You implement features, fix bugs, and write code following project conventions.
+You implement features, fix bugs, and write code in the Catalyst monorepo.
 
-## Project Architecture
+## Pre-flight Checks
+
+```bash
+# Verify environment is ready
+docker compose ps                        # MongoDB running on 27018
+git status                               # Clean working tree
+turbo build                              # All packages build
+```
+
+## Architecture
 
 ```
 apps/server      — Bun + Hono + tRPC (port 3001)
@@ -21,14 +30,42 @@ packages/ui      — shadcn/ui + Tailwind (@catalyst/ui)
 packages/i18n    — i18next translations (@catalyst/i18n)
 ```
 
-## Conventions
+## Package Dependency Graph
 
-### i18n — NO hardcoded text in JSX
+```
+@catalyst/web ──→ @catalyst/ui, @catalyst/auth/client, @catalyst/validation, @catalyst/i18n
+@catalyst/server ──→ @catalyst/auth/server, @catalyst/db, @catalyst/validation, @catalyst/logger
+@catalyst/auth ──→ @catalyst/db
+```
 
-**Every user-visible string must use `t()` from `@catalyst/i18n`.**
+---
+
+## Runbook: Add a New Feature
+
+### Step 1 — Branch
+
+```bash
+git checkout -b feat/<feature-name>
+```
+
+### Step 2 — Add translation keys
+
+Every user-visible string must use `t()`. **Never hardcode text in JSX.**
+
+```bash
+# Edit packages/i18n/src/locales/en.ts — add flat keys
+# Edit packages/i18n/src/locales/he.ts — add matching Hebrew translations
+```
+
+Rules:
+
+- Keys are flat (no nesting): `featureTitle`, not `feature.title`
+- English file uses `as const satisfies Record<string, string>` to enforce flat structure
+- Hebrew file uses `Translations` type from English — TypeScript errors on missing keys
+- Use camelCase descriptive names
 
 ```tsx
-// WRONG
+// WRONG — will be caught by lint:i18n
 <h1>Welcome</h1>
 
 // RIGHT
@@ -36,72 +73,228 @@ const { t } = useTranslation()
 <h1>{t('welcome')}</h1>
 ```
 
-When adding new text:
+### Step 3 — Add validation schemas (if API changes)
 
-1. Add the English key to `packages/i18n/src/locales/en.ts`
-2. Add the Hebrew translation to `packages/i18n/src/locales/he.ts`
-3. TypeScript will error if Hebrew is missing a key (enforced by `Translations` type)
-4. Keys are flat (no nesting) — use camelCase descriptive names
-5. Run `bun run lint:i18n` to verify no hardcoded strings remain
-
-### Adding a new tRPC procedure
-
-1. Define Zod input/output schemas in `packages/validation/src/schemas/`
-2. Create or extend a router in `apps/server/src/routers/`
-3. Use `publicProcedure` or `protectedProcedure` from `apps/server/src/lib/trpc.ts`
-4. Import and add the router to `apps/server/src/routers/index.ts`
-5. On the client, use `trpc.routerName.procedureName.queryOptions()` with `useQuery`
-
-### Adding a new page
-
-1. Create a route file in `apps/web/src/routes/` (file-based routing via TanStack Router)
-2. Use `createFileRoute` from `@tanstack/react-router`
-3. For protected pages, check session in the route's `beforeLoad`
-4. Use `useTranslation()` from `@catalyst/i18n` for all text
-5. Use components from `@catalyst/ui` (Button, Input, Label, Card, etc.)
-
-### Using UI components
-
-```tsx
-import { Button } from '@catalyst/ui'
-import { Input } from '@catalyst/ui'
-import { Card, CardContent, CardHeader, CardTitle } from '@catalyst/ui'
+```bash
+# Edit packages/validation/src/schemas/<domain>.ts
+# Export from packages/validation/src/index.ts
 ```
 
-### Adding a new shared package
+```typescript
+import { z } from 'zod'
 
-1. Create `packages/<name>/` with `package.json`, `tsconfig.json`, `src/index.ts`
-2. Use `@catalyst/<name>` as the package name
-3. Add `"@catalyst/<name>": "workspace:*"` to consuming packages
-4. Run `bun install` at root
+export const mySchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+})
 
-### Git workflow
+export type MyInput = z.infer<typeof mySchema>
+```
 
-1. Create a feature branch: `git checkout -b feat/<name>`
-2. Make changes, ensure `turbo build` and `turbo test` pass
-3. Commit with conventional commit messages
-4. Push and create PR via `gh pr create`
+### Step 4 — Add tRPC procedure (if API changes)
 
-## Commands
+```bash
+# Create or edit apps/server/src/routers/<domain>.ts
+```
 
-- `bun run dev` — start all apps in dev mode (server + web via Turbo)
-- `bun run build` — build all packages
-- `bun run test` — run all unit tests
-- `bun run lint` — lint all packages
-- `bun run typecheck` — type-check all packages
-- `bun run lint:i18n` — check for hardcoded JSX strings
-- `cd apps/web && bun run test:e2e` — run Playwright E2E tests
-- `cd packages/db && bun run seed` — seed the database
-- `cd packages/db && bun run db:push` — push Prisma schema to MongoDB
+```typescript
+import { mySchema } from '@catalyst/validation'
+import { protectedProcedure, publicProcedure, router } from '../lib/trpc'
 
-## Playbooks
+export const myRouter = router({
+  list: publicProcedure.query(async ({ ctx }) => {
+    // use ctx.user for auth, prisma for DB
+  }),
+  create: protectedProcedure
+    .input(mySchema)
+    .mutation(async ({ ctx, input }) => {
+      // ...
+    }),
+})
+```
 
-### Implement a feature
+Then register in `apps/server/src/routers/index.ts`:
 
-1. Read the requirement and understand scope
-2. Identify which packages need changes
-3. Add translation keys to `packages/i18n/src/locales/en.ts` and `he.ts`
-4. Write the code following conventions above
-5. Add/update unit tests (vitest) and E2E tests (playwright) as needed
-6. Run `turbo build`, `turbo test`, and `bun run lint:i18n` to verify
-7. Commit and report completion
+```typescript
+import { myRouter } from './my'
+
+export const appRouter = router({
+  auth: authRouter,
+  my: myRouter, // add here
+})
+```
+
+### Step 5 — Add page (if UI changes)
+
+Create `apps/web/src/routes/<name>.tsx`:
+
+```typescript
+import { useTranslation } from '@catalyst/i18n'
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@catalyst/ui'
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/<name>')({
+  component: MyPage,
+})
+
+function MyPage() {
+  const { t } = useTranslation()
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{t('myPageTitle')}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Button>{t('myAction')}</Button>
+      </CardContent>
+    </Card>
+  )
+}
+```
+
+For tRPC data fetching in the page:
+
+```typescript
+import { useQuery } from '@tanstack/react-query'
+import { trpc } from '../lib/trpc'
+
+function MyPage() {
+  const query = useQuery(trpc.my.list.queryOptions())
+  // ...
+}
+```
+
+### Step 6 — Add tests
+
+**Unit tests** (packages):
+
+```bash
+# Create packages/<name>/tests/<name>.test.ts
+```
+
+```typescript
+import { describe, expect, it } from 'vitest'
+
+describe('myFeature', () => {
+  it('does the thing', () => {
+    expect(true).toBe(true)
+  })
+})
+```
+
+**E2E tests** (user flows):
+
+```bash
+# Create apps/web/tests/e2e/<name>.spec.ts
+```
+
+```typescript
+import { expect, test } from '@playwright/test'
+
+test('my feature works', async ({ page }) => {
+  await page.goto('/my-page')
+  await expect(page.getByRole('heading', { name: 'My Page' })).toBeVisible()
+})
+```
+
+### Step 7 — Verify
+
+```bash
+turbo build                              # All packages build
+turbo test                               # All unit tests pass
+bun run lint:i18n                        # No hardcoded strings
+bun run typecheck                        # No type errors
+cd apps/web && bunx playwright test      # All E2E tests pass
+```
+
+### Step 8 — Commit
+
+```bash
+git add <specific files>
+git commit -m "feat: description of what was added"
+```
+
+Pre-commit hooks will run automatically:
+
+- oxlint (lint)
+- dprint fmt (auto-format)
+- tsc --noEmit (typecheck)
+- lint:i18n (no hardcoded strings)
+
+### Rollback
+
+If the feature breaks something:
+
+```bash
+git log --oneline -5                     # Find the commit
+git revert <commit-sha>                  # Revert it cleanly
+turbo build && turbo test                # Verify revert is clean
+```
+
+---
+
+## Runbook: Fix a Bug
+
+### Step 1 — Reproduce
+
+```bash
+# Start the stack
+bun run dev
+
+# Or run specific E2E test that demonstrates the bug
+cd apps/web && bunx playwright test --grep "test name"
+```
+
+### Step 2 — Investigate
+
+- Check server logs (Pino output in terminal, structured JSON with traceId)
+- Check browser console for client-side errors
+- Trace the request: client → tRPC → server → DB
+
+### Step 3 — Fix
+
+Apply the minimal change. Follow the same conventions as a feature.
+
+### Step 4 — Add regression test
+
+Write a test that would have caught this bug:
+
+```typescript
+// E2E test that reproduces the bug scenario
+test('the bug scenario no longer occurs', async ({ page }) => {
+  // steps that used to trigger the bug
+  // assertion that it's now fixed
+})
+```
+
+### Step 5 — Verify
+
+```bash
+turbo build && turbo test && bun run lint:i18n
+cd apps/web && bunx playwright test
+```
+
+### Step 6 — Commit
+
+```bash
+git commit -m "fix: description of what was fixed"
+```
+
+---
+
+## Quick Reference
+
+| Task             | Command                                 |
+| ---------------- | --------------------------------------- |
+| Start everything | `docker compose up -d && bun run dev`   |
+| Build all        | `turbo build`                           |
+| Test all         | `turbo test`                            |
+| E2E tests        | `cd apps/web && bunx playwright test`   |
+| Lint             | `turbo lint`                            |
+| Format           | `dprint fmt`                            |
+| Typecheck        | `turbo typecheck`                       |
+| i18n check       | `bun run lint:i18n`                     |
+| Seed DB          | `cd packages/db && bun run seed`        |
+| Push schema      | `cd packages/db && bun run db:push`     |
+| Generate Prisma  | `cd packages/db && bun run db:generate` |
