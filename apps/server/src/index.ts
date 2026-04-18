@@ -5,6 +5,7 @@ import { trpcServer } from '@hono/trpc-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { requestLogger } from './middleware/logger'
+import { rateLimiter } from './middleware/rate-limit'
 import { sessionMiddleware } from './middleware/session'
 import { appRouter } from './routers'
 import { fileUpload } from './routes/file-upload'
@@ -36,7 +37,8 @@ app.use('*', sessionMiddleware)
 // Health check
 app.get('/health', (c) => c.json({ status: 'ok' }))
 
-// Better Auth handler
+// Better Auth handler (rate limited: 10 req/min per IP)
+app.use('/api/auth/*', rateLimiter(10, 60_000))
 app.on(['POST', 'GET'], '/api/auth/**', (c) => auth.handler(c.req.raw))
 
 // File upload

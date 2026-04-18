@@ -336,18 +336,18 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: curl — send request WITH wrong signature, verify 401
 - [x] Verify: Server logs — verify signature validation logs
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 24. Security: Add rate limiting to auth endpoints
 
-- [ ] Dev: Install `hono-rate-limiter` or implement simple in-memory rate limiter
-- [ ] Dev: Apply to `/api/auth/*` routes: 5 requests/minute per IP
-- [ ] Dev: Return 429 Too Many Requests with Retry-After header
-- [ ] Verify: curl — send 6 login requests in quick succession
-- [ ] Verify: Verify first 5 return 200/401, 6th returns 429
-- [ ] Verify: Server logs — verify rate limit hit logged
-- [ ] Fix if needed
+- [x] Dev: Install `hono-rate-limiter` or implement simple in-memory rate limiter
+- [x] Dev: Apply to `/api/auth/*` routes: 5 requests/minute per IP
+- [x] Dev: Return 429 Too Many Requests with Retry-After header
+- [x] Verify: curl — send 6 login requests in quick succession
+- [x] Verify: Verify first 5 return 200/401, 6th returns 429
+- [x] Verify: Server logs — verify rate limit hit logged
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
