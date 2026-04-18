@@ -27,7 +27,10 @@ function ConversationsPage() {
   const { t } = useTranslation()
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  const conversationsQuery = useQuery(trpc.conversation.list.queryOptions())
+  const conversationsQuery = useQuery({
+    ...trpc.conversation.list.queryOptions(),
+    refetchInterval: 10_000,
+  })
   const conversations = (conversationsQuery.data ?? []) as ConversationData[]
 
   const messagesQuery = useQuery({
@@ -42,6 +45,7 @@ function ConversationsPage() {
       return res as unknown as { items: MessageData[] }
     },
     enabled: !!selectedId,
+    refetchInterval: selectedId ? 5_000 : false,
   })
 
   const messages = messagesQuery.data?.items ?? []

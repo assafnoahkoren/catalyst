@@ -200,19 +200,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — navigate to customer detail, verify custom fields displayed
 - [x] Verify: Playwright — edit a custom field, save, verify persisted
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 14. Chat: Add real-time message updates
 
-- [ ] Dev: Add polling interval (5s) to messages query when a conversation is selected
-- [ ] Dev: Use `refetchInterval: 5000` on the messages query
-- [ ] Dev: Also refetch conversation list every 10s for updated timestamps
-- [ ] Verify: Playwright — open conversations page, select a conversation
-- [ ] Verify: curl — POST a new message via tRPC to the same conversation
-- [ ] Verify: Playwright — wait 5-6 seconds, verify new message appears without manual action
-- [ ] Verify: Server logs — verify polling requests are working (no errors)
-- [ ] Fix if needed
+- [x] Dev: Add polling interval (5s) to messages query when a conversation is selected
+- [x] Dev: Use `refetchInterval: 5000` on the messages query
+- [x] Dev: Also refetch conversation list every 10s for updated timestamps
+- [x] Verify: Playwright — open conversations page, select a conversation
+- [x] Verify: curl — POST a new message via tRPC to the same conversation
+- [x] Verify: Playwright — wait 5-6 seconds, verify new message appears without manual action
+- [x] Verify: Server logs — verify polling requests are working (no errors)
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
