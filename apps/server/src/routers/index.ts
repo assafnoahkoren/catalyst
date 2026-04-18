@@ -1,12 +1,15 @@
 import { router } from '../lib/trpc'
 import { activityRouter } from './activity'
 import { authRouter } from './auth'
+import { automationRouter } from './automation'
 import { conversationRouter } from './conversation'
 import { customFieldRouter } from './custom-field'
 import { customerRouter } from './customer'
 import { customerStatusRouter } from './customer-status'
+import { dashboardRouter } from './dashboard'
 import { knowledgeRouter } from './knowledge'
 import { noteRouter } from './note'
+import { searchRouter } from './search'
 import { tenantRouter } from './tenant'
 import { webhookRouter } from './webhook'
 
@@ -21,6 +24,9 @@ export const appRouter = router({
   knowledge: knowledgeRouter,
   conversation: conversationRouter,
   webhook: webhookRouter,
+  automation: automationRouter,
+  dashboard: dashboardRouter,
+  search: searchRouter,
 })
 
 export type AppRouter = typeof appRouter

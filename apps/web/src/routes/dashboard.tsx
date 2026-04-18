@@ -1,7 +1,9 @@
 import { authClient } from '@catalyst/auth/client'
 import { useTranslation } from '@catalyst/i18n'
+import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Outlet, useLocation, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
+import { trpcClient } from '../lib/trpc'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardLayout,
@@ -106,11 +108,7 @@ function DashboardLayout() {
             </svg>
           </button>
           <div className='flex-1' />
-          <input
-            type='search'
-            placeholder={t('search')}
-            className='w-64 rounded-md border border-input bg-background px-3 py-1.5 text-sm'
-          />
+          <GlobalSearch />
         </header>
 
         {/* Page content */}
@@ -118,6 +116,70 @@ function DashboardLayout() {
           <Outlet />
         </main>
       </div>
+    </div>
+  )
+}
+
+interface SearchCustomer {
+  id: string
+  name: string
+  email: string | null
+  phone: string | null
+}
+
+function GlobalSearch() {
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const [query, setQuery] = useState('')
+  const [open, setOpen] = useState(false)
+
+  const searchQuery = useQuery({
+    queryKey: ['search', query] as const,
+    queryFn: async (): Promise<{ customers: SearchCustomer[] }> => {
+      if (!query.trim()) return { customers: [] }
+      const res = await trpcClient.search.global.query({ query })
+      return res as unknown as { customers: SearchCustomer[] }
+    },
+    enabled: query.length > 0,
+  })
+
+  const customers = searchQuery.data?.customers ?? []
+
+  return (
+    <div className='relative'>
+      <input
+        type='search'
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value)
+          setOpen(true)
+        }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 200)}
+        placeholder={t('search')}
+        className='w-64 rounded-md border border-input bg-background px-3 py-1.5 text-sm'
+      />
+      {open && query.length > 0 && (
+        <div className='absolute end-0 top-full z-50 mt-1 w-80 rounded-md border bg-card shadow-lg'>
+          {customers.length === 0 && (
+            <p className='p-3 text-sm text-muted-foreground'>{t('noResults')}</p>
+          )}
+          {customers.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => {
+                navigate({ to: `/dashboard/customers/${c.id}` as '/' })
+                setQuery('')
+                setOpen(false)
+              }}
+              className='w-full px-3 py-2 text-start text-sm hover:bg-muted'
+            >
+              <p className='font-medium'>{c.name}</p>
+              <p className='text-xs text-muted-foreground'>{c.email ?? c.phone ?? ''}</p>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

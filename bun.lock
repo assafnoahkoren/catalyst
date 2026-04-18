@@ -21,6 +21,7 @@
       "dependencies": {
         "@catalyst/ai": "workspace:*",
         "@catalyst/auth": "workspace:*",
+        "@catalyst/automation": "workspace:*",
         "@catalyst/db": "workspace:*",
         "@catalyst/knowledge": "workspace:*",
         "@catalyst/logger": "workspace:*",
@@ -87,6 +88,18 @@
       "devDependencies": {
         "@catalyst/tsconfig": "workspace:*",
         "typescript": "^5",
+      },
+    },
+    "packages/automation": {
+      "name": "@catalyst/automation",
+      "dependencies": {
+        "@catalyst/db": "workspace:*",
+        "@catalyst/whatsapp": "workspace:*",
+      },
+      "devDependencies": {
+        "@catalyst/tsconfig": "workspace:*",
+        "typescript": "^5",
+        "vitest": "^4.1.4",
       },
     },
     "packages/db": {
@@ -259,6 +272,8 @@
     "@catalyst/ai": ["@catalyst/ai@workspace:packages/ai"],
 
     "@catalyst/auth": ["@catalyst/auth@workspace:packages/auth"],
+
+    "@catalyst/automation": ["@catalyst/automation@workspace:packages/automation"],
 
     "@catalyst/db": ["@catalyst/db@workspace:packages/db"],
 

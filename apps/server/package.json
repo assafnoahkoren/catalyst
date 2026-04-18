@@ -13,6 +13,7 @@
   "dependencies": {
     "@catalyst/ai": "workspace:*",
     "@catalyst/auth": "workspace:*",
+    "@catalyst/automation": "workspace:*",
     "@catalyst/db": "workspace:*",
     "@catalyst/knowledge": "workspace:*",
     "@catalyst/logger": "workspace:*",

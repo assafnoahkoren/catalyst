@@ -20,11 +20,13 @@ import { Route as DashboardSettingsIndexRouteImport } from './routes/dashboard/s
 import { Route as DashboardKnowledgeIndexRouteImport } from './routes/dashboard/knowledge/index'
 import { Route as DashboardCustomersIndexRouteImport } from './routes/dashboard/customers/index'
 import { Route as DashboardConversationsIndexRouteImport } from './routes/dashboard/conversations/index'
+import { Route as DashboardAutomationsIndexRouteImport } from './routes/dashboard/automations/index'
 import { Route as DashboardSettingsTeamRouteImport } from './routes/dashboard/settings/team'
 import { Route as DashboardSettingsPipelineRouteImport } from './routes/dashboard/settings/pipeline'
 import { Route as DashboardSettingsCustomFieldsRouteImport } from './routes/dashboard/settings/custom-fields'
 import { Route as DashboardKnowledgeNewRouteImport } from './routes/dashboard/knowledge/new'
 import { Route as DashboardCustomersCustomerIdRouteImport } from './routes/dashboard/customers/$customerId'
+import { Route as DashboardAutomationsFlowIdRouteImport } from './routes/dashboard/automations/$flowId'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -82,6 +84,12 @@ const DashboardConversationsIndexRoute =
     path: '/conversations/',
     getParentRoute: () => DashboardRoute,
   } as any)
+const DashboardAutomationsIndexRoute =
+  DashboardAutomationsIndexRouteImport.update({
+    id: '/automations/',
+    path: '/automations/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardSettingsTeamRoute = DashboardSettingsTeamRouteImport.update({
   id: '/settings/team',
   path: '/settings/team',
@@ -110,6 +118,12 @@ const DashboardCustomersCustomerIdRoute =
     path: '/customers/$customerId',
     getParentRoute: () => DashboardRoute,
   } as any)
+const DashboardAutomationsFlowIdRoute =
+  DashboardAutomationsFlowIdRouteImport.update({
+    id: '/automations/$flowId',
+    path: '/automations/$flowId',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -118,11 +132,13 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/automations/$flowId': typeof DashboardAutomationsFlowIdRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
   '/dashboard/knowledge/new': typeof DashboardKnowledgeNewRoute
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
+  '/dashboard/automations/': typeof DashboardAutomationsIndexRoute
   '/dashboard/conversations/': typeof DashboardConversationsIndexRoute
   '/dashboard/customers/': typeof DashboardCustomersIndexRoute
   '/dashboard/knowledge/': typeof DashboardKnowledgeIndexRoute
@@ -135,11 +151,13 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/automations/$flowId': typeof DashboardAutomationsFlowIdRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
   '/dashboard/knowledge/new': typeof DashboardKnowledgeNewRoute
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
+  '/dashboard/automations': typeof DashboardAutomationsIndexRoute
   '/dashboard/conversations': typeof DashboardConversationsIndexRoute
   '/dashboard/customers': typeof DashboardCustomersIndexRoute
   '/dashboard/knowledge': typeof DashboardKnowledgeIndexRoute
@@ -154,11 +172,13 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/automations/$flowId': typeof DashboardAutomationsFlowIdRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
   '/dashboard/knowledge/new': typeof DashboardKnowledgeNewRoute
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
+  '/dashboard/automations/': typeof DashboardAutomationsIndexRoute
   '/dashboard/conversations/': typeof DashboardConversationsIndexRoute
   '/dashboard/customers/': typeof DashboardCustomersIndexRoute
   '/dashboard/knowledge/': typeof DashboardKnowledgeIndexRoute
@@ -174,11 +194,13 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/dashboard/'
+    | '/dashboard/automations/$flowId'
     | '/dashboard/customers/$customerId'
     | '/dashboard/knowledge/new'
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
+    | '/dashboard/automations/'
     | '/dashboard/conversations/'
     | '/dashboard/customers/'
     | '/dashboard/knowledge/'
@@ -191,11 +213,13 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/dashboard'
+    | '/dashboard/automations/$flowId'
     | '/dashboard/customers/$customerId'
     | '/dashboard/knowledge/new'
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
+    | '/dashboard/automations'
     | '/dashboard/conversations'
     | '/dashboard/customers'
     | '/dashboard/knowledge'
@@ -209,11 +233,13 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/dashboard/'
+    | '/dashboard/automations/$flowId'
     | '/dashboard/customers/$customerId'
     | '/dashboard/knowledge/new'
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
+    | '/dashboard/automations/'
     | '/dashboard/conversations/'
     | '/dashboard/customers/'
     | '/dashboard/knowledge/'
@@ -308,6 +334,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardConversationsIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/automations/': {
+      id: '/dashboard/automations/'
+      path: '/automations'
+      fullPath: '/dashboard/automations/'
+      preLoaderRoute: typeof DashboardAutomationsIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/settings/team': {
       id: '/dashboard/settings/team'
       path: '/settings/team'
@@ -343,16 +376,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCustomersCustomerIdRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/automations/$flowId': {
+      id: '/dashboard/automations/$flowId'
+      path: '/automations/$flowId'
+      fullPath: '/dashboard/automations/$flowId'
+      preLoaderRoute: typeof DashboardAutomationsFlowIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
 interface DashboardRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardAutomationsFlowIdRoute: typeof DashboardAutomationsFlowIdRoute
   DashboardCustomersCustomerIdRoute: typeof DashboardCustomersCustomerIdRoute
   DashboardKnowledgeNewRoute: typeof DashboardKnowledgeNewRoute
   DashboardSettingsCustomFieldsRoute: typeof DashboardSettingsCustomFieldsRoute
   DashboardSettingsPipelineRoute: typeof DashboardSettingsPipelineRoute
   DashboardSettingsTeamRoute: typeof DashboardSettingsTeamRoute
+  DashboardAutomationsIndexRoute: typeof DashboardAutomationsIndexRoute
   DashboardConversationsIndexRoute: typeof DashboardConversationsIndexRoute
   DashboardCustomersIndexRoute: typeof DashboardCustomersIndexRoute
   DashboardKnowledgeIndexRoute: typeof DashboardKnowledgeIndexRoute
@@ -362,11 +404,13 @@ interface DashboardRouteChildren {
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardAutomationsFlowIdRoute: DashboardAutomationsFlowIdRoute,
   DashboardCustomersCustomerIdRoute: DashboardCustomersCustomerIdRoute,
   DashboardKnowledgeNewRoute: DashboardKnowledgeNewRoute,
   DashboardSettingsCustomFieldsRoute: DashboardSettingsCustomFieldsRoute,
   DashboardSettingsPipelineRoute: DashboardSettingsPipelineRoute,
   DashboardSettingsTeamRoute: DashboardSettingsTeamRoute,
+  DashboardAutomationsIndexRoute: DashboardAutomationsIndexRoute,
   DashboardConversationsIndexRoute: DashboardConversationsIndexRoute,
   DashboardCustomersIndexRoute: DashboardCustomersIndexRoute,
   DashboardKnowledgeIndexRoute: DashboardKnowledgeIndexRoute,
