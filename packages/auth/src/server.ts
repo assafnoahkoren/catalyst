@@ -9,6 +9,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  trustedOrigins: [process.env.CORS_ORIGIN ?? 'http://localhost:5173'],
 })
 
 export type Session = typeof auth.$Infer.Session

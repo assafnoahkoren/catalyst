@@ -27,9 +27,10 @@ async function seed() {
 
   console.log('Cleared existing data')
 
-  // Create test user
+  // Create test user (id must be a string since Better Auth manages User IDs)
   const user = await prisma.user.create({
     data: {
+      id: 'demo-user-seed-id-00001',
       name: 'Demo User',
       email: 'demo@catalyst.dev',
       emailVerified: true,

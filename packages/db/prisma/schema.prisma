@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @map("_id")
   name          String
   email         String    @unique
   emailVerified Boolean   @default(false)
@@ -23,7 +23,7 @@ model User {
 }
 
 model Session {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @map("_id")
   expiresAt DateTime
   token     String   @unique
   createdAt DateTime @default(now())
@@ -31,15 +31,15 @@ model Session {
   ipAddress String?
   userAgent String?
 
-  userId String @db.ObjectId
+  userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  id                String  @id @map("_id")
   accountId         String
   providerId        String
-  userId            String  @db.ObjectId
+  userId            String
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken       String?
   refreshToken      String?
@@ -87,10 +87,11 @@ model TenantMember {
   invitedAt DateTime   @default(now())
   joinedAt  DateTime?
 
-  userId   String @db.ObjectId
+  userId   String
   user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   tenantId String @db.ObjectId
   tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
 
   @@unique([userId, tenantId])
 }
@@ -143,7 +144,7 @@ model Customer {
   tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   statusId     String         @db.ObjectId
   status       CustomerStatus @relation(fields: [statusId], references: [id])
-  assignedToId String?        @db.ObjectId
+  assignedToId String?
 
   conversations Conversation[]
   notes         Note[]
@@ -197,7 +198,7 @@ model Conversation {
   tenant       Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   customerId   String    @db.ObjectId
   customer     Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  assignedToId String?   @db.ObjectId
+  assignedToId String?
   messages     Message[]
 }
 
@@ -223,7 +224,7 @@ model Note {
   tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   customerId String   @db.ObjectId
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  authorId   String   @db.ObjectId
+  authorId   String
 }
 
 model Activity {
@@ -236,7 +237,7 @@ model Activity {
   tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   customerId String   @db.ObjectId
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  actorId    String?  @db.ObjectId
+  actorId    String?
 }
 
 model KnowledgeEntry {
@@ -320,7 +321,7 @@ model ScheduledTask {
 }
 
 model Verification {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @map("_id")
   identifier String
   value      String
   expiresAt  DateTime
