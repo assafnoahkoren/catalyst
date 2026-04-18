@@ -78,4 +78,19 @@ export const dashboardRouter = router({
       count: countMap.get(status.id) ?? 0,
     }))
   }),
+
+  getMessageBreakdown: tenantProcedure.query(async ({ ctx }) => {
+    const [botCount, humanCount, customerCount] = await Promise.all([
+      prisma.message.count({
+        where: { conversation: { tenantId: ctx.tenantId }, sender: 'BOT' },
+      }),
+      prisma.message.count({
+        where: { conversation: { tenantId: ctx.tenantId }, sender: 'HUMAN' },
+      }),
+      prisma.message.count({
+        where: { conversation: { tenantId: ctx.tenantId }, sender: 'CUSTOMER' },
+      }),
+    ])
+    return { bot: botCount, human: humanCount, customer: customerCount }
+  }),
 })

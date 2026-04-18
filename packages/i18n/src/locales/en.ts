@@ -203,6 +203,10 @@ export const en = {
   dateRangeWeek: 'This Week',
   dateRangeMonth: 'This Month',
   dateRangeAll: 'All Time',
+  newCustomersOverTime: 'New Customers Over Time',
+  botResponses: 'Bot',
+  humanResponses: 'Human',
+  messageBreakdown: 'Message Breakdown',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

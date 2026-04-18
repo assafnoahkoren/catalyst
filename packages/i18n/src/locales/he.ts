@@ -203,4 +203,8 @@ export const he: Translations = {
   dateRangeWeek: 'השבוע',
   dateRangeMonth: 'החודש',
   dateRangeAll: 'הכל',
+  newCustomersOverTime: 'לקוחות חדשים לאורך זמן',
+  botResponses: 'בוט',
+  humanResponses: 'אנושי',
+  messageBreakdown: 'פילוח הודעות',
 }

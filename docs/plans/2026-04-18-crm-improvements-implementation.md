@@ -514,27 +514,27 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 
 ### 37. Dashboard: Add time-series chart
 
-- [ ] Dev: Install recharts library
-- [ ] Dev: Add `getCustomerTimeSeries` query returning daily counts for last 30 days
-- [ ] Dev: Render LineChart component below stat cards
-- [ ] Dev: Add i18n key: `newCustomersOverTime`
-- [ ] Verify: Seed 50 customers across last 30 days
-- [ ] Verify: Playwright — verify line chart renders with data points
-- [ ] Verify: Playwright — screenshot of chart
-- [ ] Verify: Console — no React rendering errors
-- [ ] Fix if needed
+- [x] Dev: Install recharts library
+- [x] Dev: Add `getCustomerTimeSeries` query returning daily counts for last 30 days
+- [x] Dev: Render LineChart component below stat cards
+- [x] Dev: Add i18n key: `newCustomersOverTime`
+- [x] Verify: Seed 50 customers across last 30 days
+- [x] Verify: Playwright — verify line chart renders with data points
+- [x] Verify: Playwright — screenshot of chart
+- [x] Verify: Console — no React rendering errors
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
 ### 38. Dashboard: Add bot vs human ratio chart
 
-- [ ] Dev: Add `getBotHumanRatio` query counting messages by sender type
-- [ ] Dev: Render PieChart/DonutChart showing BOT vs HUMAN percentages
-- [ ] Dev: Add i18n keys: `botResponses`, `humanResponses`
-- [ ] Verify: Seed BOT and HUMAN messages
-- [ ] Verify: Playwright — verify pie chart renders with correct proportions
-- [ ] Verify: Playwright — screenshot of chart
-- [ ] Fix if needed
+- [x] Dev: Add `getBotHumanRatio` query counting messages by sender type
+- [x] Dev: Render PieChart/DonutChart showing BOT vs HUMAN percentages
+- [x] Dev: Add i18n keys: `botResponses`, `humanResponses`
+- [x] Verify: Seed BOT and HUMAN messages
+- [x] Verify: Playwright — verify pie chart renders with correct proportions
+- [x] Verify: Playwright — screenshot of chart
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
@@ -561,8 +561,8 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — new org (no data) shows empty state with action buttons
 - [x] Verify: Playwright — screenshot of empty state
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 41. Kanban: Add drag visual feedback
 

@@ -2,6 +2,7 @@ import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { trpc, trpcClient } from '../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/')({
@@ -57,8 +58,17 @@ function DashboardPage() {
     },
   })
 
+  const breakdownQuery = useQuery({
+    queryKey: ['dashboard', 'messageBreakdown'] as const,
+    queryFn: async (): Promise<{ bot: number; human: number; customer: number }> => {
+      const res = await trpcClient.dashboard.getMessageBreakdown.query()
+      return res as unknown as { bot: number; human: number; customer: number }
+    },
+  })
+
   const stats = statsQuery.data as Stats | undefined
   const funnel = funnelQuery.data ?? []
+  const breakdown = breakdownQuery.data
 
   return (
     <div className='space-y-6'>
@@ -159,6 +169,44 @@ function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* Message breakdown pie chart */}
+      {breakdown && (breakdown.bot > 0 || breakdown.human > 0) && (
+        <div className='rounded-lg border p-4'>
+          <h2 className='mb-4 text-sm font-semibold'>{t('messageBreakdown')}</h2>
+          <div className='flex items-center gap-6'>
+            <ResponsiveContainer width={150} height={150}>
+              <PieChart>
+                <Pie
+                  data={[
+                    { name: t('botResponses'), value: breakdown.bot, fill: '#22C55E' },
+                    { name: t('humanResponses'), value: breakdown.human, fill: '#3B82F6' },
+                  ]}
+                  cx='50%'
+                  cy='50%'
+                  innerRadius={30}
+                  outerRadius={60}
+                  dataKey='value'
+                >
+                  <Cell fill='#22C55E' />
+                  <Cell fill='#3B82F6' />
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className='space-y-2 text-sm'>
+              <div className='flex items-center gap-2'>
+                <span className='h-3 w-3 rounded-full bg-green-500' />
+                {t('botResponses')}: {breakdown.bot}
+              </div>
+              <div className='flex items-center gap-2'>
+                <span className='h-3 w-3 rounded-full bg-blue-500' />
+                {t('humanResponses')}: {breakdown.human}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
