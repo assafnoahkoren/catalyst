@@ -1,11 +1,16 @@
 import { prisma } from '@catalyst/db'
 import { createWebhookEndpointSchema, updateWebhookEndpointSchema } from '@catalyst/validation'
 import { TRPCError } from '@trpc/server'
+import crypto from 'crypto'
 import { z } from 'zod'
 import { router, tenantProcedure } from '../lib/trpc'
 
 function generateToken() {
   return Array.from({ length: 32 }, () => Math.random().toString(36)[2]).join('')
+}
+
+function generateSecret() {
+  return crypto.randomBytes(32).toString('hex')
 }
 
 export const webhookRouter = router({
@@ -22,6 +27,7 @@ export const webhookRouter = router({
       return prisma.webhookEndpoint.create({
         data: {
           token: generateToken(),
+          secret: generateSecret(),
           fieldMapping: input.fieldMapping as never,
           tenantId: ctx.tenantId,
         },

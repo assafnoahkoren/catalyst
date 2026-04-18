@@ -299,10 +299,11 @@ model AutomationLog {
 }
 
 model WebhookEndpoint {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  token        String  @unique
-  fieldMapping Json    @default("{}")
-  isActive     Boolean @default(true)
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  token        String   @unique
+  secret       String?
+  fieldMapping Json     @default("{}")
+  isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
 
   tenantId String @db.ObjectId

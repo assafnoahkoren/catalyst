@@ -321,21 +321,21 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — click cancel, verify status still exists
 - [x] Verify: Playwright — click delete, verify status removed + toast shown
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 23. Webhooks: Add HMAC signature verification
 
-- [ ] Dev: Add `secret` field to WebhookEndpoint model
-- [ ] Dev: Generate HMAC secret on endpoint creation
-- [ ] Dev: Verify `X-Webhook-Signature` header using HMAC-SHA256
-- [ ] Dev: Return 401 for missing/invalid signatures
-- [ ] Dev: Show secret in webhook management UI (copyable, hidden by default)
-- [ ] Verify: curl — send request WITHOUT signature, verify 401 response
-- [ ] Verify: curl — send request WITH correct HMAC signature, verify 200 + customer created
-- [ ] Verify: curl — send request WITH wrong signature, verify 401
-- [ ] Verify: Server logs — verify signature validation logs
-- [ ] Fix if needed
+- [x] Dev: Add `secret` field to WebhookEndpoint model
+- [x] Dev: Generate HMAC secret on endpoint creation
+- [x] Dev: Verify `X-Webhook-Signature` header using HMAC-SHA256
+- [x] Dev: Return 401 for missing/invalid signatures
+- [x] Dev: Show secret in webhook management UI (copyable, hidden by default)
+- [x] Verify: curl — send request WITHOUT signature, verify 401 response
+- [x] Verify: curl — send request WITH correct HMAC signature, verify 200 + customer created
+- [x] Verify: curl — send request WITH wrong signature, verify 401
+- [x] Verify: Server logs — verify signature validation logs
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
