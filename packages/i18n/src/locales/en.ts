@@ -48,6 +48,14 @@ export const en = {
   addCustomer: 'Add Customer',
   phone: 'Phone',
   unassigned: 'Unassigned',
+  status: 'Status',
+  createdAt: 'Created',
+  actions: 'Actions',
+  previous: 'Previous',
+  next: 'Next',
+  showing: 'Showing',
+  of: 'of',
+  deleteCustomer: 'Delete',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

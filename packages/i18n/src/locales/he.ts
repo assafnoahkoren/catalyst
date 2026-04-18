@@ -48,4 +48,12 @@ export const he: Translations = {
   addCustomer: 'הוסף לקוח',
   phone: 'טלפון',
   unassigned: 'לא משויך',
+  status: 'סטטוס',
+  createdAt: 'נוצר',
+  actions: 'פעולות',
+  previous: 'הקודם',
+  next: 'הבא',
+  showing: 'מציג',
+  of: 'מתוך',
+  deleteCustomer: 'מחק',
 }

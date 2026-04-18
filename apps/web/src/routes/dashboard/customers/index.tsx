@@ -51,7 +51,7 @@ function CustomersPage() {
         </div>
       </div>
 
-      {viewMode === 'kanban' ? <KanbanBoard /> : <div>{t('tableView')}</div>}
+      {viewMode === 'kanban' ? <KanbanBoard /> : <CustomerTable />}
     </div>
   )
 }
@@ -141,6 +141,128 @@ function KanbanBoard() {
           </div>
         )
       })}
+    </div>
+  )
+}
+
+function CustomerTable() {
+  const { t } = useTranslation()
+  const [page, setPage] = useState(1)
+  const [search, setSearch] = useState('')
+  const [sortBy, setSortBy] = useState<'name' | 'createdAt' | 'updatedAt'>('createdAt')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+
+  const customersQuery = useQuery(
+    trpc.customer.list.queryOptions({
+      page,
+      pageSize: 20,
+      search: search || undefined,
+      sortBy,
+      sortOrder,
+    }),
+  )
+  const statusesQuery = useQuery(trpc.customerStatus.list.queryOptions())
+
+  const customers = ((customersQuery.data as { items?: CustomerItem[]; total?: number })?.items
+    ?? []) as CustomerItem[]
+  const total = (customersQuery.data as { total?: number })?.total ?? 0
+  const statuses = (statusesQuery.data ?? []) as StatusItem[]
+
+  function handleSort(column: 'name' | 'createdAt' | 'updatedAt') {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortBy(column)
+      setSortOrder('asc')
+    }
+  }
+
+  async function handleStatusChange(customerId: string, statusId: string) {
+    await trpcClient.customer.changeStatus.mutate({ id: customerId, statusId })
+    customersQuery.refetch()
+  }
+
+  return (
+    <div className='space-y-4'>
+      <input
+        type='search'
+        placeholder={t('search')}
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value)
+          setPage(1)
+        }}
+        className='w-64 rounded-md border border-input bg-background px-3 py-1.5 text-sm'
+      />
+
+      <div className='overflow-x-auto rounded-md border'>
+        <table className='w-full text-sm'>
+          <thead>
+            <tr className='border-b bg-muted/50'>
+              <th
+                className='cursor-pointer px-4 py-2 text-start font-medium'
+                onClick={() => handleSort('name')}
+              >
+                {t('name')} {sortBy === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </th>
+              <th className='px-4 py-2 text-start font-medium'>{t('email')}</th>
+              <th className='px-4 py-2 text-start font-medium'>{t('phone')}</th>
+              <th className='px-4 py-2 text-start font-medium'>{t('status')}</th>
+              <th
+                className='cursor-pointer px-4 py-2 text-start font-medium'
+                onClick={() => handleSort('createdAt')}
+              >
+                {t('createdAt')} {sortBy === 'createdAt' && (sortOrder === 'asc' ? '↑' : '↓')}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {customers.map((customer) => (
+              <tr key={customer.id} className='border-b hover:bg-muted/30'>
+                <td className='px-4 py-2 font-medium'>{customer.name}</td>
+                <td className='px-4 py-2 text-muted-foreground'>
+                  {(customer as { email?: string }).email ?? '-'}
+                </td>
+                <td className='px-4 py-2 text-muted-foreground'>{customer.phone ?? '-'}</td>
+                <td className='px-4 py-2'>
+                  <select
+                    value={customer.statusId}
+                    onChange={(e) =>
+                      handleStatusChange(customer.id, e.target.value)}
+                    className='rounded border bg-background px-2 py-1 text-xs'
+                  >
+                    {statuses.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+                  </select>
+                </td>
+                <td className='px-4 py-2 text-muted-foreground'>
+                  {new Date((customer as { createdAt?: string }).createdAt ?? '')
+                    .toLocaleDateString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className='flex items-center justify-between text-sm text-muted-foreground'>
+        <span>{t('showing')} {customers.length} {t('of')} {total}</span>
+        <div className='flex gap-2'>
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className='rounded border px-3 py-1 disabled:opacity-50'
+          >
+            {t('previous')}
+          </button>
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            disabled={customers.length < 20}
+            className='rounded border px-3 py-1 disabled:opacity-50'
+          >
+            {t('next')}
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
