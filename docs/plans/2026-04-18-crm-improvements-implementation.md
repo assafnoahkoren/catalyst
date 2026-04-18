@@ -432,8 +432,8 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: curl — POST to resend verification endpoint, check 200
 - [x] Verify: Server logs — no errors in verification flow
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 31. Auth: Add password strength indicator
 
@@ -444,8 +444,8 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — type "abc", verify all red. Type "Abc12345!", verify all green
 - [x] Verify: Playwright — screenshot showing mixed state
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 32. Auth: Add password visibility toggle
 
@@ -455,8 +455,8 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — fill password, click eye icon, verify text visible
 - [x] Verify: Playwright — click again, verify text hidden
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 33. Auth: Add inline validation
 
@@ -468,8 +468,8 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — fill valid email, blur, verify error clears
 - [x] Verify: Playwright — screenshot showing inline error
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 34. Auth: Add onboarding checklist
 
