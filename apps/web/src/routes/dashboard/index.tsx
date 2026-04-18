@@ -29,7 +29,7 @@ interface FunnelItem {
 
 type DateRange = 'today' | 'week' | 'month' | 'all'
 
-function getDateRangeStart(range: DateRange): Date | null {
+function _getDateRangeStart(range: DateRange): Date | null {
   const now = new Date()
   if (range === 'today') return new Date(now.getFullYear(), now.getMonth(), now.getDate())
   if (range === 'week') {
