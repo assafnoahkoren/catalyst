@@ -412,261 +412,600 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 
 ### 29. Auth: Add onboarding guard
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Check tenant membership in /dashboard loader. Redirect to /onboarding if none. Redirect from /onboarding if already has tenant.
-- Verify: Playwright — new user tries /dashboard → redirected to /onboarding. User with tenant tries /onboarding → redirected to /dashboard.
+- [ ] Dev: Check tenant membership in /dashboard layout route loader
+- [ ] Dev: If no tenant membership, redirect to /onboarding
+- [ ] Dev: In /onboarding, check if user already has a tenant, redirect to /dashboard
+- [ ] Verify: Playwright — register new user, navigate to /dashboard, verify redirect to /onboarding
+- [ ] Verify: Playwright — user with tenant navigates to /onboarding, verify redirect to /dashboard
+- [ ] Verify: Server logs — no errors during redirects
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 30. Auth: Add email verification flow
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Enable Better Auth email verification. Show "Verify your email" banner. Resend verification link button.
-- Verify: Playwright — register, verify banner shows. curl — check verification endpoint.
+- [ ] Dev: Enable Better Auth email verification plugin in server.ts
+- [ ] Dev: Add "Verify your email" banner on dashboard for unverified users
+- [ ] Dev: Add "Resend verification" button
+- [ ] Dev: Add i18n keys: `verifyEmail`, `resendVerification`, `emailVerified`
+- [ ] Verify: Playwright — register, navigate to dashboard, verify banner appears
+- [ ] Verify: curl — POST to resend verification endpoint, check 200
+- [ ] Verify: Server logs — no errors in verification flow
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 31. Auth: Add password strength indicator
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Real-time checklist below password field (8+ chars, number, etc.). Green/red indicators.
-- Verify: Playwright — type passwords of varying strength, screenshot showing indicator changes.
+- [ ] Dev: Create `<PasswordStrength>` component with checklist items
+- [ ] Dev: Items: 8+ characters, contains number, contains uppercase, contains special char
+- [ ] Dev: Green checkmark when met, red X when not, update in real-time as user types
+- [ ] Dev: Add below password fields on register page
+- [ ] Verify: Playwright — type "abc", verify all red. Type "Abc12345!", verify all green
+- [ ] Verify: Playwright — screenshot showing mixed state
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 32. Auth: Add password visibility toggle
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Eye icon in password inputs. Toggle type text/password.
-- Verify: Playwright — click eye icon, verify password becomes visible.
+- [ ] Dev: Create eye/eye-off icon button inside password input
+- [ ] Dev: Toggle input type between "password" and "text"
+- [ ] Dev: Apply to login and register password fields
+- [ ] Verify: Playwright — fill password, click eye icon, verify text visible
+- [ ] Verify: Playwright — click again, verify text hidden
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 33. Auth: Add inline validation
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Validate fields on blur. Show error messages per field. aria-describedby.
-- Verify: Playwright — fill invalid email, blur, verify error. Fill valid, verify error clears.
+- [ ] Dev: Validate email format on blur, show "Invalid email" if wrong
+- [ ] Dev: Validate password length on blur
+- [ ] Dev: Add `aria-describedby` linking error message to field
+- [ ] Dev: Add `aria-invalid="true"` when field has error
+- [ ] Verify: Playwright — fill "notanemail", blur, verify error message shown
+- [ ] Verify: Playwright — fill valid email, blur, verify error clears
+- [ ] Verify: Playwright — screenshot showing inline error
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 34. Auth: Add onboarding checklist
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Track completion of: add customer, set up WhatsApp, add KB entry, invite member. Show on dashboard.
-- Verify: Playwright — new org sees checklist. Complete a step, verify checkbox updates.
+- [ ] Dev: Create OnboardingChecklist model or JSON field on Tenant
+- [ ] Dev: Track: addedCustomer, setupWhatsApp, addedKBEntry, invitedMember
+- [ ] Dev: Show checklist card on dashboard with checkmarks
+- [ ] Dev: Auto-update when corresponding actions are completed
+- [ ] Dev: Add i18n keys for checklist items
+- [ ] Verify: Playwright — new org dashboard shows checklist with all unchecked
+- [ ] Verify: Playwright — add a customer, refresh dashboard, verify "Add customer" checked
+- [ ] Verify: Server logs — no errors in checklist tracking
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 35. Dashboard: Add conversion rate metric
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Calculate won/(won+lost). Show as percentage stat card.
-- Verify: Seed won/lost customers. Playwright — verify percentage displays correctly.
+- [ ] Dev: Add `getConversionRate` query — count Won / (Won + Lost)
+- [ ] Dev: Add stat card showing percentage (e.g., "45.2%")
+- [ ] Dev: Handle edge case: 0 won + 0 lost = show "N/A"
+- [ ] Dev: Add i18n key: `conversionRate`
+- [ ] Verify: Seed 3 Won + 2 Lost customers
+- [ ] Verify: Playwright — verify stat card shows "60%"
+- [ ] Verify: Playwright — new org shows "N/A" not "NaN"
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 36. Dashboard: Add date range filter
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Dropdown: Today, This Week, This Month, All Time. Filter all stats.
-- Verify: Playwright — select "Today", verify stats change. Screenshot.
+- [ ] Dev: Add dropdown above stats: Today, This Week, This Month, All Time
+- [ ] Dev: Pass date range to getStats and getFunnel queries
+- [ ] Dev: Filter by createdAt >= rangeStart
+- [ ] Dev: Add i18n keys: `today`, `thisWeek`, `thisMonth`, `allTime`
+- [ ] Verify: Seed customers across different dates
+- [ ] Verify: Playwright — select "Today", verify stats show only today's customers
+- [ ] Verify: Playwright — select "All Time", verify full count
+- [ ] Verify: Playwright — screenshot showing filter dropdown
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 37. Dashboard: Add time-series chart
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Install recharts. Line chart for new customers over time.
-- Verify: Seed customers with different dates. Playwright — verify chart renders.
+- [ ] Dev: Install recharts library
+- [ ] Dev: Add `getCustomerTimeSeries` query returning daily counts for last 30 days
+- [ ] Dev: Render LineChart component below stat cards
+- [ ] Dev: Add i18n key: `newCustomersOverTime`
+- [ ] Verify: Seed 50 customers across last 30 days
+- [ ] Verify: Playwright — verify line chart renders with data points
+- [ ] Verify: Playwright — screenshot of chart
+- [ ] Verify: Console — no React rendering errors
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 38. Dashboard: Add bot vs human ratio chart
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Pie/donut chart. Count BOT vs HUMAN messages.
-- Verify: Seed messages. Playwright — verify chart shows correct ratio.
+- [ ] Dev: Add `getBotHumanRatio` query counting messages by sender type
+- [ ] Dev: Render PieChart/DonutChart showing BOT vs HUMAN percentages
+- [ ] Dev: Add i18n keys: `botResponses`, `humanResponses`
+- [ ] Verify: Seed BOT and HUMAN messages
+- [ ] Verify: Playwright — verify pie chart renders with correct proportions
+- [ ] Verify: Playwright — screenshot of chart
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 39. Dashboard: Fix funnel N+1 query
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Use Prisma groupBy instead of N separate counts.
-- Verify: Server logs — verify single query instead of N. Same data returned.
+- [ ] Dev: Replace N separate `prisma.customer.count` calls with single `prisma.customer.groupBy`
+- [ ] Dev: Group by statusId, join with status names/colors
+- [ ] Dev: Verify same data returned as before
+- [ ] Verify: Server logs — verify only 2 queries (statuses + groupBy) instead of N+1
+- [ ] Verify: Playwright — verify funnel chart shows same data as before
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 40. Dashboard: Add number formatting + empty state
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Intl.NumberFormat for comma separators. Empty state with action buttons for new orgs.
-- Verify: Seed 1000+ customers. Playwright — verify "1,234" formatting. New org — verify empty state.
+- [ ] Dev: Create `formatNumber()` utility using `Intl.NumberFormat`
+- [ ] Dev: Apply to all stat card values
+- [ ] Dev: Create `<DashboardEmptyState>` component for new orgs
+- [ ] Dev: Show when all stats are 0: welcome message + action buttons
+- [ ] Dev: Add i18n keys: `welcomeNewOrg`, `getStarted`
+- [ ] Verify: Seed 1500 customers
+- [ ] Verify: Playwright — verify stat card shows "1,500" not "1500"
+- [ ] Verify: Playwright — new org (no data) shows empty state with action buttons
+- [ ] Verify: Playwright — screenshot of empty state
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 41. Kanban: Add drag visual feedback
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Placeholder in source. Drop zone highlighting. Optimistic update.
-- Verify: Playwright — drag a card, screenshot during drag showing feedback.
+- [ ] Dev: Install dnd-kit library for proper drag-and-drop
+- [ ] Dev: Show semi-transparent placeholder in source column
+- [ ] Dev: Highlight drop target column with border/background change
+- [ ] Dev: Add optimistic update — move card in UI immediately, revert on error
+- [ ] Verify: Playwright — drag a card, take screenshot during drag
+- [ ] Verify: Playwright — drop card, verify it moved to new column
+- [ ] Verify: Playwright — verify no full-page flicker (optimistic update)
+- [ ] Verify: Server logs — verify changeStatus mutation succeeded
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 42. Kanban: Add search/filter + card info
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Filter bar above kanban. Show email/assigned user on cards.
-- Verify: Playwright — type in filter, verify cards filtered. Verify card shows extra info.
+- [ ] Dev: Add search input above kanban board
+- [ ] Dev: Filter cards by name/phone as user types (client-side for kanban)
+- [ ] Dev: Show email and assigned user avatar/initials on each card
+- [ ] Dev: Add i18n key: `filterCustomers`
+- [ ] Verify: Playwright — type customer name in filter, verify only matching cards shown
+- [ ] Verify: Playwright — clear filter, verify all cards return
+- [ ] Verify: Playwright — verify card shows email and assigned user info
+- [ ] Verify: Playwright — screenshot of enriched card
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 43. Table: Add row selection + bulk actions
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Checkbox column. Select all. Floating action bar: Assign, Status, Delete.
-- Verify: Playwright — select 3 rows, change status in bulk, verify all updated.
+- [ ] Dev: Add checkbox column as first column in table
+- [ ] Dev: Add "Select all" checkbox in header
+- [ ] Dev: When rows selected, show floating action bar at bottom
+- [ ] Dev: Action bar buttons: "Change Status", "Assign To", "Delete"
+- [ ] Dev: Implement bulk status change calling customer.bulkUpdate
+- [ ] Verify: Playwright — check 3 customer rows, verify action bar appears
+- [ ] Verify: Playwright — click "Change Status", select new status, verify all 3 updated
+- [ ] Verify: curl — GET customers, verify statuses changed in DB
+- [ ] Verify: Playwright — screenshot of action bar
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 44. Table: Add sticky header + search debounce
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: sticky thead. 300ms debounce on search. Status filter dropdown.
-- Verify: Playwright — scroll down long table, verify header stays. Type fast, verify debounce.
+- [ ] Dev: Add `position: sticky; top: 0; z-index: 10` to thead
+- [ ] Dev: Add 300ms debounce to search input using setTimeout/useRef
+- [ ] Dev: Add status filter dropdown next to search
+- [ ] Verify: Seed 50+ customers
+- [ ] Verify: Playwright — scroll down, verify header stays visible
+- [ ] Verify: Playwright — type fast in search, verify only 1 API call after 300ms pause
+- [ ] Verify: Playwright — filter by status, verify table shows only matching
+- [ ] Verify: Server logs — verify debounced requests (not one per keystroke)
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 45. Table: Add column visibility toggle + assigned user column
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Columns dropdown. Toggle columns. Add assigned user column.
-- Verify: Playwright — hide email column, verify gone. Show assigned user, verify visible.
+- [ ] Dev: Add "Columns" dropdown button in table header area
+- [ ] Dev: Checkbox per column to show/hide
+- [ ] Dev: Persist column visibility in localStorage
+- [ ] Dev: Add "Assigned To" column showing user name
+- [ ] Verify: Playwright — click Columns dropdown, uncheck "Email", verify column hidden
+- [ ] Verify: Playwright — refresh page, verify column stays hidden (localStorage)
+- [ ] Verify: Playwright — verify Assigned To column shows user names
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 46. Customer Detail: Add unified timeline
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Merge activities + notes + messages chronologically. Resolve actor/author names.
-- Verify: Playwright — seed activity + note + message, verify all in one timeline sorted by date.
+- [ ] Dev: Create unified query merging activities + notes + messages by date
+- [ ] Dev: Render single chronological feed with type-specific styling
+- [ ] Dev: Resolve actorId/authorId to user names (join with User table)
+- [ ] Dev: Show "John Doe changed status from X to Y" instead of "Status changed"
+- [ ] Verify: Seed customer with activity + note + message
+- [ ] Verify: Playwright — verify all 3 types appear in one timeline
+- [ ] Verify: Playwright — verify chronological order (newest first or oldest first)
+- [ ] Verify: Playwright — verify user names shown, not IDs
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 47. Customer Detail: Add breadcrumb + delete
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Breadcrumb: Dashboard > Customers > Name. Delete button with confirmation.
-- Verify: Playwright — verify breadcrumb shows correct path. Delete customer, verify redirected to list.
+- [ ] Dev: Create `<Breadcrumb>` component: Dashboard > Customers > {name}
+- [ ] Dev: Each segment is a clickable link
+- [ ] Dev: Add "Delete" button in customer detail header
+- [ ] Dev: Use `<ConfirmDialog>` from task #22 before deleting
+- [ ] Dev: After delete, redirect to /dashboard/customers
+- [ ] Verify: Playwright — navigate to customer detail, verify breadcrumb shows correct path
+- [ ] Verify: Playwright — click "Customers" in breadcrumb, verify navigates to list
+- [ ] Verify: Playwright — click Delete, confirm, verify redirected to customer list
+- [ ] Verify: curl — GET deleted customer, verify 404
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 48. Timeline: Add type-specific icons + relative timestamps
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Install date-fns. Different icon/color per type. formatDistanceToNow for timestamps.
-- Verify: Playwright — verify different icons for status change vs note. Verify "5 minutes ago" text.
+- [ ] Dev: Install date-fns
+- [ ] Dev: Use `formatDistanceToNow` for timestamps ("5 minutes ago")
+- [ ] Dev: Show absolute timestamp on hover (tooltip)
+- [ ] Dev: Add icons per activity type using Lucide icons
+- [ ] Dev: Color code: blue=status, yellow=note, purple=assignment, green=created, teal=message
+- [ ] Verify: Playwright — verify different icons for status change vs note
+- [ ] Verify: Playwright — verify "5 minutes ago" text (not "2026-04-18T...")
+- [ ] Verify: Playwright — hover timestamp, verify tooltip shows absolute date
+- [ ] Verify: Playwright — screenshot of colored timeline
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 49. Timeline: Add activity type filter
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Filter chips: All, Status Changes, Notes, Messages.
-- Verify: Playwright — click "Notes", verify only notes shown. Click "All", verify all shown.
+- [ ] Dev: Add filter chips above timeline: All, Status Changes, Notes, Messages
+- [ ] Dev: Filter activities client-side based on selected type
+- [ ] Dev: Highlight active filter chip
+- [ ] Verify: Playwright — click "Notes", verify only notes shown
+- [ ] Verify: Playwright — click "Status Changes", verify only status changes shown
+- [ ] Verify: Playwright — click "All", verify all items return
+- [ ] Verify: Playwright — screenshot of filtered timeline
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 50. Chat: Add textarea + scroll-to-bottom + message grouping
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Replace input with auto-resize textarea. Shift+Enter newline. Group consecutive messages. Auto-scroll.
-- Verify: Playwright — type multi-line message. Verify messages grouped. Verify auto-scroll on new message.
+- [ ] Dev: Replace single-line `<input>` with auto-resize `<textarea>`
+- [ ] Dev: Shift+Enter inserts newline, Enter sends message
+- [ ] Dev: Auto-resize textarea up to 4 lines
+- [ ] Dev: Group consecutive messages from same sender within 1 minute
+- [ ] Dev: Add auto-scroll to bottom on new messages
+- [ ] Dev: Add "New messages ↓" button when user has scrolled up
+- [ ] Verify: Playwright — type multi-line message with Shift+Enter, verify newline works
+- [ ] Verify: Playwright — press Enter, verify message sent
+- [ ] Verify: Playwright — verify consecutive messages grouped (shared bubble)
+- [ ] Verify: Playwright — send message, verify auto-scrolled to bottom
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 51. Chat: Add last message preview + conversation search
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Truncated last message in conversation list. Search bar for conversations.
-- Verify: Playwright — verify preview text shown. Search customer name, verify filtered.
+- [ ] Dev: Include last message text in conversation.list query
+- [ ] Dev: Show truncated last message (50 chars) under customer name in list
+- [ ] Dev: Show relative timestamp of last message
+- [ ] Dev: Add search input above conversation list
+- [ ] Dev: Filter conversations by customer name
+- [ ] Verify: Playwright — verify conversation list shows message previews
+- [ ] Verify: Playwright — type customer name in search, verify filtered
+- [ ] Verify: Playwright — clear search, verify all conversations return
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 52. Chat: Add canned responses
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: "/" command opens canned response list. Select to insert. Tenant-configurable templates.
-- Verify: Playwright — type "/", verify dropdown. Select template, verify inserted into input.
+- [ ] Dev: Create CannedResponse model (tenantId, shortcut, body)
+- [ ] Dev: Add canned response management in Settings
+- [ ] Dev: In chat input, detect "/" at start, show dropdown of responses
+- [ ] Dev: Select response to insert its body into the textarea
+- [ ] Verify: Playwright — go to settings, create canned response "/hello" = "Hello! How can I help?"
+- [ ] Verify: Playwright — go to chat, type "/", verify dropdown shows
+- [ ] Verify: Playwright — select "/hello", verify text inserted in textarea
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 53. Bot: Add conversation summary on handoff
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Generate AI summary of conversation. Show to agent in chat header area.
-- Verify: Trigger handoff. Playwright — verify summary banner shown in chat. Server logs — verify OpenAI call.
+- [ ] Dev: When bot hands off, generate 2-3 sentence summary via OpenAI
+- [ ] Dev: Store summary in Conversation model (handoffSummary field)
+- [ ] Dev: Show summary banner at top of chat when agent opens handoff conversation
+- [ ] Dev: Add i18n key: `handoffSummary`
+- [ ] Verify: curl — trigger a handoff scenario
+- [ ] Verify: Server logs — verify OpenAI summary call made
+- [ ] Verify: Playwright — open the handed-off conversation, verify summary banner shown
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 54. Bot: Add customizable system prompt
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Add botSystemPrompt field to tenant settings. UI textarea in settings. Use in bot flow.
-- Verify: Playwright — edit prompt in settings. curl — trigger bot, verify custom prompt used (check server logs).
+- [ ] Dev: Add `botSystemPrompt` text field to Tenant model
+- [ ] Dev: Add textarea in Settings → WhatsApp section for editing prompt
+- [ ] Dev: Use tenant.botSystemPrompt in whatsapp-webhook.ts (fallback to default)
+- [ ] Verify: Playwright — go to settings, edit system prompt, save
+- [ ] Verify: curl — trigger bot, check server logs for custom prompt being used
+- [ ] Verify: Playwright — verify toast confirmation on save
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 55. Bot: Add OpenAI error handling
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Try/catch around OpenAI calls. Graceful fallback: hand off to human with error message.
-- Verify: Set invalid OPENAI_API_KEY. curl — trigger bot. Verify handoff happens, no crash. Server logs — error caught.
+- [ ] Dev: Wrap all OpenAI calls in try/catch in whatsapp-webhook.ts
+- [ ] Dev: On error: hand off to human, send tenant-language error message
+- [ ] Dev: Log error with context (conversationId, customerId)
+- [ ] Verify: Temporarily set invalid OPENAI_API_KEY
+- [ ] Verify: curl — send WhatsApp webhook triggering bot
+- [ ] Verify: Server logs — verify error caught gracefully, no crash
+- [ ] Verify: curl — check conversation.isBot = false (handed off)
+- [ ] Verify: Restore valid API key
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 56. Knowledge: Add test query tool
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: "Ask a question" input on KB page. Run RAG pipeline, show chunks + answer.
-- Verify: Add KB entry. Playwright — ask a question, verify answer shown with confidence score.
+- [ ] Dev: Add "Test a question" section on knowledge base page
+- [ ] Dev: Input field + "Ask" button
+- [ ] Dev: Create tRPC procedure that runs RAG pipeline and returns: chunks, scores, answer
+- [ ] Dev: Display results: retrieved chunks with scores, generated answer
+- [ ] Verify: Seed a knowledge entry
+- [ ] Verify: Playwright — type a related question, click Ask
+- [ ] Verify: Playwright — verify chunks displayed with confidence scores
+- [ ] Verify: Playwright — verify generated answer shown
+- [ ] Verify: Server logs — verify RAG pipeline executed
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 57. Knowledge: Add async embedding + error handling
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Return entry immediately with "processing" status. Background embed. Retry button on failure.
-- Verify: Playwright — create entry, verify "processing" status. Wait, verify "ready". Server logs — pipeline log.
+- [ ] Dev: Add `status` field to KnowledgeEntry: "processing" | "ready" | "failed"
+- [ ] Dev: Return entry immediately with status="processing"
+- [ ] Dev: Run embed pipeline in background (setTimeout or queue)
+- [ ] Dev: Update status to "ready" on success, "failed" on error
+- [ ] Dev: Show status badge on entry cards in UI
+- [ ] Dev: Add "Retry" button for failed entries
+- [ ] Verify: Playwright — create text entry, verify "processing" status shown
+- [ ] Verify: Playwright — wait 5-10 seconds, refresh, verify "ready" status
+- [ ] Verify: Server logs — verify background pipeline completed
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 58. Automation: Add execution history + test run
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Log list per flow with timestamp/status/customer. Test run button.
-- Verify: Trigger automation. Playwright — view flow, verify execution log shown. Test run — verify dry run results.
+- [ ] Dev: Create execution history view on flow detail page
+- [ ] Dev: Show list: timestamp, customer name, status (success/failed), step details
+- [ ] Dev: Add "Test Run" button that executes flow in dry-run mode (no actual messages sent)
+- [ ] Dev: Show test results inline: each step's pass/fail status
+- [ ] Verify: Trigger an automation flow
+- [ ] Verify: Playwright — open flow detail, verify execution log appears
+- [ ] Verify: Playwright — click "Test Run", select a customer, verify results shown
+- [ ] Verify: Server logs — verify dry-run didn't send real messages
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 59. Automation: Add retry logic + drag-to-reorder
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Retry 1-3 times on failure. Drag handle to reorder steps.
-- Verify: Simulate step failure. Server logs — verify retry attempts. Playwright — drag step, verify new order saved.
+- [ ] Dev: Add retryCount config per step (default 1, max 3)
+- [ ] Dev: On step failure, retry with exponential backoff (1s, 2s, 4s)
+- [ ] Dev: Log each retry attempt in AutomationLog
+- [ ] Dev: Add drag handles to step cards in flow editor
+- [ ] Dev: Reorder steps via drag-and-drop, save new order
+- [ ] Verify: Create a flow with a step that will fail
+- [ ] Verify: Server logs — verify retry attempts logged
+- [ ] Verify: Playwright — drag step 2 above step 1, save, verify order changed
+- [ ] Verify: Playwright — reload page, verify new order persisted
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 60. Webhooks: Add request logging + test button
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Store last 50 requests per endpoint. "Send test" button. Log viewer in UI.
-- Verify: curl — send webhook. Playwright — view log, verify request appears. Click "Send test", verify response shown.
+- [ ] Dev: Create WebhookLog model (endpointId, timestamp, status, payload, response)
+- [ ] Dev: Log every incoming request in webhook-ingestion.ts
+- [ ] Dev: Show last 20 logs per endpoint in UI
+- [ ] Dev: Add "Send Test" button that POSTs a sample payload to the endpoint
+- [ ] Dev: Show test result (success/failure + response body)
+- [ ] Verify: curl — send a webhook request
+- [ ] Verify: Playwright — open webhook detail, verify request log appears
+- [ ] Verify: Playwright — click "Send Test", verify result shown
+- [ ] Verify: Server logs — verify logging works
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 61. Webhooks: Add visual field mapping editor
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Dropdown-based mapping UI instead of raw JSON. Map external → Customer fields.
-- Verify: Playwright — edit mapping, save. curl — send webhook with mapped fields. Verify customer created correctly.
+- [ ] Dev: Replace raw JSON field mapping with dropdown-based UI
+- [ ] Dev: Left column: external field name (text input)
+- [ ] Dev: Right column: dropdown of Customer fields (name, email, phone, + custom fields)
+- [ ] Dev: Add/remove mapping rows with + / - buttons
+- [ ] Dev: Save as JSON to the existing fieldMapping field
+- [ ] Verify: Playwright — add mapping "full_name" → "name", save
+- [ ] Verify: curl — send webhook with `{"full_name": "Test"}`, verify customer created with name "Test"
+- [ ] Verify: Playwright — screenshot of field mapping editor
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 62. Settings: Add sub-navigation + invite-by-link
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Tab bar within settings. Invite link generation with expiry.
-- Verify: Playwright — navigate between settings tabs. Generate invite link, verify it works.
+- [ ] Dev: Add tab bar at top of settings pages: General, Team, Pipeline, Custom Fields
+- [ ] Dev: Highlight active tab based on current route
+- [ ] Dev: Add "Generate Invite Link" button on team page
+- [ ] Dev: Create invite link with token and expiry (7 days)
+- [ ] Dev: Show copyable invite URL
+- [ ] Verify: Playwright — navigate to /dashboard/settings, verify tabs shown
+- [ ] Verify: Playwright — click "Team" tab, verify team page loads
+- [ ] Verify: Playwright — click "Generate Invite Link", verify URL shown
+- [ ] Verify: Playwright — copy URL, verify it's a valid link format
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 63. Settings: Add drag-to-reorder + inline editing
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Drag handles for pipeline statuses. Click to edit name/color inline. SELECT options editor.
-- Verify: Playwright — drag status to reorder, verify order saved. Click name, edit inline, verify.
+- [ ] Dev: Add drag handles to pipeline status items
+- [ ] Dev: Reorder via drag-and-drop, call customerStatus.reorder on drop
+- [ ] Dev: Click status name to edit inline, save on blur
+- [ ] Dev: Click color swatch to change color, save immediately
+- [ ] Dev: Add options editor for SELECT/MULTI_SELECT custom fields
+- [ ] Verify: Playwright — drag "Contacted" above "New", verify new order saved
+- [ ] Verify: Playwright — click status name, type new name, blur, verify saved
+- [ ] Verify: Playwright — reload page, verify order and name persisted
+- [ ] Verify: Server logs — verify reorder mutation succeeded
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 64. Search: Add Cmd+K + debounce + keyboard navigation
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Cmd/Ctrl+K shortcut. 300ms debounce. Arrow keys + Enter in results.
-- Verify: Playwright — press Ctrl+K, verify search focused. Type, verify debounce. Arrow down, Enter, verify navigation.
+- [ ] Dev: Add global keydown listener for Cmd/Ctrl+K
+- [ ] Dev: Focus search input (or open command palette modal)
+- [ ] Dev: Add 300ms debounce using setTimeout/useRef
+- [ ] Dev: Track highlighted result index with arrow keys
+- [ ] Dev: Enter navigates to highlighted result, Escape closes
+- [ ] Verify: Playwright — press Ctrl+K, verify search focused
+- [ ] Verify: Playwright — type query, wait 300ms, verify single API call
+- [ ] Verify: Playwright — press ArrowDown twice, press Enter, verify navigation
+- [ ] Verify: Playwright — press Escape, verify search closes
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 65. Navigation: Add breadcrumbs + unread badge
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Breadcrumb component on all pages. Unread count badge on Conversations nav.
-- Verify: Playwright — navigate to deep page, verify breadcrumb trail. Verify unread badge shows count.
+- [ ] Dev: Create `<Breadcrumb>` component using route path segments
+- [ ] Dev: Add to all dashboard pages: Dashboard > Module > Detail
+- [ ] Dev: Add unread message count query
+- [ ] Dev: Show red badge with count on "Conversations" nav item
+- [ ] Verify: Playwright — navigate to /dashboard/customers/123, verify breadcrumb "Dashboard > Customers > Customer Name"
+- [ ] Verify: Playwright — seed unread messages, verify badge shows count
+- [ ] Verify: Playwright — read all messages, verify badge disappears
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 66. Navigation: Add user info in sidebar + Link components
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Show user name/avatar above Sign Out. Replace `<a>` with `<Link>`.
-- Verify: Playwright — verify user name shown in sidebar. Verify navigation works correctly with Link.
+- [ ] Dev: Fetch current user name in dashboard layout
+- [ ] Dev: Show user name/initials avatar above "Sign Out" in sidebar
+- [ ] Dev: Replace all `<a>` + `navigate()` with proper `<Link>` components
+- [ ] Dev: Fix all `as '/'` type casts with proper route typing
+- [ ] Verify: Playwright — verify user name shown in sidebar bottom
+- [ ] Verify: Playwright — click each nav link, verify navigation works without full page reload
+- [ ] Verify: Console — verify no type errors or navigation warnings
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 67. i18n: Format dates and numbers with locale
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Intl.DateTimeFormat with tenant locale. Intl.NumberFormat for all numbers.
-- Verify: Playwright — set tenant language to "he", verify dates in Hebrew format. Verify "1,234" format.
+- [ ] Dev: Create `formatDate()` utility using `Intl.DateTimeFormat` with tenant locale
+- [ ] Dev: Create `formatNumber()` utility using `Intl.NumberFormat`
+- [ ] Dev: Replace all `toLocaleDateString()` / `toLocaleString()` calls
+- [ ] Dev: Replace all raw number displays with `formatNumber()`
+- [ ] Verify: Playwright — set tenant language to "he", navigate to dashboard
+- [ ] Verify: Playwright — verify dates show in Hebrew format
+- [ ] Verify: Playwright — verify numbers show with proper formatting
+- [ ] Verify: Playwright — screenshot of Hebrew-formatted page
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 68. i18n: Test RTL layout thoroughly
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Fix RTL issues: sidebar, kanban, chat bubbles, table alignment.
-- Verify: Playwright — resize browser. Set lang=he. Screenshot every page. Verify all layouts correct in RTL.
+- [ ] Dev: Set language to Hebrew, navigate through every page
+- [ ] Dev: Fix sidebar direction (should be on the right in RTL)
+- [ ] Dev: Fix kanban scroll direction
+- [ ] Dev: Fix chat bubbles (outbound should be on the left in RTL)
+- [ ] Dev: Fix table text alignment
+- [ ] Dev: Fix any `translate-x` that doesn't respect RTL
+- [ ] Verify: Playwright — set lang=he, take screenshot of dashboard
+- [ ] Verify: Playwright — take screenshot of customers kanban in RTL
+- [ ] Verify: Playwright — take screenshot of conversations in RTL
+- [ ] Verify: Playwright — take screenshot of settings in RTL
+- [ ] Verify: Verify all screenshots show correct RTL layout
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 69. Security: Add rate limiting to tRPC + webhooks
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: 100 req/min per user for tRPC. 60 req/min per token for webhooks.
-- Verify: curl — burst 101 tRPC requests, verify 429 on 101st. Same for webhooks.
+- [ ] Dev: Add rate limiting middleware to Hono for `/trpc/*` routes
+- [ ] Dev: Limit: 100 requests/minute per authenticated user
+- [ ] Dev: Add rate limiting to webhook ingestion: 60 req/min per token
+- [ ] Dev: Return 429 Too Many Requests with Retry-After header
+- [ ] Verify: curl — send 101 tRPC requests rapidly, verify 101st returns 429
+- [ ] Verify: curl — send 61 webhook requests, verify 61st returns 429
+- [ ] Verify: Server logs — verify rate limit events logged
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 70. Security: Encrypt sensitive DB fields
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Encrypt greenApiToken before storing. Decrypt on read for API calls.
-- Verify: Check DB directly — verify token is encrypted not plain text. Verify WhatsApp still works.
+- [ ] Dev: Create encrypt/decrypt utility using Node crypto (AES-256-GCM)
+- [ ] Dev: Encrypt `greenApiToken` before saving to DB
+- [ ] Dev: Decrypt when reading for WhatsApp API calls
+- [ ] Dev: Store encryption key in env var `ENCRYPTION_KEY`
+- [ ] Verify: Save a WhatsApp token in settings
+- [ ] Verify: Query DB directly (mongosh), verify token is encrypted (not plain text)
+- [ ] Verify: Verify WhatsApp API calls still work with decrypted token
+- [ ] Verify: Server logs — no errors in encrypt/decrypt flow
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 71. Mobile: Fix chat layout + kanban swipe
 
-- [ ] Dev + Verify + Fix + Commit + CI Check
-- Subtasks: Conversation list full-width on mobile. Tap → chat view. Back button. Kanban one-column-at-a-time with swipe.
-- Verify: Playwright — resize to 375px. Navigate chat. Screenshot. Kanban swipe between columns.
+- [ ] Dev: At <768px, conversation list takes full width
+- [ ] Dev: Tapping conversation navigates to full-screen chat view
+- [ ] Dev: Add "Back" button in chat header to return to list
+- [ ] Dev: At <768px, kanban shows one column at a time with swipe
+- [ ] Dev: Add left/right swipe or arrow buttons to navigate columns
+- [ ] Verify: Playwright — resize to 375px width
+- [ ] Verify: Playwright — navigate to conversations, verify full-width list
+- [ ] Verify: Playwright — tap conversation, verify full-screen chat
+- [ ] Verify: Playwright — navigate to customers kanban, verify single column view
+- [ ] Verify: Playwright — screenshot of mobile chat
+- [ ] Verify: Playwright — screenshot of mobile kanban
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ---
 
@@ -674,48 +1013,224 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 
 ### 72. Auth: Add Google OAuth login
 
+- [ ] Dev: Enable Better Auth Google provider in server.ts
+- [ ] Dev: Add Google client ID/secret to env
+- [ ] Dev: Add "Continue with Google" button on login/register pages
+- [ ] Verify: Playwright — verify Google button shows on login page
+- [ ] Verify: Click Google button, verify OAuth flow starts
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 73. Dashboard: Add recent activity feed
+
+- [ ] Dev: Query last 10 activities across all customers
+- [ ] Dev: Show as timeline card on dashboard below charts
+- [ ] Dev: Each item links to the relevant customer
+- [ ] Verify: Playwright — seed activities, verify feed shows on dashboard
+- [ ] Verify: Playwright — click activity, verify navigates to customer
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 74. Dashboard: Add clickable stat cards
 
+- [ ] Dev: Wrap stat cards in clickable links
+- [ ] Dev: "Total Customers" → /dashboard/customers
+- [ ] Dev: "Active Conversations" → /dashboard/conversations
+- [ ] Verify: Playwright — click "Total Customers" card, verify navigates to customers page
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 75. Kanban: Add column collapse + WIP limits
+
+- [ ] Dev: Click column header to collapse to header-only (saves space)
+- [ ] Dev: Add optional WIP limit per status in settings
+- [ ] Dev: Show warning color when column exceeds limit
+- [ ] Verify: Playwright — collapse a column, verify it minimizes
+- [ ] Verify: Playwright — set WIP limit to 3, add 4th card, verify warning
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 76. Table: Add CSV export
 
+- [ ] Dev: Add "Export CSV" button in table header
+- [ ] Dev: Export current filtered view as CSV file
+- [ ] Dev: Include all visible columns
+- [ ] Verify: Playwright — click Export, verify file downloaded
+- [ ] Verify: Open CSV, verify correct data and columns
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 77. Table: Add saved views
+
+- [ ] Dev: Create SavedView model (tenantId, name, filters, columns, sort)
+- [ ] Dev: Add "Save View" button and view tabs above table
+- [ ] Dev: Load saved view on tab click
+- [ ] Verify: Playwright — configure filters, save as "Hot Leads", verify tab appears
+- [ ] Verify: Playwright — click tab, verify filters restored
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 78. Customer Detail: Add tabbed layout
 
+- [ ] Dev: Add tab bar: Overview, Activity, Conversations, Notes
+- [ ] Dev: Show relevant content per tab
+- [ ] Dev: Remember last active tab in localStorage
+- [ ] Verify: Playwright — switch between tabs, verify content changes
+- [ ] Verify: Playwright — refresh, verify last tab remembered
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 79. Timeline: Add rich text notes + @mentions
+
+- [ ] Dev: Add markdown rendering for note body (bold, italic, lists)
+- [ ] Dev: Add `@` trigger to mention team members
+- [ ] Dev: Notify mentioned users
+- [ ] Verify: Playwright — create note with **bold** text, verify rendered as bold
+- [ ] Verify: Playwright — type `@`, verify member dropdown, select, verify mention
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 80. Chat: Add emoji picker + typing indicator
 
+- [ ] Dev: Add emoji picker button next to send button
+- [ ] Dev: Insert selected emoji into textarea
+- [ ] Dev: Show "Customer is typing..." when green-api reports typing
+- [ ] Verify: Playwright — click emoji button, select emoji, verify inserted
+- [ ] Verify: Playwright — verify typing indicator area exists
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 81. Chat: Add media message support
+
+- [ ] Dev: Display image/file messages from WhatsApp (media URLs)
+- [ ] Dev: Add file upload button in chat input
+- [ ] Dev: Send media via green-api sendFileByUrl
+- [ ] Verify: Playwright — receive image message, verify image renders in chat
+- [ ] Verify: Playwright — upload and send an image, verify sent
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 82. Bot: Add bot analytics dashboard
 
+- [ ] Dev: Track metrics: bot response count, handoff count, avg confidence
+- [ ] Dev: Create analytics section in dashboard or settings
+- [ ] Dev: Show charts: response rate over time, top questions
+- [ ] Verify: Seed bot interactions
+- [ ] Verify: Playwright — navigate to bot analytics, verify charts render
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 83. Bot: Add sentiment-based escalation
+
+- [ ] Dev: Analyze customer message sentiment using OpenAI
+- [ ] Dev: If negative sentiment detected 2+ times, auto-escalate
+- [ ] Dev: Log sentiment score per message
+- [ ] Verify: curl — send angry messages, verify escalation triggered
+- [ ] Verify: Server logs — verify sentiment analysis ran
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 84. Knowledge: Add chunk preview + usage analytics
 
+- [ ] Dev: Show expandable chunk list on each entry detail view
+- [ ] Dev: Track chunk retrieval counts in Qdrant metadata
+- [ ] Dev: Show "Used 15 times this week" on entry cards
+- [ ] Verify: Playwright — expand entry, verify chunks displayed
+- [ ] Verify: Playwright — verify usage count shown
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 85. Automation: Add flow templates
+
+- [ ] Dev: Create template list: Welcome, Follow-up, Re-engage, Win-back
+- [ ] Dev: "Create from template" button on automations page
+- [ ] Dev: Pre-fill trigger + steps from template
+- [ ] Verify: Playwright — click "Create from template", select "Welcome"
+- [ ] Verify: Playwright — verify flow pre-filled with welcome steps
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 86. Automation: Add visual flow diagram
 
+- [ ] Dev: Render read-only vertical node graph of flow
+- [ ] Dev: Show trigger at top, steps as connected nodes
+- [ ] Dev: Color-code by step type
+- [ ] Verify: Playwright — view flow with 3 steps, verify diagram renders
+- [ ] Verify: Playwright — screenshot of visual flow
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 87. Settings: Add "Danger Zone" + org deletion
+
+- [ ] Dev: Add red "Danger Zone" section at bottom of tenant settings
+- [ ] Dev: "Delete Organization" button with double confirmation (type org name)
+- [ ] Dev: Delete all tenant data cascade
+- [ ] Dev: Redirect to / after deletion
+- [ ] Verify: Playwright — scroll to danger zone, click Delete
+- [ ] Verify: Playwright — type wrong name, verify button stays disabled
+- [ ] Verify: Playwright — type correct name, delete, verify redirected
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 88. Search: Convert to Cmd+K command palette
 
+- [ ] Dev: Replace inline search bar with modal command palette
+- [ ] Dev: Support commands: search, navigate, create customer
+- [ ] Dev: Show recent commands
+- [ ] Verify: Playwright — Cmd+K opens modal, type "cust", verify results
+- [ ] Verify: Playwright — Escape closes modal
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 89. Navigation: Add collapsible sidebar + notifications
+
+- [ ] Dev: Add collapse button to minimize sidebar to icons only (56px)
+- [ ] Dev: Persist collapsed state in localStorage
+- [ ] Dev: Add notification bell icon in header
+- [ ] Dev: Notification dropdown: new messages, handoffs, invites
+- [ ] Verify: Playwright — click collapse, verify sidebar shrinks to icons
+- [ ] Verify: Playwright — click bell, verify notification dropdown
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
 
 ### 90. Cross-cutting: Add dark mode
 
+- [ ] Dev: Add dark mode toggle in header (sun/moon icon)
+- [ ] Dev: Use Tailwind `dark:` class variants
+- [ ] Dev: Persist preference in localStorage
+- [ ] Dev: Respect system preference as default
+- [ ] Verify: Playwright — click dark mode toggle, verify colors change
+- [ ] Verify: Playwright — screenshot of dark mode dashboard
+- [ ] Verify: Playwright — refresh, verify dark mode persisted
+- [ ] Fix if needed
+- [ ] Commit
+- [ ] CI Check
+
 ### 91. Cross-cutting: Add keyboard shortcuts
 
-Each P2 task follows the same verification framework:
-
-- [ ] Dev
-- [ ] Verify (Playwright + server logs + curl)
+- [ ] Dev: Add global keyboard listener for shortcuts
+- [ ] Dev: `n` = new customer modal, Cmd+K = search, `?` = show shortcuts help
+- [ ] Dev: Create shortcuts help dialog showing all available shortcuts
+- [ ] Verify: Playwright — press `n`, verify new customer modal opens
+- [ ] Verify: Playwright — press `?`, verify help dialog shows
 - [ ] Fix if needed
 - [ ] Commit
 - [ ] CI Check
