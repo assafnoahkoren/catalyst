@@ -1,0 +1,22 @@
+{
+  "name": "@catalyst/knowledge",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "oxlint -c ../lint-config/oxlint.json src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@catalyst/tsconfig": "workspace:*",
+    "typescript": "^5",
+    "vitest": "^4.1.4"
+  },
+  "dependencies": {
+    "@catalyst/ai": "workspace:*",
+    "@qdrant/js-client-rest": "^1"
+  }
+}
