@@ -1,6 +1,7 @@
 import { router } from '../lib/trpc'
 import { activityRouter } from './activity'
 import { authRouter } from './auth'
+import { conversationRouter } from './conversation'
 import { customFieldRouter } from './custom-field'
 import { customerRouter } from './customer'
 import { customerStatusRouter } from './customer-status'
@@ -17,6 +18,7 @@ export const appRouter = router({
   note: noteRouter,
   activity: activityRouter,
   knowledge: knowledgeRouter,
+  conversation: conversationRouter,
 })
 
 export type AppRouter = typeof appRouter

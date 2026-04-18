@@ -112,4 +112,12 @@ export const he: Translations = {
   addQA: 'הוסף שאלה ותשובה',
   addUrl: 'הוסף כתובת URL',
   adding: 'מוסיף...',
+  botActive: 'בוט',
+  humanMode: 'אנושי',
+  takeOver: 'קח שליטה',
+  returnToBot: 'החזר לבוט',
+  typeMessage: 'כתוב הודעה...',
+  send: 'שלח',
+  noConversations: 'אין שיחות עדיין',
+  noMessages: 'אין הודעות עדיין',
 }

@@ -18,6 +18,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardSettingsIndexRouteImport } from './routes/dashboard/settings/index'
 import { Route as DashboardKnowledgeIndexRouteImport } from './routes/dashboard/knowledge/index'
 import { Route as DashboardCustomersIndexRouteImport } from './routes/dashboard/customers/index'
+import { Route as DashboardConversationsIndexRouteImport } from './routes/dashboard/conversations/index'
 import { Route as DashboardSettingsTeamRouteImport } from './routes/dashboard/settings/team'
 import { Route as DashboardSettingsPipelineRouteImport } from './routes/dashboard/settings/pipeline'
 import { Route as DashboardSettingsCustomFieldsRouteImport } from './routes/dashboard/settings/custom-fields'
@@ -69,6 +70,12 @@ const DashboardCustomersIndexRoute = DashboardCustomersIndexRouteImport.update({
   path: '/customers/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardConversationsIndexRoute =
+  DashboardConversationsIndexRouteImport.update({
+    id: '/conversations/',
+    path: '/conversations/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardSettingsTeamRoute = DashboardSettingsTeamRouteImport.update({
   id: '/settings/team',
   path: '/settings/team',
@@ -110,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
+  '/dashboard/conversations/': typeof DashboardConversationsIndexRoute
   '/dashboard/customers/': typeof DashboardCustomersIndexRoute
   '/dashboard/knowledge/': typeof DashboardKnowledgeIndexRoute
   '/dashboard/settings/': typeof DashboardSettingsIndexRoute
@@ -125,6 +133,7 @@ export interface FileRoutesByTo {
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
+  '/dashboard/conversations': typeof DashboardConversationsIndexRoute
   '/dashboard/customers': typeof DashboardCustomersIndexRoute
   '/dashboard/knowledge': typeof DashboardKnowledgeIndexRoute
   '/dashboard/settings': typeof DashboardSettingsIndexRoute
@@ -142,6 +151,7 @@ export interface FileRoutesById {
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
+  '/dashboard/conversations/': typeof DashboardConversationsIndexRoute
   '/dashboard/customers/': typeof DashboardCustomersIndexRoute
   '/dashboard/knowledge/': typeof DashboardKnowledgeIndexRoute
   '/dashboard/settings/': typeof DashboardSettingsIndexRoute
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
+    | '/dashboard/conversations/'
     | '/dashboard/customers/'
     | '/dashboard/knowledge/'
     | '/dashboard/settings/'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
+    | '/dashboard/conversations'
     | '/dashboard/customers'
     | '/dashboard/knowledge'
     | '/dashboard/settings'
@@ -191,6 +203,7 @@ export interface FileRouteTypes {
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
+    | '/dashboard/conversations/'
     | '/dashboard/customers/'
     | '/dashboard/knowledge/'
     | '/dashboard/settings/'
@@ -269,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCustomersIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/conversations/': {
+      id: '/dashboard/conversations/'
+      path: '/conversations'
+      fullPath: '/dashboard/conversations/'
+      preLoaderRoute: typeof DashboardConversationsIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/settings/team': {
       id: '/dashboard/settings/team'
       path: '/settings/team'
@@ -314,6 +334,7 @@ interface DashboardRouteChildren {
   DashboardSettingsCustomFieldsRoute: typeof DashboardSettingsCustomFieldsRoute
   DashboardSettingsPipelineRoute: typeof DashboardSettingsPipelineRoute
   DashboardSettingsTeamRoute: typeof DashboardSettingsTeamRoute
+  DashboardConversationsIndexRoute: typeof DashboardConversationsIndexRoute
   DashboardCustomersIndexRoute: typeof DashboardCustomersIndexRoute
   DashboardKnowledgeIndexRoute: typeof DashboardKnowledgeIndexRoute
   DashboardSettingsIndexRoute: typeof DashboardSettingsIndexRoute
@@ -326,6 +347,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardSettingsCustomFieldsRoute: DashboardSettingsCustomFieldsRoute,
   DashboardSettingsPipelineRoute: DashboardSettingsPipelineRoute,
   DashboardSettingsTeamRoute: DashboardSettingsTeamRoute,
+  DashboardConversationsIndexRoute: DashboardConversationsIndexRoute,
   DashboardCustomersIndexRoute: DashboardCustomersIndexRoute,
   DashboardKnowledgeIndexRoute: DashboardKnowledgeIndexRoute,
   DashboardSettingsIndexRoute: DashboardSettingsIndexRoute,

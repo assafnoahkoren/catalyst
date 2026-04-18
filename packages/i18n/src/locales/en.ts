@@ -112,6 +112,14 @@ export const en = {
   addQA: 'Add Q&A',
   addUrl: 'Add URL',
   adding: 'Adding...',
+  botActive: 'Bot',
+  humanMode: 'Human',
+  takeOver: 'Take Over',
+  returnToBot: 'Return to Bot',
+  typeMessage: 'Type a message...',
+  send: 'Send',
+  noConversations: 'No conversations yet',
+  noMessages: 'No messages yet',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

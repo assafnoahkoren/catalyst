@@ -19,10 +19,13 @@
     "apps/server": {
       "name": "@catalyst/server",
       "dependencies": {
+        "@catalyst/ai": "workspace:*",
         "@catalyst/auth": "workspace:*",
         "@catalyst/db": "workspace:*",
+        "@catalyst/knowledge": "workspace:*",
         "@catalyst/logger": "workspace:*",
         "@catalyst/validation": "workspace:*",
+        "@catalyst/whatsapp": "workspace:*",
         "@hono/trpc-server": "^0.4.2",
         "@trpc/server": "^11.16.0",
         "hono": "^4.12.14",
@@ -169,6 +172,14 @@
         "vitest": "^4.1.4",
       },
     },
+    "packages/whatsapp": {
+      "name": "@catalyst/whatsapp",
+      "devDependencies": {
+        "@catalyst/tsconfig": "workspace:*",
+        "typescript": "^5",
+        "vitest": "^4.1.4",
+      },
+    },
   },
   "packages": {
     "@axiomhq/js": ["@axiomhq/js@1.6.0", "", { "dependencies": { "fetch-retry": "^6.0.0" } }, "sha512-qm0ObduIpI6PJUOYwakH5WV3E7IF0qXE/wh5N1JWGAzxKtCZryk+YwA0aW3lPZSGPQeLHyEzN+9pXsOIjoPiRg=="],
@@ -256,6 +267,8 @@
     "@catalyst/validation": ["@catalyst/validation@workspace:packages/validation"],
 
     "@catalyst/web": ["@catalyst/web@workspace:apps/web"],
+
+    "@catalyst/whatsapp": ["@catalyst/whatsapp@workspace:packages/whatsapp"],
 
     "@dprint/darwin-arm64": ["@dprint/darwin-arm64@0.54.0", "", { "os": "darwin", "cpu": "arm64" }, "sha512-yqRI4enH+BDp+4+ZsPVdZM5h873JK1lN7li9l9A5u4C4cvh1oEsiBWAzEPccRkJ2ctF8LgaizBSxO38sqEVYbw=="],
 
