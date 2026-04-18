@@ -20,6 +20,7 @@ function LoginPage() {
   const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -77,15 +78,24 @@ function LoginPage() {
 
           <div className='space-y-2'>
             <label htmlFor='password' className='text-sm font-medium'>{t('password')}</label>
-            <input
-              id='password'
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
-              placeholder={t('passwordPlaceholder')}
-            />
+            <div className='relative'>
+              <input
+                id='password'
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className='w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm'
+                placeholder={t('passwordPlaceholder')}
+              />
+              <button
+                type='button'
+                onClick={() => setShowPassword(!showPassword)}
+                className='absolute inset-y-0 end-0 flex items-center pe-3 text-muted-foreground'
+              >
+                {showPassword ? '🙈' : '👁'}
+              </button>
+            </div>
             <Link to='/forgot-password' className='mt-1 block text-xs text-primary hover:underline'>
               {t('forgotPassword')}
             </Link>

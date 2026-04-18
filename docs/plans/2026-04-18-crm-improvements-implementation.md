@@ -419,55 +419,55 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — user with tenant navigates to /onboarding, verify redirect to /dashboard
 - [x] Verify: Server logs — no errors during redirects
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 30. Auth: Add email verification flow
 
-- [ ] Dev: Enable Better Auth email verification plugin in server.ts
-- [ ] Dev: Add "Verify your email" banner on dashboard for unverified users
-- [ ] Dev: Add "Resend verification" button
-- [ ] Dev: Add i18n keys: `verifyEmail`, `resendVerification`, `emailVerified`
-- [ ] Verify: Playwright — register, navigate to dashboard, verify banner appears
-- [ ] Verify: curl — POST to resend verification endpoint, check 200
-- [ ] Verify: Server logs — no errors in verification flow
-- [ ] Fix if needed
+- [x] Dev: Enable Better Auth email verification plugin in server.ts
+- [x] Dev: Add "Verify your email" banner on dashboard for unverified users
+- [x] Dev: Add "Resend verification" button
+- [x] Dev: Add i18n keys: `verifyEmail`, `resendVerification`, `emailVerified`
+- [x] Verify: Playwright — register, navigate to dashboard, verify banner appears
+- [x] Verify: curl — POST to resend verification endpoint, check 200
+- [x] Verify: Server logs — no errors in verification flow
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
 ### 31. Auth: Add password strength indicator
 
-- [ ] Dev: Create `<PasswordStrength>` component with checklist items
-- [ ] Dev: Items: 8+ characters, contains number, contains uppercase, contains special char
-- [ ] Dev: Green checkmark when met, red X when not, update in real-time as user types
-- [ ] Dev: Add below password fields on register page
-- [ ] Verify: Playwright — type "abc", verify all red. Type "Abc12345!", verify all green
-- [ ] Verify: Playwright — screenshot showing mixed state
-- [ ] Fix if needed
+- [x] Dev: Create `<PasswordStrength>` component with checklist items
+- [x] Dev: Items: 8+ characters, contains number, contains uppercase, contains special char
+- [x] Dev: Green checkmark when met, red X when not, update in real-time as user types
+- [x] Dev: Add below password fields on register page
+- [x] Verify: Playwright — type "abc", verify all red. Type "Abc12345!", verify all green
+- [x] Verify: Playwright — screenshot showing mixed state
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
 ### 32. Auth: Add password visibility toggle
 
-- [ ] Dev: Create eye/eye-off icon button inside password input
-- [ ] Dev: Toggle input type between "password" and "text"
-- [ ] Dev: Apply to login and register password fields
-- [ ] Verify: Playwright — fill password, click eye icon, verify text visible
-- [ ] Verify: Playwright — click again, verify text hidden
-- [ ] Fix if needed
+- [x] Dev: Create eye/eye-off icon button inside password input
+- [x] Dev: Toggle input type between "password" and "text"
+- [x] Dev: Apply to login and register password fields
+- [x] Verify: Playwright — fill password, click eye icon, verify text visible
+- [x] Verify: Playwright — click again, verify text hidden
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
 ### 33. Auth: Add inline validation
 
-- [ ] Dev: Validate email format on blur, show "Invalid email" if wrong
-- [ ] Dev: Validate password length on blur
-- [ ] Dev: Add `aria-describedby` linking error message to field
-- [ ] Dev: Add `aria-invalid="true"` when field has error
-- [ ] Verify: Playwright — fill "notanemail", blur, verify error message shown
-- [ ] Verify: Playwright — fill valid email, blur, verify error clears
-- [ ] Verify: Playwright — screenshot showing inline error
-- [ ] Fix if needed
+- [x] Dev: Validate email format on blur, show "Invalid email" if wrong
+- [x] Dev: Validate password length on blur
+- [x] Dev: Add `aria-describedby` linking error message to field
+- [x] Dev: Add `aria-invalid="true"` when field has error
+- [x] Verify: Playwright — fill "notanemail", blur, verify error message shown
+- [x] Verify: Playwright — fill valid email, blur, verify error clears
+- [x] Verify: Playwright — screenshot showing inline error
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

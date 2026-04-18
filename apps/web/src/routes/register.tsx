@@ -24,6 +24,7 @@ function RegisterPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -91,16 +92,38 @@ function RegisterPage() {
 
           <div className='space-y-2'>
             <label htmlFor='password' className='text-sm font-medium'>{t('password')}</label>
-            <input
-              id='password'
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={8}
-              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
-              placeholder={t('passwordPlaceholder')}
-            />
+            <div className='relative'>
+              <input
+                id='password'
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={8}
+                className='w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm'
+                placeholder={t('passwordPlaceholder')}
+              />
+              <button
+                type='button'
+                onClick={() => setShowPassword(!showPassword)}
+                className='absolute inset-y-0 end-0 flex items-center pe-3 text-muted-foreground'
+              >
+                {showPassword ? '🙈' : '👁'}
+              </button>
+            </div>
+            {password.length > 0 && (
+              <div className='space-y-1 text-xs'>
+                <div className={password.length >= 8 ? 'text-green-600' : 'text-red-500'}>
+                  {password.length >= 8 ? '✓' : '✗'} 8+ characters
+                </div>
+                <div className={/[A-Z]/.test(password) ? 'text-green-600' : 'text-red-500'}>
+                  {/[A-Z]/.test(password) ? '✓' : '✗'} Uppercase letter
+                </div>
+                <div className={/[0-9]/.test(password) ? 'text-green-600' : 'text-red-500'}>
+                  {/[0-9]/.test(password) ? '✓' : '✗'} Number
+                </div>
+              </div>
+            )}
           </div>
 
           <button
