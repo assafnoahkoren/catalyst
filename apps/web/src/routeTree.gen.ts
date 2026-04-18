@@ -15,7 +15,11 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardSettingsIndexRouteImport } from './routes/dashboard/settings/index'
 import { Route as DashboardCustomersIndexRouteImport } from './routes/dashboard/customers/index'
+import { Route as DashboardSettingsTeamRouteImport } from './routes/dashboard/settings/team'
+import { Route as DashboardSettingsPipelineRouteImport } from './routes/dashboard/settings/pipeline'
+import { Route as DashboardSettingsCustomFieldsRouteImport } from './routes/dashboard/settings/custom-fields'
 import { Route as DashboardCustomersCustomerIdRouteImport } from './routes/dashboard/customers/$customerId'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -48,11 +52,33 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSettingsIndexRoute = DashboardSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardCustomersIndexRoute = DashboardCustomersIndexRouteImport.update({
   id: '/customers/',
   path: '/customers/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSettingsTeamRoute = DashboardSettingsTeamRouteImport.update({
+  id: '/settings/team',
+  path: '/settings/team',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsPipelineRoute =
+  DashboardSettingsPipelineRouteImport.update({
+    id: '/settings/pipeline',
+    path: '/settings/pipeline',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardSettingsCustomFieldsRoute =
+  DashboardSettingsCustomFieldsRouteImport.update({
+    id: '/settings/custom-fields',
+    path: '/settings/custom-fields',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardCustomersCustomerIdRoute =
   DashboardCustomersCustomerIdRouteImport.update({
     id: '/customers/$customerId',
@@ -68,7 +94,11 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
+  '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
+  '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
+  '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
   '/dashboard/customers/': typeof DashboardCustomersIndexRoute
+  '/dashboard/settings/': typeof DashboardSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -77,7 +107,11 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
+  '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
+  '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
+  '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
   '/dashboard/customers': typeof DashboardCustomersIndexRoute
+  '/dashboard/settings': typeof DashboardSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -88,7 +122,11 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
+  '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
+  '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
+  '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
   '/dashboard/customers/': typeof DashboardCustomersIndexRoute
+  '/dashboard/settings/': typeof DashboardSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -100,7 +138,11 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard/'
     | '/dashboard/customers/$customerId'
+    | '/dashboard/settings/custom-fields'
+    | '/dashboard/settings/pipeline'
+    | '/dashboard/settings/team'
     | '/dashboard/customers/'
+    | '/dashboard/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -109,7 +151,11 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/dashboard/customers/$customerId'
+    | '/dashboard/settings/custom-fields'
+    | '/dashboard/settings/pipeline'
+    | '/dashboard/settings/team'
     | '/dashboard/customers'
+    | '/dashboard/settings'
   id:
     | '__root__'
     | '/'
@@ -119,7 +165,11 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard/'
     | '/dashboard/customers/$customerId'
+    | '/dashboard/settings/custom-fields'
+    | '/dashboard/settings/pipeline'
+    | '/dashboard/settings/team'
     | '/dashboard/customers/'
+    | '/dashboard/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -174,11 +224,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/settings/': {
+      id: '/dashboard/settings/'
+      path: '/settings'
+      fullPath: '/dashboard/settings/'
+      preLoaderRoute: typeof DashboardSettingsIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/customers/': {
       id: '/dashboard/customers/'
       path: '/customers'
       fullPath: '/dashboard/customers/'
       preLoaderRoute: typeof DashboardCustomersIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings/team': {
+      id: '/dashboard/settings/team'
+      path: '/settings/team'
+      fullPath: '/dashboard/settings/team'
+      preLoaderRoute: typeof DashboardSettingsTeamRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings/pipeline': {
+      id: '/dashboard/settings/pipeline'
+      path: '/settings/pipeline'
+      fullPath: '/dashboard/settings/pipeline'
+      preLoaderRoute: typeof DashboardSettingsPipelineRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings/custom-fields': {
+      id: '/dashboard/settings/custom-fields'
+      path: '/settings/custom-fields'
+      fullPath: '/dashboard/settings/custom-fields'
+      preLoaderRoute: typeof DashboardSettingsCustomFieldsRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/customers/$customerId': {
@@ -194,13 +272,21 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardCustomersCustomerIdRoute: typeof DashboardCustomersCustomerIdRoute
+  DashboardSettingsCustomFieldsRoute: typeof DashboardSettingsCustomFieldsRoute
+  DashboardSettingsPipelineRoute: typeof DashboardSettingsPipelineRoute
+  DashboardSettingsTeamRoute: typeof DashboardSettingsTeamRoute
   DashboardCustomersIndexRoute: typeof DashboardCustomersIndexRoute
+  DashboardSettingsIndexRoute: typeof DashboardSettingsIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardCustomersCustomerIdRoute: DashboardCustomersCustomerIdRoute,
+  DashboardSettingsCustomFieldsRoute: DashboardSettingsCustomFieldsRoute,
+  DashboardSettingsPipelineRoute: DashboardSettingsPipelineRoute,
+  DashboardSettingsTeamRoute: DashboardSettingsTeamRoute,
   DashboardCustomersIndexRoute: DashboardCustomersIndexRoute,
+  DashboardSettingsIndexRoute: DashboardSettingsIndexRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
