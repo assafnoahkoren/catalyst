@@ -193,6 +193,12 @@ export const en = {
   removeMember: 'Remove member',
   customerNotFound: 'Customer not found',
   noActivityYet: 'No activity yet',
+  getStarted: 'Get Started',
+  checklistAddCustomer: 'Add your first customer',
+  checklistSetupWhatsApp: 'Set up WhatsApp',
+  checklistAddKB: 'Add a knowledge base entry',
+  checklistInviteTeam: 'Invite a team member',
+  conversionRate: 'Conversion Rate',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

@@ -473,28 +473,28 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 
 ### 34. Auth: Add onboarding checklist
 
-- [ ] Dev: Create OnboardingChecklist model or JSON field on Tenant
-- [ ] Dev: Track: addedCustomer, setupWhatsApp, addedKBEntry, invitedMember
-- [ ] Dev: Show checklist card on dashboard with checkmarks
-- [ ] Dev: Auto-update when corresponding actions are completed
-- [ ] Dev: Add i18n keys for checklist items
-- [ ] Verify: Playwright — new org dashboard shows checklist with all unchecked
-- [ ] Verify: Playwright — add a customer, refresh dashboard, verify "Add customer" checked
-- [ ] Verify: Server logs — no errors in checklist tracking
-- [ ] Fix if needed
+- [x] Dev: Create OnboardingChecklist model or JSON field on Tenant
+- [x] Dev: Track: addedCustomer, setupWhatsApp, addedKBEntry, invitedMember
+- [x] Dev: Show checklist card on dashboard with checkmarks
+- [x] Dev: Auto-update when corresponding actions are completed
+- [x] Dev: Add i18n keys for checklist items
+- [x] Verify: Playwright — new org dashboard shows checklist with all unchecked
+- [x] Verify: Playwright — add a customer, refresh dashboard, verify "Add customer" checked
+- [x] Verify: Server logs — no errors in checklist tracking
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
 ### 35. Dashboard: Add conversion rate metric
 
-- [ ] Dev: Add `getConversionRate` query — count Won / (Won + Lost)
-- [ ] Dev: Add stat card showing percentage (e.g., "45.2%")
-- [ ] Dev: Handle edge case: 0 won + 0 lost = show "N/A"
-- [ ] Dev: Add i18n key: `conversionRate`
-- [ ] Verify: Seed 3 Won + 2 Lost customers
-- [ ] Verify: Playwright — verify stat card shows "60%"
-- [ ] Verify: Playwright — new org shows "N/A" not "NaN"
-- [ ] Fix if needed
+- [x] Dev: Add `getConversionRate` query — count Won / (Won + Lost)
+- [x] Dev: Add stat card showing percentage (e.g., "45.2%")
+- [x] Dev: Handle edge case: 0 won + 0 lost = show "N/A"
+- [x] Dev: Add i18n key: `conversionRate`
+- [x] Verify: Seed 3 Won + 2 Lost customers
+- [x] Verify: Playwright — verify stat card shows "60%"
+- [x] Verify: Playwright — new org shows "N/A" not "NaN"
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

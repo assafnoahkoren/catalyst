@@ -193,4 +193,10 @@ export const he: Translations = {
   removeMember: 'הסר חבר',
   customerNotFound: 'לקוח לא נמצא',
   noActivityYet: 'אין פעילות עדיין',
+  getStarted: 'התחל',
+  checklistAddCustomer: 'הוסף את הלקוח הראשון',
+  checklistSetupWhatsApp: 'הגדר WhatsApp',
+  checklistAddKB: 'הוסף ערך למאגר הידע',
+  checklistInviteTeam: 'הזמן חבר צוות',
+  conversionRate: 'אחוז המרה',
 }

@@ -6,7 +6,16 @@ export const dashboardRouter = router({
     const now = new Date()
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
 
-    const [totalCustomers, newToday, activeConversations, totalMessages] = await Promise.all([
+    const [
+      totalCustomers,
+      newToday,
+      activeConversations,
+      totalMessages,
+      wonCount,
+      lostCount,
+      kbCount,
+      memberCount,
+    ] = await Promise.all([
       prisma.customer.count({ where: { tenantId: ctx.tenantId } }),
       prisma.customer.count({
         where: { tenantId: ctx.tenantId, createdAt: { gte: todayStart } },
@@ -17,9 +26,35 @@ export const dashboardRouter = router({
       prisma.message.count({
         where: { conversation: { tenantId: ctx.tenantId } },
       }),
+      prisma.customer.count({
+        where: {
+          tenantId: ctx.tenantId,
+          status: { isClosed: true, name: { not: { contains: 'Lost' } } },
+        },
+      }),
+      prisma.customer.count({
+        where: { tenantId: ctx.tenantId, status: { isClosed: true, name: { contains: 'Lost' } } },
+      }),
+      prisma.knowledgeEntry.count({ where: { tenantId: ctx.tenantId } }),
+      prisma.tenantMember.count({ where: { tenantId: ctx.tenantId } }),
     ])
 
-    return { totalCustomers, newToday, activeConversations, totalMessages }
+    const conversionRate = wonCount + lostCount > 0
+      ? Math.round((wonCount / (wonCount + lostCount)) * 100)
+      : null
+
+    return {
+      totalCustomers,
+      newToday,
+      activeConversations,
+      totalMessages,
+      conversionRate,
+      checklist: {
+        hasCustomers: totalCustomers > 0,
+        hasKnowledgeBase: kbCount > 0,
+        hasTeamMembers: memberCount > 1,
+      },
+    }
   }),
 
   getFunnel: tenantProcedure.query(async ({ ctx }) => {

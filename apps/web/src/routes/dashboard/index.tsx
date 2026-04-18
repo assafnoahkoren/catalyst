@@ -12,6 +12,12 @@ interface Stats {
   newToday: number
   activeConversations: number
   totalMessages: number
+  conversionRate: number | null
+  checklist: {
+    hasCustomers: boolean
+    hasKnowledgeBase: boolean
+    hasTeamMembers: boolean
+  }
 }
 
 interface FunnelItem {
@@ -55,9 +61,47 @@ function DashboardPage() {
               <StatCard label={t('newToday')} value={stats?.newToday ?? 0} />
               <StatCard label={t('activeConversations')} value={stats?.activeConversations ?? 0} />
               <StatCard label={t('totalMessages')} value={stats?.totalMessages ?? 0} />
+              <StatCard
+                label={t('conversionRate')}
+                value={stats?.conversionRate !== null ? stats?.conversionRate ?? 0 : 0}
+                suffix={stats?.conversionRate !== null ? '%' : 'N/A'}
+              />
             </>
           )}
       </div>
+
+      {/* Onboarding checklist for new orgs */}
+      {stats
+        && (!stats.checklist.hasCustomers || !stats.checklist.hasKnowledgeBase
+          || !stats.checklist.hasTeamMembers)
+        && (
+          <div className='rounded-lg border bg-primary/5 p-4'>
+            <h2 className='mb-3 text-sm font-semibold'>{t('getStarted')}</h2>
+            <div className='space-y-2 text-sm'>
+              <div
+                className={`flex items-center gap-2 ${
+                  stats.checklist.hasCustomers ? 'text-green-600 line-through' : ''
+                }`}
+              >
+                {stats.checklist.hasCustomers ? '✓' : '○'} {t('checklistAddCustomer')}
+              </div>
+              <div
+                className={`flex items-center gap-2 ${
+                  stats.checklist.hasKnowledgeBase ? 'text-green-600 line-through' : ''
+                }`}
+              >
+                {stats.checklist.hasKnowledgeBase ? '✓' : '○'} {t('checklistAddKB')}
+              </div>
+              <div
+                className={`flex items-center gap-2 ${
+                  stats.checklist.hasTeamMembers ? 'text-green-600 line-through' : ''
+                }`}
+              >
+                {stats.checklist.hasTeamMembers ? '✓' : '○'} {t('checklistInviteTeam')}
+              </div>
+            </div>
+          </div>
+        )}
 
       {/* Customer funnel */}
       <div className='rounded-lg border p-4'>
@@ -87,11 +131,11 @@ function DashboardPage() {
   )
 }
 
-function StatCard({ label, value }: { label: string; value: number }) {
+function StatCard({ label, value, suffix }: { label: string; value: number; suffix?: string }) {
   return (
     <div className='rounded-lg border p-4'>
       <p className='text-sm text-muted-foreground'>{label}</p>
-      <p className='text-2xl font-bold'>{value}</p>
+      <p className='text-2xl font-bold'>{suffix === 'N/A' ? 'N/A' : `${value}${suffix ?? ''}`}</p>
     </div>
   )
 }
