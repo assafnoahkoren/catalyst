@@ -97,18 +97,18 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — screenshot showing toast notification
 - [x] Verify: Check that old inline error divs are removed
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 6. Dashboard: Add loading skeletons for stats
 
-- [ ] Dev: Create `<StatCardSkeleton>` component with pulse animation
-- [ ] Dev: Create `<FunnelSkeleton>` component
-- [ ] Dev: Show skeletons while `statsQuery.isLoading` instead of "0" values
-- [ ] Verify: Playwright — navigate to /dashboard, take screenshot during loading (should see skeletons)
-- [ ] Verify: Playwright — wait for data, verify skeletons replaced with real values
-- [ ] Verify: Throttle network in Playwright to see skeletons clearly
-- [ ] Fix if needed
+- [x] Dev: Create `<StatCardSkeleton>` component with pulse animation
+- [x] Dev: Create `<FunnelSkeleton>` component
+- [x] Dev: Show skeletons while `statsQuery.isLoading` instead of "0" values
+- [x] Verify: Playwright — navigate to /dashboard, take screenshot during loading (should see skeletons)
+- [x] Verify: Playwright — wait for data, verify skeletons replaced with real values
+- [x] Verify: Throttle network in Playwright to see skeletons clearly
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
