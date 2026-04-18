@@ -253,19 +253,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — verify conversation shows "needs attention" indicator
 - [x] Verify: Server logs — verify handoff event was created
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 18. Knowledge: Implement real PDF/DOCX parsing
 
-- [ ] Dev: Install `pdf-parse` and `mammoth` packages
-- [ ] Dev: Update `parseFile()` to use proper parsers based on mimeType
-- [ ] Dev: Handle parsing errors gracefully
-- [ ] Verify: Create a test PDF and DOCX file
-- [ ] Verify: curl — upload PDF via knowledge endpoint, verify text extracted correctly
-- [ ] Verify: curl — upload DOCX, verify text extracted
-- [ ] Verify: Server logs — no parsing errors
-- [ ] Fix if needed
+- [x] Dev: Install `pdf-parse` and `mammoth` packages
+- [x] Dev: Update `parseFile()` to use proper parsers based on mimeType
+- [x] Dev: Handle parsing errors gracefully
+- [x] Verify: Create a test PDF and DOCX file
+- [x] Verify: curl — upload PDF via knowledge endpoint, verify text extracted correctly
+- [x] Verify: curl — upload DOCX, verify text extracted
+- [x] Verify: Server logs — no parsing errors
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

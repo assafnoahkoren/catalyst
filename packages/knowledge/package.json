@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@catalyst/ai": "workspace:*",
-    "@qdrant/js-client-rest": "^1"
+    "@qdrant/js-client-rest": "^1",
+    "mammoth": "^1.12.0",
+    "pdf-parse": "1.1.1"
   }
 }
