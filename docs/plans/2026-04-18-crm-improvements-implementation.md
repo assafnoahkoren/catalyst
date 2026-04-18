@@ -187,19 +187,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — verify activity timeline shows "Status changed: X → Y"
 - [x] Verify: curl — GET customer by ID, verify statusId changed
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 13. Customer Detail: Display custom fields
 
-- [ ] Dev: Fetch CustomFieldDefinitions for tenant
-- [ ] Dev: Render each custom field value from customer.customFields JSON
-- [ ] Dev: Use appropriate input type per field type (text, number, date, select, etc.)
-- [ ] Dev: Make custom fields editable inline
-- [ ] Verify: Playwright — seed customer with custom fields + definitions
-- [ ] Verify: Playwright — navigate to customer detail, verify custom fields displayed
-- [ ] Verify: Playwright — edit a custom field, save, verify persisted
-- [ ] Fix if needed
+- [x] Dev: Fetch CustomFieldDefinitions for tenant
+- [x] Dev: Render each custom field value from customer.customFields JSON
+- [x] Dev: Use appropriate input type per field type (text, number, date, select, etc.)
+- [x] Dev: Make custom fields editable inline
+- [x] Verify: Playwright — seed customer with custom fields + definitions
+- [x] Verify: Playwright — navigate to customer detail, verify custom fields displayed
+- [x] Verify: Playwright — edit a custom field, save, verify persisted
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

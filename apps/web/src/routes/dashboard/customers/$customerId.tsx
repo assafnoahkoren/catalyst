@@ -16,7 +16,16 @@ interface CustomerData {
   phone: string | null
   tags: string[]
   status: { id: string; name: string; color: string }
+  customFields: Record<string, unknown>
   createdAt: string
+}
+
+interface FieldDef {
+  id: string
+  name: string
+  key: string
+  type: string
+  options: string[]
 }
 
 interface ActivityItem {
@@ -64,6 +73,8 @@ function CustomerDetailPage() {
 
   const statusesQuery = useQuery(trpc.customerStatus.list.queryOptions())
   const statuses = (statusesQuery.data ?? []) as Array<{ id: string; name: string; color: string }>
+  const fieldsQuery = useQuery(trpc.customField.list.queryOptions())
+  const fieldDefs = (fieldsQuery.data ?? []) as FieldDef[]
 
   const customer = customerQuery.data
   const activities = activitiesQuery.data?.items ?? []
@@ -85,6 +96,20 @@ function CustomerDetailPage() {
       await trpcClient.customer.update.mutate({
         id: customerId,
         [field]: value,
+      })
+      customerQuery.refetch()
+      toast.success(t('update'))
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+    }
+  }
+
+  async function handleCustomFieldSave(key: string, value: unknown) {
+    try {
+      const updatedFields = { ...(customer?.customFields ?? {}), [key]: value }
+      await trpcClient.customer.update.mutate({
+        id: customerId,
+        customFields: updatedFields as Record<string, unknown>,
       })
       customerQuery.refetch()
       toast.success(t('update'))
@@ -183,6 +208,58 @@ function CustomerDetailPage() {
               </div>
             </dl>
           </div>
+
+          {/* Custom fields */}
+          {fieldDefs.length > 0 && (
+            <div className='rounded-lg border p-4'>
+              <h2 className='mb-3 text-sm font-semibold'>{t('customFields')}</h2>
+              <dl className='space-y-2 text-sm'>
+                {fieldDefs.map((field) => {
+                  const value = customer.customFields?.[field.key]
+                  return (
+                    <div key={field.id}>
+                      <dt className='text-muted-foreground'>{field.name}</dt>
+                      <dd>
+                        {field.type === 'SELECT' || field.type === 'MULTI_SELECT'
+                          ? (
+                            <select
+                              value={String(value ?? '')}
+                              onChange={(e) => handleCustomFieldSave(field.key, e.target.value)}
+                              className='rounded border bg-background px-2 py-0.5 text-sm'
+                            >
+                              <option value=''>-</option>
+                              {field.options.map((opt) => (
+                                <option key={opt} value={opt}>{opt}</option>
+                              ))}
+                            </select>
+                          )
+                          : field.type === 'BOOLEAN'
+                          ? (
+                            <input
+                              type='checkbox'
+                              checked={Boolean(value)}
+                              onChange={(e) => handleCustomFieldSave(field.key, e.target.checked)}
+                              className='h-4 w-4'
+                            />
+                          )
+                          : (
+                            <EditableField
+                              value={String(value ?? '')}
+                              onSave={(val) =>
+                                handleCustomFieldSave(
+                                  field.key,
+                                  field.type === 'NUMBER' ? Number(val) : val,
+                                )}
+                              placeholder='-'
+                            />
+                          )}
+                      </dd>
+                    </div>
+                  )
+                })}
+              </dl>
+            </div>
+          )}
 
           {/* Add note */}
           <div className='rounded-lg border p-4'>
