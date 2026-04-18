@@ -213,21 +213,21 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — wait 5-6 seconds, verify new message appears without manual action
 - [x] Verify: Server logs — verify polling requests are working (no errors)
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 15. Chat: Add unread message count
 
-- [ ] Dev: Add `lastReadAt` field to Conversation model (or track per-user)
-- [ ] Dev: Calculate unread count in conversation.list query
-- [ ] Dev: Show badge with count on each conversation in the sidebar list
-- [ ] Dev: Show total unread badge on "Conversations" nav item in sidebar
-- [ ] Dev: Update lastReadAt when user opens a conversation
-- [ ] Verify: Playwright — seed messages, navigate to conversations, verify badges show counts
-- [ ] Verify: Playwright — click a conversation, verify its badge disappears
-- [ ] Verify: Playwright — verify sidebar nav badge shows remaining unread total
-- [ ] Verify: Server logs — no errors in unread calculation
-- [ ] Fix if needed
+- [x] Dev: Add `lastReadAt` field to Conversation model (or track per-user)
+- [x] Dev: Calculate unread count in conversation.list query
+- [x] Dev: Show badge with count on each conversation in the sidebar list
+- [x] Dev: Show total unread badge on "Conversations" nav item in sidebar
+- [x] Dev: Update lastReadAt when user opens a conversation
+- [x] Verify: Playwright — seed messages, navigate to conversations, verify badges show counts
+- [x] Verify: Playwright — click a conversation, verify its badge disappears
+- [x] Verify: Playwright — verify sidebar nav badge shows remaining unread total
+- [x] Verify: Server logs — no errors in unread calculation
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

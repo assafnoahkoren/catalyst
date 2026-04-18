@@ -12,6 +12,7 @@ interface ConversationData {
   id: string
   isBot: boolean
   updatedAt: string
+  unreadCount: number
   customer: { id: string; name: string; phone: string | null }
 }
 
@@ -53,6 +54,16 @@ function ConversationsPage() {
 
   const [newMessage, setNewMessage] = useState('')
 
+  async function handleSelectConversation(id: string) {
+    setSelectedId(id)
+    try {
+      await trpcClient.conversation.markRead.mutate({ conversationId: id })
+      conversationsQuery.refetch()
+    } catch {
+      // ignore — non-critical
+    }
+  }
+
   async function handleSend() {
     if (!newMessage.trim() || !selectedId) return
     await trpcClient.conversation.sendMessage.mutate({
@@ -82,13 +93,20 @@ function ConversationsPage() {
         {conversations.map((conv) => (
           <button
             key={conv.id}
-            onClick={() => setSelectedId(conv.id)}
+            onClick={() => handleSelectConversation(conv.id)}
             className={`w-full rounded-md p-3 text-start transition-colors ${
               selectedId === conv.id ? 'bg-primary/10' : 'hover:bg-muted'
             }`}
           >
             <div className='flex items-center justify-between'>
-              <p className='text-sm font-medium'>{conv.customer.name}</p>
+              <div className='flex items-center gap-2'>
+                <p className='text-sm font-medium'>{conv.customer.name}</p>
+                {conv.unreadCount > 0 && (
+                  <span className='flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-bold text-primary-foreground'>
+                    {conv.unreadCount}
+                  </span>
+                )}
+              </div>
               <span
                 className={`h-2 w-2 rounded-full ${conv.isBot ? 'bg-green-500' : 'bg-orange-500'}`}
               />

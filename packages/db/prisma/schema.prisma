@@ -190,9 +190,10 @@ enum ActivityType {
 model Conversation {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   channel   String   @default("WHATSAPP")
-  isBot     Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isBot      Boolean   @default(true)
+  lastReadAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   tenantId     String    @db.ObjectId
   tenant       Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)

@@ -7,12 +7,48 @@ import { router, tenantProcedure } from '../lib/trpc'
 
 export const conversationRouter = router({
   list: tenantProcedure.query(async ({ ctx }) => {
-    return prisma.conversation.findMany({
+    const conversations = await prisma.conversation.findMany({
       where: { tenantId: ctx.tenantId },
-      include: { customer: { select: { id: true, name: true, phone: true } } },
+      include: {
+        customer: { select: { id: true, name: true, phone: true } },
+        _count: { select: { messages: true } },
+      },
       orderBy: { updatedAt: 'desc' },
     })
+
+    // Calculate unread count per conversation
+    const withUnread = await Promise.all(
+      conversations.map(async (conv) => {
+        const unreadCount = conv.lastReadAt
+          ? await prisma.message.count({
+            where: {
+              conversationId: conv.id,
+              sentAt: { gt: conv.lastReadAt },
+              direction: 'INBOUND',
+            },
+          })
+          : await prisma.message.count({
+            where: { conversationId: conv.id, direction: 'INBOUND' },
+          })
+        return { ...conv, unreadCount }
+      }),
+    )
+
+    return withUnread
   }),
+
+  markRead: tenantProcedure
+    .input(z.object({ conversationId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const conv = await prisma.conversation.findFirst({
+        where: { id: input.conversationId, tenantId: ctx.tenantId },
+      })
+      if (!conv) throw new TRPCError({ code: 'NOT_FOUND' })
+      return prisma.conversation.update({
+        where: { id: input.conversationId },
+        data: { lastReadAt: new Date() },
+      })
+    }),
 
   getMessages: tenantProcedure
     .input(z.object({
