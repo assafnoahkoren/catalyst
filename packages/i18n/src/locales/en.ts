@@ -97,6 +97,21 @@ export const en = {
   update: 'Update',
   cancel: 'Cancel',
   inviteEmail: 'Email address',
+  knowledgeEntries: 'Knowledge Base',
+  addEntry: 'Add Entry',
+  textEntry: 'Text',
+  qaEntry: 'Q&A Pair',
+  urlEntry: 'URL',
+  title: 'Title',
+  content: 'Content',
+  question: 'Question',
+  answer: 'Answer',
+  url: 'URL',
+  chunks: 'chunks',
+  addText: 'Add Text',
+  addQA: 'Add Q&A',
+  addUrl: 'Add URL',
+  adding: 'Adding...',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

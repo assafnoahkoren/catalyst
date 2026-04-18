@@ -16,10 +16,12 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardSettingsIndexRouteImport } from './routes/dashboard/settings/index'
+import { Route as DashboardKnowledgeIndexRouteImport } from './routes/dashboard/knowledge/index'
 import { Route as DashboardCustomersIndexRouteImport } from './routes/dashboard/customers/index'
 import { Route as DashboardSettingsTeamRouteImport } from './routes/dashboard/settings/team'
 import { Route as DashboardSettingsPipelineRouteImport } from './routes/dashboard/settings/pipeline'
 import { Route as DashboardSettingsCustomFieldsRouteImport } from './routes/dashboard/settings/custom-fields'
+import { Route as DashboardKnowledgeNewRouteImport } from './routes/dashboard/knowledge/new'
 import { Route as DashboardCustomersCustomerIdRouteImport } from './routes/dashboard/customers/$customerId'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -57,6 +59,11 @@ const DashboardSettingsIndexRoute = DashboardSettingsIndexRouteImport.update({
   path: '/settings/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardKnowledgeIndexRoute = DashboardKnowledgeIndexRouteImport.update({
+  id: '/knowledge/',
+  path: '/knowledge/',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardCustomersIndexRoute = DashboardCustomersIndexRouteImport.update({
   id: '/customers/',
   path: '/customers/',
@@ -79,6 +86,11 @@ const DashboardSettingsCustomFieldsRoute =
     path: '/settings/custom-fields',
     getParentRoute: () => DashboardRoute,
   } as any)
+const DashboardKnowledgeNewRoute = DashboardKnowledgeNewRouteImport.update({
+  id: '/knowledge/new',
+  path: '/knowledge/new',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardCustomersCustomerIdRoute =
   DashboardCustomersCustomerIdRouteImport.update({
     id: '/customers/$customerId',
@@ -94,10 +106,12 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
+  '/dashboard/knowledge/new': typeof DashboardKnowledgeNewRoute
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
   '/dashboard/customers/': typeof DashboardCustomersIndexRoute
+  '/dashboard/knowledge/': typeof DashboardKnowledgeIndexRoute
   '/dashboard/settings/': typeof DashboardSettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -107,10 +121,12 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
+  '/dashboard/knowledge/new': typeof DashboardKnowledgeNewRoute
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
   '/dashboard/customers': typeof DashboardCustomersIndexRoute
+  '/dashboard/knowledge': typeof DashboardKnowledgeIndexRoute
   '/dashboard/settings': typeof DashboardSettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -122,10 +138,12 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
+  '/dashboard/knowledge/new': typeof DashboardKnowledgeNewRoute
   '/dashboard/settings/custom-fields': typeof DashboardSettingsCustomFieldsRoute
   '/dashboard/settings/pipeline': typeof DashboardSettingsPipelineRoute
   '/dashboard/settings/team': typeof DashboardSettingsTeamRoute
   '/dashboard/customers/': typeof DashboardCustomersIndexRoute
+  '/dashboard/knowledge/': typeof DashboardKnowledgeIndexRoute
   '/dashboard/settings/': typeof DashboardSettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -138,10 +156,12 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard/'
     | '/dashboard/customers/$customerId'
+    | '/dashboard/knowledge/new'
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
     | '/dashboard/customers/'
+    | '/dashboard/knowledge/'
     | '/dashboard/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -151,10 +171,12 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/dashboard/customers/$customerId'
+    | '/dashboard/knowledge/new'
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
     | '/dashboard/customers'
+    | '/dashboard/knowledge'
     | '/dashboard/settings'
   id:
     | '__root__'
@@ -165,10 +187,12 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard/'
     | '/dashboard/customers/$customerId'
+    | '/dashboard/knowledge/new'
     | '/dashboard/settings/custom-fields'
     | '/dashboard/settings/pipeline'
     | '/dashboard/settings/team'
     | '/dashboard/customers/'
+    | '/dashboard/knowledge/'
     | '/dashboard/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -231,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSettingsIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/knowledge/': {
+      id: '/dashboard/knowledge/'
+      path: '/knowledge'
+      fullPath: '/dashboard/knowledge/'
+      preLoaderRoute: typeof DashboardKnowledgeIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/customers/': {
       id: '/dashboard/customers/'
       path: '/customers'
@@ -259,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSettingsCustomFieldsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/knowledge/new': {
+      id: '/dashboard/knowledge/new'
+      path: '/knowledge/new'
+      fullPath: '/dashboard/knowledge/new'
+      preLoaderRoute: typeof DashboardKnowledgeNewRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/customers/$customerId': {
       id: '/dashboard/customers/$customerId'
       path: '/customers/$customerId'
@@ -272,20 +310,24 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardCustomersCustomerIdRoute: typeof DashboardCustomersCustomerIdRoute
+  DashboardKnowledgeNewRoute: typeof DashboardKnowledgeNewRoute
   DashboardSettingsCustomFieldsRoute: typeof DashboardSettingsCustomFieldsRoute
   DashboardSettingsPipelineRoute: typeof DashboardSettingsPipelineRoute
   DashboardSettingsTeamRoute: typeof DashboardSettingsTeamRoute
   DashboardCustomersIndexRoute: typeof DashboardCustomersIndexRoute
+  DashboardKnowledgeIndexRoute: typeof DashboardKnowledgeIndexRoute
   DashboardSettingsIndexRoute: typeof DashboardSettingsIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardCustomersCustomerIdRoute: DashboardCustomersCustomerIdRoute,
+  DashboardKnowledgeNewRoute: DashboardKnowledgeNewRoute,
   DashboardSettingsCustomFieldsRoute: DashboardSettingsCustomFieldsRoute,
   DashboardSettingsPipelineRoute: DashboardSettingsPipelineRoute,
   DashboardSettingsTeamRoute: DashboardSettingsTeamRoute,
   DashboardCustomersIndexRoute: DashboardCustomersIndexRoute,
+  DashboardKnowledgeIndexRoute: DashboardKnowledgeIndexRoute,
   DashboardSettingsIndexRoute: DashboardSettingsIndexRoute,
 }
 
