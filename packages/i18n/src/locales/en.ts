@@ -42,6 +42,12 @@ export const en = {
   webhooks: 'Webhooks',
   settings: 'Settings',
   search: 'Search...',
+  kanbanView: 'Board',
+  tableView: 'Table',
+  noCustomers: 'No customers',
+  addCustomer: 'Add Customer',
+  phone: 'Phone',
+  unassigned: 'Unassigned',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

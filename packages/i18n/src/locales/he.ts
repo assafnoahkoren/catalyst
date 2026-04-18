@@ -42,4 +42,10 @@ export const he: Translations = {
   webhooks: 'Webhooks',
   settings: 'הגדרות',
   search: 'חיפוש...',
+  kanbanView: 'לוח',
+  tableView: 'טבלה',
+  noCustomers: 'אין לקוחות',
+  addCustomer: 'הוסף לקוח',
+  phone: 'טלפון',
+  unassigned: 'לא משויך',
 }
