@@ -280,20 +280,20 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — verify entry appears in knowledge list with chunk count > 0
 - [x] Verify: Server logs — verify embedding pipeline completed without errors
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 20. Automation: Wire triggers into actual flows
 
-- [ ] Dev: In customer.changeStatus router, call `findMatchingFlows()` + `executeFlow()`
-- [ ] Dev: In webhook handler, call triggers after customer creation
-- [ ] Dev: In WhatsApp webhook, call triggers on message received
-- [ ] Dev: Start automation scheduler in server index.ts
-- [ ] Verify: curl — create an automation flow with trigger STATUS_CHANGE
-- [ ] Verify: curl — change a customer's status
-- [ ] Verify: Server logs — verify automation engine fired and executed steps
-- [ ] Verify: curl — check AutomationLog for execution record
-- [ ] Fix if needed
+- [x] Dev: In customer.changeStatus router, call `findMatchingFlows()` + `executeFlow()`
+- [x] Dev: In webhook handler, call triggers after customer creation
+- [x] Dev: In WhatsApp webhook, call triggers on message received
+- [x] Dev: Start automation scheduler in server index.ts
+- [x] Verify: curl — create an automation flow with trigger STATUS_CHANGE
+- [x] Verify: curl — change a customer's status
+- [x] Verify: Server logs — verify automation engine fired and executed steps
+- [x] Verify: curl — check AutomationLog for execution record
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

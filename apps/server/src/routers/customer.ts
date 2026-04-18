@@ -1,3 +1,4 @@
+import { executeFlow, findMatchingFlows } from '@catalyst/automation'
 import { prisma } from '@catalyst/db'
 import {
   changeCustomerStatusSchema,
@@ -123,6 +124,17 @@ export const customerRouter = router({
           data: { from: existing.status.name, to: newStatus.name },
         },
       })
+
+      // Fire automation triggers
+      const flows = await findMatchingFlows({
+        tenantId: ctx.tenantId,
+        customerId: input.id,
+        type: 'STATUS_CHANGE',
+        data: { toStatusId: input.statusId, fromStatusId: existing.statusId },
+      })
+      for (const flow of flows) {
+        executeFlow(flow, input.id).catch(console.error)
+      }
 
       return customer
     }),

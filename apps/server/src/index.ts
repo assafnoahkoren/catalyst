@@ -1,5 +1,6 @@
 import { auth } from '@catalyst/auth/server'
 import type { Session } from '@catalyst/auth/server'
+import { startScheduler } from '@catalyst/automation'
 import { trpcServer } from '@hono/trpc-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
@@ -58,6 +59,9 @@ app.use(
     }),
   }),
 )
+
+// Start automation scheduler
+startScheduler(30_000) // Poll every 30 seconds
 
 const port = Number(process.env.PORT ?? 3001)
 

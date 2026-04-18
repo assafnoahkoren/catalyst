@@ -3,6 +3,7 @@ import { prisma } from '@catalyst/db'
 export interface WebhookResult {
   success: boolean
   customerId?: string
+  tenantId?: string
   error?: string
 }
 
@@ -59,5 +60,5 @@ export async function handleWebhookIngestion(
     },
   })
 
-  return { success: true, customerId: customer.id }
+  return { success: true, customerId: customer.id, tenantId: endpoint.tenantId }
 }
