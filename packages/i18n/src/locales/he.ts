@@ -199,4 +199,8 @@ export const he: Translations = {
   checklistAddKB: 'הוסף ערך למאגר הידע',
   checklistInviteTeam: 'הזמן חבר צוות',
   conversionRate: 'אחוז המרה',
+  dateRangeToday: 'היום',
+  dateRangeWeek: 'השבוע',
+  dateRangeMonth: 'החודש',
+  dateRangeAll: 'הכל',
 }

@@ -1,6 +1,7 @@
 import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 import { trpc, trpcClient } from '../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/')({
@@ -26,8 +27,27 @@ interface FunnelItem {
   count: number
 }
 
+type DateRange = 'today' | 'week' | 'month' | 'all'
+
+function getDateRangeStart(range: DateRange): Date | null {
+  const now = new Date()
+  if (range === 'today') return new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  if (range === 'week') {
+    const d = new Date(now)
+    d.setDate(d.getDate() - 7)
+    return d
+  }
+  if (range === 'month') {
+    const d = new Date(now)
+    d.setMonth(d.getMonth() - 1)
+    return d
+  }
+  return null
+}
+
 function DashboardPage() {
   const { t } = useTranslation()
+  const [dateRange, setDateRange] = useState<DateRange>('all')
   const statsQuery = useQuery(trpc.dashboard.getStats.queryOptions())
   const funnelQuery = useQuery({
     queryKey: ['dashboard', 'funnel'] as const,
@@ -42,7 +62,19 @@ function DashboardPage() {
 
   return (
     <div className='space-y-6'>
-      <h1 className='text-2xl font-bold'>{t('dashboard')}</h1>
+      <div className='flex items-center justify-between'>
+        <h1 className='text-2xl font-bold'>{t('dashboard')}</h1>
+        <select
+          value={dateRange}
+          onChange={(e) => setDateRange(e.target.value as DateRange)}
+          className='rounded-md border border-input bg-background px-3 py-1.5 text-sm'
+        >
+          <option value='today'>{t('dateRangeToday')}</option>
+          <option value='week'>{t('dateRangeWeek')}</option>
+          <option value='month'>{t('dateRangeMonth')}</option>
+          <option value='all'>{t('dateRangeAll')}</option>
+        </select>
+      </div>
 
       {/* Stats cards */}
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>

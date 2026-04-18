@@ -482,8 +482,8 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — add a customer, refresh dashboard, verify "Add customer" checked
 - [x] Verify: Server logs — no errors in checklist tracking
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 35. Dashboard: Add conversion rate metric
 
@@ -495,20 +495,20 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — verify stat card shows "60%"
 - [x] Verify: Playwright — new org shows "N/A" not "NaN"
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 36. Dashboard: Add date range filter
 
-- [ ] Dev: Add dropdown above stats: Today, This Week, This Month, All Time
-- [ ] Dev: Pass date range to getStats and getFunnel queries
-- [ ] Dev: Filter by createdAt >= rangeStart
-- [ ] Dev: Add i18n keys: `today`, `thisWeek`, `thisMonth`, `allTime`
-- [ ] Verify: Seed customers across different dates
-- [ ] Verify: Playwright — select "Today", verify stats show only today's customers
-- [ ] Verify: Playwright — select "All Time", verify full count
-- [ ] Verify: Playwright — screenshot showing filter dropdown
-- [ ] Fix if needed
+- [x] Dev: Add dropdown above stats: Today, This Week, This Month, All Time
+- [x] Dev: Pass date range to getStats and getFunnel queries
+- [x] Dev: Filter by createdAt >= rangeStart
+- [x] Dev: Add i18n keys: `today`, `thisWeek`, `thisMonth`, `allTime`
+- [x] Verify: Seed customers across different dates
+- [x] Verify: Playwright — select "Today", verify stats show only today's customers
+- [x] Verify: Playwright — select "All Time", verify full count
+- [x] Verify: Playwright — screenshot showing filter dropdown
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
@@ -540,12 +540,12 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 
 ### 39. Dashboard: Fix funnel N+1 query
 
-- [ ] Dev: Replace N separate `prisma.customer.count` calls with single `prisma.customer.groupBy`
-- [ ] Dev: Group by statusId, join with status names/colors
-- [ ] Dev: Verify same data returned as before
-- [ ] Verify: Server logs — verify only 2 queries (statuses + groupBy) instead of N+1
-- [ ] Verify: Playwright — verify funnel chart shows same data as before
-- [ ] Fix if needed
+- [x] Dev: Replace N separate `prisma.customer.count` calls with single `prisma.customer.groupBy`
+- [x] Dev: Group by statusId, join with status names/colors
+- [x] Dev: Verify same data returned as before
+- [x] Verify: Server logs — verify only 2 queries (statuses + groupBy) instead of N+1
+- [x] Verify: Playwright — verify funnel chart shows same data as before
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

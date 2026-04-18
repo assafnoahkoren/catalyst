@@ -58,21 +58,24 @@ export const dashboardRouter = router({
   }),
 
   getFunnel: tenantProcedure.query(async ({ ctx }) => {
-    const statuses = await prisma.customerStatus.findMany({
-      where: { tenantId: ctx.tenantId },
-      orderBy: { order: 'asc' },
-    })
+    const [statuses, groupedCounts] = await Promise.all([
+      prisma.customerStatus.findMany({
+        where: { tenantId: ctx.tenantId },
+        orderBy: { order: 'asc' },
+      }),
+      prisma.customer.groupBy({
+        by: ['statusId'],
+        where: { tenantId: ctx.tenantId },
+        _count: true,
+      }),
+    ])
 
-    const counts = await Promise.all(
-      statuses.map(async (status) => ({
-        name: status.name,
-        color: status.color,
-        count: await prisma.customer.count({
-          where: { tenantId: ctx.tenantId, statusId: status.id },
-        }),
-      })),
-    )
+    const countMap = new Map(groupedCounts.map((g) => [g.statusId, g._count]))
 
-    return counts
+    return statuses.map((status) => ({
+      name: status.name,
+      color: status.color,
+      count: countMap.get(status.id) ?? 0,
+    }))
   }),
 })

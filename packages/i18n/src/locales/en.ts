@@ -199,6 +199,10 @@ export const en = {
   checklistAddKB: 'Add a knowledge base entry',
   checklistInviteTeam: 'Invite a team member',
   conversionRate: 'Conversion Rate',
+  dateRangeToday: 'Today',
+  dateRangeWeek: 'This Week',
+  dateRangeMonth: 'This Month',
+  dateRangeAll: 'All Time',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed
