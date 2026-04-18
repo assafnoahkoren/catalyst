@@ -148,8 +148,8 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — verify navigated to /dashboard/customers/{id}
 - [x] Verify: Playwright — verify status dropdown still works without navigating
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 10. Table: Add "Add Customer" button
 
@@ -158,22 +158,22 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — switch to table view, click "Add Customer"
 - [x] Verify: Playwright — fill form, submit, verify customer appears in table
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 11. Customer Detail: Add inline editing
 
-- [ ] Dev: Make name, email, phone fields editable on click
-- [ ] Dev: Show input on click, save on blur/Enter, cancel on Escape
-- [ ] Dev: Call customer.update mutation on save
-- [ ] Dev: Show loading indicator during save
-- [ ] Verify: Playwright — navigate to customer detail, click name field
-- [ ] Verify: Playwright — type new name, press Enter, verify saved
-- [ ] Verify: Playwright — refresh page, verify new name persists
-- [ ] Verify: Server logs — verify customer.update mutation succeeded
-- [ ] Verify: Playwright — press Escape, verify edit cancelled (original value restored)
-- [ ] Fix if needed
-- [ ] Commit
+- [x] Dev: Make name, email, phone fields editable on click
+- [x] Dev: Show input on click, save on blur/Enter, cancel on Escape
+- [x] Dev: Call customer.update mutation on save
+- [x] Dev: Show loading indicator during save
+- [x] Verify: Playwright — navigate to customer detail, click name field
+- [x] Verify: Playwright — type new name, press Enter, verify saved
+- [x] Verify: Playwright — refresh page, verify new name persists
+- [x] Verify: Server logs — verify customer.update mutation succeeded
+- [x] Verify: Playwright — press Escape, verify edit cancelled (original value restored)
+- [x] Fix if needed
+- [x] Commit
 - [ ] CI Check
 
 ### 12. Customer Detail: Add status change

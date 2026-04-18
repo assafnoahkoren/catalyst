@@ -1,7 +1,8 @@
 import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { toast } from 'sonner'
 import { trpcClient } from '../../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/customers/$customerId')({
@@ -65,6 +66,19 @@ function CustomerDetailPage() {
   const activities = activitiesQuery.data?.items ?? []
   const notes = notesQuery.data ?? []
 
+  async function handleFieldSave(field: string, value: string | undefined) {
+    try {
+      await trpcClient.customer.update.mutate({
+        id: customerId,
+        [field]: value,
+      })
+      customerQuery.refetch()
+      toast.success(t('update'))
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+    }
+  }
+
   async function handleAddNote() {
     if (!noteBody.trim()) return
     await trpcClient.note.create.mutate({ customerId, body: noteBody })
@@ -95,7 +109,13 @@ function CustomerDetailPage() {
         >
           {t('back')}
         </button>
-        <h1 className='text-2xl font-bold'>{customer.name}</h1>
+        <h1 className='text-2xl font-bold'>
+          <EditableField
+            value={customer.name}
+            onSave={(val) => handleFieldSave('name', val)}
+            className='text-2xl font-bold'
+          />
+        </h1>
         <span
           className='rounded-full px-2 py-0.5 text-xs font-medium text-white'
           style={{ backgroundColor: customer.status.color }}
@@ -112,11 +132,23 @@ function CustomerDetailPage() {
             <dl className='space-y-2 text-sm'>
               <div>
                 <dt className='text-muted-foreground'>{t('email')}</dt>
-                <dd>{customer.email ?? '-'}</dd>
+                <dd>
+                  <EditableField
+                    value={customer.email ?? ''}
+                    onSave={(val) => handleFieldSave('email', val || undefined)}
+                    placeholder='-'
+                  />
+                </dd>
               </div>
               <div>
                 <dt className='text-muted-foreground'>{t('phone')}</dt>
-                <dd>{customer.phone ?? '-'}</dd>
+                <dd>
+                  <EditableField
+                    value={customer.phone ?? ''}
+                    onSave={(val) => handleFieldSave('phone', val || undefined)}
+                    placeholder='-'
+                  />
+                </dd>
               </div>
               <div>
                 <dt className='text-muted-foreground'>{t('tags')}</dt>
@@ -196,6 +228,66 @@ function CustomerDetailPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+function EditableField({
+  value,
+  onSave,
+  placeholder = '',
+  className = '',
+}: {
+  value: string
+  onSave: (value: string) => void
+  placeholder?: string
+  className?: string
+}) {
+  const [editing, setEditing] = useState(false)
+  const [editValue, setEditValue] = useState(value)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  function startEdit() {
+    setEditValue(value)
+    setEditing(true)
+    setTimeout(() => inputRef.current?.focus(), 0)
+  }
+
+  function save() {
+    setEditing(false)
+    if (editValue !== value) {
+      onSave(editValue)
+    }
+  }
+
+  function cancel() {
+    setEditing(false)
+    setEditValue(value)
+  }
+
+  if (editing) {
+    return (
+      <input
+        ref={inputRef}
+        value={editValue}
+        onChange={(e) => setEditValue(e.target.value)}
+        onBlur={save}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') save()
+          if (e.key === 'Escape') cancel()
+        }}
+        className={`rounded border border-input bg-background px-1 py-0.5 text-sm outline-none focus:ring-1 focus:ring-primary ${className}`}
+      />
+    )
+  }
+
+  return (
+    <span
+      onClick={startEdit}
+      className={`cursor-pointer rounded px-1 py-0.5 hover:bg-muted ${className}`}
+      title='Click to edit'
+    >
+      {value || placeholder}
+    </span>
   )
 }
 
