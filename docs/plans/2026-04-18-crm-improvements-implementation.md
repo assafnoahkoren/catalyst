@@ -240,19 +240,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Server logs — verify Hebrew handoff message was sent
 - [x] Verify: curl — check message in DB has Hebrew text
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 17. Bot: Add handoff notification to team
 
-- [ ] Dev: When bot sets isBot=false, emit event (SSE or polling flag)
-- [ ] Dev: Add a "needs attention" indicator on conversation list (orange/red highlight)
-- [ ] Dev: Add browser notification permission request
-- [ ] Dev: Send browser notification on handoff
-- [ ] Verify: Playwright — trigger a handoff scenario (low confidence or keyword)
-- [ ] Verify: Playwright — verify conversation shows "needs attention" indicator
-- [ ] Verify: Server logs — verify handoff event was created
-- [ ] Fix if needed
+- [x] Dev: When bot sets isBot=false, emit event (SSE or polling flag)
+- [x] Dev: Add a "needs attention" indicator on conversation list (orange/red highlight)
+- [x] Dev: Add browser notification permission request
+- [x] Dev: Send browser notification on handoff
+- [x] Verify: Playwright — trigger a handoff scenario (low confidence or keyword)
+- [x] Verify: Playwright — verify conversation shows "needs attention" indicator
+- [x] Verify: Server logs — verify handoff event was created
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

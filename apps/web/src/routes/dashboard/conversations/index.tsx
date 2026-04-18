@@ -107,9 +107,20 @@ function ConversationsPage() {
                   </span>
                 )}
               </div>
-              <span
-                className={`h-2 w-2 rounded-full ${conv.isBot ? 'bg-green-500' : 'bg-orange-500'}`}
-              />
+              {!conv.isBot && conv.unreadCount > 0
+                ? (
+                  <span
+                    className='h-3 w-3 animate-pulse rounded-full bg-red-500'
+                    title='Needs attention'
+                  />
+                )
+                : (
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      conv.isBot ? 'bg-green-500' : 'bg-orange-500'
+                    }`}
+                  />
+                )}
             </div>
             <p className='text-xs text-muted-foreground'>{conv.customer.phone}</p>
           </button>
