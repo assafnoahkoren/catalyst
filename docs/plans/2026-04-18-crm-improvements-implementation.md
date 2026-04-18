@@ -509,8 +509,8 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — select "All Time", verify full count
 - [x] Verify: Playwright — screenshot showing filter dropdown
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 37. Dashboard: Add time-series chart
 
@@ -546,21 +546,21 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Server logs — verify only 2 queries (statuses + groupBy) instead of N+1
 - [x] Verify: Playwright — verify funnel chart shows same data as before
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 40. Dashboard: Add number formatting + empty state
 
-- [ ] Dev: Create `formatNumber()` utility using `Intl.NumberFormat`
-- [ ] Dev: Apply to all stat card values
-- [ ] Dev: Create `<DashboardEmptyState>` component for new orgs
-- [ ] Dev: Show when all stats are 0: welcome message + action buttons
-- [ ] Dev: Add i18n keys: `welcomeNewOrg`, `getStarted`
-- [ ] Verify: Seed 1500 customers
-- [ ] Verify: Playwright — verify stat card shows "1,500" not "1500"
-- [ ] Verify: Playwright — new org (no data) shows empty state with action buttons
-- [ ] Verify: Playwright — screenshot of empty state
-- [ ] Fix if needed
+- [x] Dev: Create `formatNumber()` utility using `Intl.NumberFormat`
+- [x] Dev: Apply to all stat card values
+- [x] Dev: Create `<DashboardEmptyState>` component for new orgs
+- [x] Dev: Show when all stats are 0: welcome message + action buttons
+- [x] Dev: Add i18n keys: `welcomeNewOrg`, `getStarted`
+- [x] Verify: Seed 1500 customers
+- [x] Verify: Playwright — verify stat card shows "1,500" not "1500"
+- [x] Verify: Playwright — new org (no data) shows empty state with action buttons
+- [x] Verify: Playwright — screenshot of empty state
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

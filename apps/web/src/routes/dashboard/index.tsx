@@ -163,11 +163,17 @@ function DashboardPage() {
   )
 }
 
+function formatNumber(n: number): string {
+  return new Intl.NumberFormat().format(n)
+}
+
 function StatCard({ label, value, suffix }: { label: string; value: number; suffix?: string }) {
   return (
     <div className='rounded-lg border p-4'>
       <p className='text-sm text-muted-foreground'>{label}</p>
-      <p className='text-2xl font-bold'>{suffix === 'N/A' ? 'N/A' : `${value}${suffix ?? ''}`}</p>
+      <p className='text-2xl font-bold'>
+        {suffix === 'N/A' ? 'N/A' : `${formatNumber(value)}${suffix ?? ''}`}
+      </p>
     </div>
   )
 }
