@@ -174,4 +174,7 @@ export const he: Translations = {
   resetting: 'מאפס...',
   passwordsDoNotMatch: 'הסיסמאות אינן תואמות',
   resetFailed: 'האיפוס נכשל',
+  somethingWentWrong: 'משהו השתבש',
+  tryAgain: 'נסה שוב',
+  errorDescription: 'אירעה שגיאה בלתי צפויה. נסה שוב.',
 }

@@ -174,6 +174,9 @@ export const en = {
   resetting: 'Resetting...',
   passwordsDoNotMatch: 'Passwords do not match',
   resetFailed: 'Reset failed',
+  somethingWentWrong: 'Something went wrong',
+  tryAgain: 'Try Again',
+  errorDescription: 'An unexpected error occurred. Please try again.',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

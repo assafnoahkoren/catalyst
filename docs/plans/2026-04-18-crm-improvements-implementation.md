@@ -70,19 +70,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — navigate to /register while logged in, verify redirect
 - [x] Verify: Playwright — navigate to / while logged in, verify redirect
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 4. Error: Add global React ErrorBoundary
 
-- [ ] Dev: Install `react-error-boundary` package
-- [ ] Dev: Wrap app root with ErrorBoundary showing "Something went wrong" + retry button
-- [ ] Dev: Add i18n keys: `somethingWentWrong`, `tryAgain`
-- [ ] Dev: Style error fallback with centered layout matching app design
-- [ ] Verify: Playwright — intentionally trigger an error (e.g., bad route), verify error boundary shows
-- [ ] Verify: Playwright — click retry button, verify it recovers
-- [ ] Verify: Console — verify error is caught, not an unhandled white screen
-- [ ] Fix if needed
+- [x] Dev: Install `react-error-boundary` package
+- [x] Dev: Wrap app root with ErrorBoundary showing "Something went wrong" + retry button
+- [x] Dev: Add i18n keys: `somethingWentWrong`, `tryAgain`
+- [x] Dev: Style error fallback with centered layout matching app design
+- [x] Verify: Playwright — intentionally trigger an error (e.g., bad route), verify error boundary shows
+- [x] Verify: Playwright — click retry button, verify it recovers
+- [x] Verify: Console — verify error is caught, not an unhandled white screen
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
