@@ -1,11 +1,24 @@
 import { authClient } from '@catalyst/auth/client'
 import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
-import { createFileRoute, Outlet, useLocation, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Outlet, redirect, useLocation, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { trpcClient } from '../lib/trpc'
 
 export const Route = createFileRoute('/dashboard')({
+  beforeLoad: async ({ location }) => {
+    try {
+      const res = await fetch('/api/auth/get-session')
+      if (!res.ok) throw new Error('No session')
+      const data = await res.json()
+      if (!data?.session) throw new Error('No session')
+    } catch {
+      const redirectParam = location.pathname !== '/dashboard'
+        ? `?redirect=${encodeURIComponent(location.pathname)}`
+        : ''
+      throw redirect({ to: `/login${redirectParam}` as '/' })
+    }
+  },
   component: DashboardLayout,
 })
 

@@ -45,19 +45,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: curl — POST to /api/auth/forgot-password with test email, check 200 response
 - [x] Verify: Server logs — no errors during password reset flow
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 2. Auth: Add auth guards to dashboard routes
 
-- [ ] Dev: Add session check in /dashboard layout route loader
-- [ ] Dev: Redirect unauthenticated users to /login
-- [ ] Dev: Store intended destination, redirect back after login
-- [ ] Verify: Playwright — navigate to /dashboard without auth, verify redirect to /login
-- [ ] Verify: Playwright — navigate to /dashboard/customers without auth, verify redirect
-- [ ] Verify: Playwright — login then verify redirect back to intended page
-- [ ] Verify: Server logs — no auth errors, clean 401 responses
-- [ ] Fix if needed
+- [x] Dev: Add session check in /dashboard layout route loader
+- [x] Dev: Redirect unauthenticated users to /login
+- [x] Dev: Store intended destination, redirect back after login
+- [x] Verify: Playwright — navigate to /dashboard without auth, verify redirect to /login
+- [x] Verify: Playwright — navigate to /dashboard/customers without auth, verify redirect
+- [x] Verify: Playwright — login then verify redirect back to intended page
+- [x] Verify: Server logs — no auth errors, clean 401 responses
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

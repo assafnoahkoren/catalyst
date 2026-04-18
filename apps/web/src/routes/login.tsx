@@ -32,7 +32,9 @@ function LoginPage() {
       return
     }
 
-    navigate({ to: '/dashboard' })
+    const params = new URLSearchParams(window.location.search)
+    const redirectTo = params.get('redirect') ?? '/dashboard'
+    window.location.href = redirectTo
   }
 
   return (
