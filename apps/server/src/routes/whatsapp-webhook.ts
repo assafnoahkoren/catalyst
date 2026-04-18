@@ -13,6 +13,21 @@ export const whatsappWebhook = new Hono()
 
 const DEFAULT_HANDOFF_KEYWORDS = ['agent', 'human', 'representative', 'נציג', 'אדם']
 
+const HANDOFF_MESSAGES: Record<string, { connecting: string; lowConfidence: string }> = {
+  en: {
+    connecting: 'Connecting you with a team member...',
+    lowConfidence: 'Let me connect you with a team member who can help better...',
+  },
+  he: {
+    connecting: 'מחבר אותך לנציג שירות...',
+    lowConfidence: 'בוא אחבר אותך לנציג שיכול לעזור טוב יותר...',
+  },
+}
+
+function getHandoffMessage(language: string, type: 'connecting' | 'lowConfidence'): string {
+  return HANDOFF_MESSAGES[language]?.[type] ?? HANDOFF_MESSAGES.en![type]
+}
+
 whatsappWebhook.post('/webhook', async (c) => {
   const body = await c.req.json()
   const incoming = parseIncomingMessage(body)
@@ -98,14 +113,15 @@ whatsappWebhook.post('/webhook', async (c) => {
     const lowerMessage = messageText.toLowerCase()
     const isHandoff = handoffKeywords.some((kw) => lowerMessage.includes(kw.toLowerCase()))
     if (isHandoff) {
+      const msg = getHandoffMessage(tenant.language, 'connecting')
       await prisma.conversation.update({ where: { id: conversation.id }, data: { isBot: false } })
-      await sendMessage(config, incoming.senderData.chatId, 'Connecting you with a team member...')
+      await sendMessage(config, incoming.senderData.chatId, msg)
       await prisma.message.create({
         data: {
           conversationId: conversation.id,
           direction: 'OUTBOUND',
           sender: 'BOT',
-          body: 'Connecting you with a team member...',
+          body: msg,
         },
       })
       return c.json({ ok: true })
@@ -115,18 +131,15 @@ whatsappWebhook.post('/webhook', async (c) => {
     const ragResult = await retrieveContext(messageText, tenant.id, 5)
 
     if (ragResult.topScore < confidenceThreshold) {
+      const msg = getHandoffMessage(tenant.language, 'lowConfidence')
       await prisma.conversation.update({ where: { id: conversation.id }, data: { isBot: false } })
-      await sendMessage(
-        config,
-        incoming.senderData.chatId,
-        'Let me connect you with a team member...',
-      )
+      await sendMessage(config, incoming.senderData.chatId, msg)
       await prisma.message.create({
         data: {
           conversationId: conversation.id,
           direction: 'OUTBOUND',
           sender: 'BOT',
-          body: 'Let me connect you with a team member...',
+          body: msg,
         },
       })
       return c.json({ ok: true })

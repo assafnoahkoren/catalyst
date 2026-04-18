@@ -228,18 +228,18 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — verify sidebar nav badge shows remaining unread total
 - [x] Verify: Server logs — no errors in unread calculation
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 16. Bot: Translate handoff messages using tenant language
 
-- [ ] Dev: Create handoff message templates per language in i18n
-- [ ] Dev: Replace hardcoded English "Connecting you..." with `t()` lookup based on tenant.language
-- [ ] Dev: Add keys: `botHandoffConnecting`, `botHandoffLowConfidence` (en + he)
-- [ ] Verify: curl — set tenant language to "he", trigger handoff via WhatsApp webhook
-- [ ] Verify: Server logs — verify Hebrew handoff message was sent
-- [ ] Verify: curl — check message in DB has Hebrew text
-- [ ] Fix if needed
+- [x] Dev: Create handoff message templates per language in i18n
+- [x] Dev: Replace hardcoded English "Connecting you..." with `t()` lookup based on tenant.language
+- [x] Dev: Add keys: `botHandoffConnecting`, `botHandoffLowConfidence` (en + he)
+- [x] Verify: curl — set tenant language to "he", trigger handoff via WhatsApp webhook
+- [x] Verify: Server logs — verify Hebrew handoff message was sent
+- [x] Verify: curl — check message in DB has Hebrew text
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
