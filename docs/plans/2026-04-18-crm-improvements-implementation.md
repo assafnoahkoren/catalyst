@@ -412,13 +412,13 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 
 ### 29. Auth: Add onboarding guard
 
-- [ ] Dev: Check tenant membership in /dashboard layout route loader
-- [ ] Dev: If no tenant membership, redirect to /onboarding
-- [ ] Dev: In /onboarding, check if user already has a tenant, redirect to /dashboard
-- [ ] Verify: Playwright — register new user, navigate to /dashboard, verify redirect to /onboarding
-- [ ] Verify: Playwright — user with tenant navigates to /onboarding, verify redirect to /dashboard
-- [ ] Verify: Server logs — no errors during redirects
-- [ ] Fix if needed
+- [x] Dev: Check tenant membership in /dashboard layout route loader
+- [x] Dev: If no tenant membership, redirect to /onboarding
+- [x] Dev: In /onboarding, check if user already has a tenant, redirect to /dashboard
+- [x] Verify: Playwright — register new user, navigate to /dashboard, verify redirect to /onboarding
+- [x] Verify: Playwright — user with tenant navigates to /onboarding, verify redirect to /dashboard
+- [x] Verify: Server logs — no errors during redirects
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

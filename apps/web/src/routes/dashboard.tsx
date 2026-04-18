@@ -18,6 +18,18 @@ export const Route = createFileRoute('/dashboard')({
         : ''
       throw redirect({ to: `/login${redirectParam}` as '/' })
     }
+
+    // Check if user has a tenant — if not, redirect to onboarding
+    try {
+      const tenantRes = await fetch('/trpc/tenant.listMemberships')
+      const tenantData = await tenantRes.json()
+      const memberships = tenantData?.result?.data
+      if (!Array.isArray(memberships) || memberships.length === 0) {
+        throw redirect({ to: '/onboarding' })
+      }
+    } catch (e) {
+      if ((e as { to?: string })?.to) throw e
+    }
   },
   component: DashboardLayout,
 })

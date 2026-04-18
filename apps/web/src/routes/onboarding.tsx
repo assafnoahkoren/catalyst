@@ -1,9 +1,22 @@
 import { useTranslation } from '@catalyst/i18n'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { trpcClient } from '../lib/trpc'
 
 export const Route = createFileRoute('/onboarding')({
+  beforeLoad: async () => {
+    // If user already has a tenant, redirect to dashboard
+    try {
+      const res = await fetch('/trpc/tenant.listMemberships')
+      const data = await res.json()
+      const memberships = data?.result?.data
+      if (Array.isArray(memberships) && memberships.length > 0) {
+        throw redirect({ to: '/dashboard' })
+      }
+    } catch (e) {
+      if ((e as { to?: string })?.to) throw e
+    }
+  },
   component: OnboardingPage,
 })
 
