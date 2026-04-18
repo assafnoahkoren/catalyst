@@ -34,4 +34,12 @@ export const he: Translations = {
   createOrganization: 'צור ארגון',
   creatingOrganization: 'יוצר...',
   slugTaken: 'כתובת ה-URL הזו כבר תפוסה',
+  dashboard: 'לוח בקרה',
+  customers: 'לקוחות',
+  conversations: 'שיחות',
+  knowledgeBase: 'מאגר ידע',
+  automations: 'אוטומציות',
+  webhooks: 'Webhooks',
+  settings: 'הגדרות',
+  search: 'חיפוש...',
 }

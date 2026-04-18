@@ -34,6 +34,14 @@ export const en = {
   createOrganization: 'Create Organization',
   creatingOrganization: 'Creating...',
   slugTaken: 'This slug is already taken',
+  dashboard: 'Dashboard',
+  customers: 'Customers',
+  conversations: 'Conversations',
+  knowledgeBase: 'Knowledge Base',
+  automations: 'Automations',
+  webhooks: 'Webhooks',
+  settings: 'Settings',
+  search: 'Search...',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed
