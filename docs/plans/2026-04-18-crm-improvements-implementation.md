@@ -58,18 +58,18 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — login then verify redirect back to intended page
 - [x] Verify: Server logs — no auth errors, clean 401 responses
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 3. Auth: Redirect authenticated users away from login/register
 
-- [ ] Dev: Check session in /login and /register route loaders
-- [ ] Dev: If session exists, redirect to /dashboard
-- [ ] Dev: Same for / (home page) — redirect to /dashboard if authenticated
-- [ ] Verify: Playwright — login, then navigate to /login, verify redirect to /dashboard
-- [ ] Verify: Playwright — navigate to /register while logged in, verify redirect
-- [ ] Verify: Playwright — navigate to / while logged in, verify redirect
-- [ ] Fix if needed
+- [x] Dev: Check session in /login and /register route loaders
+- [x] Dev: If session exists, redirect to /dashboard
+- [x] Dev: Same for / (home page) — redirect to /dashboard if authenticated
+- [x] Verify: Playwright — login, then navigate to /login, verify redirect to /dashboard
+- [x] Verify: Playwright — navigate to /register while logged in, verify redirect
+- [x] Verify: Playwright — navigate to / while logged in, verify redirect
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

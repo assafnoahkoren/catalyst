@@ -1,9 +1,18 @@
 import { authClient } from '@catalyst/auth/client'
 import { useTranslation } from '@catalyst/i18n'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 import { useState } from 'react'
 
 export const Route = createFileRoute('/login')({
+  beforeLoad: async () => {
+    try {
+      const res = await fetch('/api/auth/get-session')
+      const data = await res.json()
+      if (data?.session) throw redirect({ to: '/dashboard' })
+    } catch (e) {
+      if (e instanceof Response || (e as { to?: string })?.to) throw e
+    }
+  },
   component: LoginPage,
 })
 
