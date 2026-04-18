@@ -109,19 +109,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — wait for data, verify skeletons replaced with real values
 - [x] Verify: Throttle network in Playwright to see skeletons clearly
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 7. Kanban: Make cards clickable to customer detail
 
-- [ ] Dev: Wrap card content in a clickable area (separate from drag handle)
-- [ ] Dev: onClick navigates to `/dashboard/customers/${customer.id}`
-- [ ] Dev: Add cursor-pointer styling distinct from drag cursor
-- [ ] Verify: Playwright — seed a customer, navigate to /dashboard/customers, click a card
-- [ ] Verify: Playwright — verify URL changed to /dashboard/customers/{id}
-- [ ] Verify: Playwright — verify customer detail page shows correct customer data
-- [ ] Verify: Playwright — verify drag still works (drag a card, check status change)
-- [ ] Fix if needed
+- [x] Dev: Wrap card content in a clickable area (separate from drag handle)
+- [x] Dev: onClick navigates to `/dashboard/customers/${customer.id}`
+- [x] Dev: Add cursor-pointer styling distinct from drag cursor
+- [x] Verify: Playwright — seed a customer, navigate to /dashboard/customers, click a card
+- [x] Verify: Playwright — verify URL changed to /dashboard/customers/{id}
+- [x] Verify: Playwright — verify customer detail page shows correct customer data
+- [x] Verify: Playwright — verify drag still works (drag a card, check status change)
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

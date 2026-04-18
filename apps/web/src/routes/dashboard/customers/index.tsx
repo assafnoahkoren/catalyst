@@ -1,7 +1,7 @@
 import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useRef, useState } from 'react'
 import { trpc, trpcClient } from '../../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/customers/')({
@@ -73,6 +73,8 @@ interface StatusItem {
 
 function KanbanBoard() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const dragStartPos = useRef<{ x: number; y: number } | null>(null)
 
   const statusesQuery = useQuery(trpc.customerStatus.list.queryOptions())
   const customersQuery = useQuery(
@@ -128,8 +130,23 @@ function KanbanBoard() {
                 <div
                   key={customer.id}
                   draggable
-                  onDragStart={(e) => e.dataTransfer.setData('customerId', customer.id)}
-                  className='cursor-grab rounded-md border bg-card p-3 shadow-sm transition-shadow hover:shadow-md active:cursor-grabbing'
+                  onDragStart={(e) => {
+                    dragStartPos.current = { x: e.clientX, y: e.clientY }
+                    e.dataTransfer.setData('customerId', customer.id)
+                  }}
+                  onClick={(e) => {
+                    // Only navigate if this wasn't a drag (mouse moved < 5px)
+                    if (dragStartPos.current) {
+                      const dx = Math.abs(e.clientX - dragStartPos.current.x)
+                      const dy = Math.abs(e.clientY - dragStartPos.current.y)
+                      if (dx > 5 || dy > 5) return
+                    }
+                    navigate({ to: `/dashboard/customers/${customer.id}` as '/' })
+                  }}
+                  onDragEnd={() => {
+                    dragStartPos.current = null
+                  }}
+                  className='cursor-pointer rounded-md border bg-card p-3 shadow-sm transition-shadow hover:shadow-md active:cursor-grabbing'
                 >
                   <p className='text-sm font-medium'>{customer.name}</p>
                   {customer.phone && (
