@@ -37,14 +37,14 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 
 ### 1. Auth: Add password reset flow
 
-- [ ] Dev: Enable Better Auth `forgetPassword` plugin in server.ts
-- [ ] Dev: Add "Forgot password?" link below password field on login page
-- [ ] Dev: Create `/reset-password` route with token-based password reset form
-- [ ] Dev: Add i18n keys for forgot password flow (en + he)
-- [ ] Verify: Playwright — navigate to /login, click "Forgot password?", verify page loads
-- [ ] Verify: curl — POST to /api/auth/forgot-password with test email, check 200 response
-- [ ] Verify: Server logs — no errors during password reset flow
-- [ ] Fix if needed
+- [x] Dev: Enable Better Auth `forgetPassword` plugin in server.ts
+- [x] Dev: Add "Forgot password?" link below password field on login page
+- [x] Dev: Create `/reset-password` route with token-based password reset form
+- [x] Dev: Add i18n keys for forgot password flow (en + he)
+- [x] Verify: Playwright — navigate to /login, click "Forgot password?", verify page loads
+- [x] Verify: curl — POST to /api/auth/forgot-password with test email, check 200 response
+- [x] Verify: Server logs — no errors during password reset flow
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

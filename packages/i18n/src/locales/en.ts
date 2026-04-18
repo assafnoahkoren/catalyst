@@ -159,6 +159,21 @@ export const en = {
   customerFunnel: 'Customer Funnel',
   searchResults: 'Search Results',
   noResults: 'No results found',
+  forgotPassword: 'Forgot password?',
+  forgotPasswordTitle: 'Reset Password',
+  forgotPasswordDescription: 'Enter your email to receive a reset link',
+  sendResetLink: 'Send Reset Link',
+  sending: 'Sending...',
+  resetEmailSent: 'If an account with that email exists, a reset link has been sent.',
+  backToLogin: 'Back to Sign In',
+  resetPasswordTitle: 'Set New Password',
+  resetPasswordDescription: 'Enter your new password below',
+  newPassword: 'New Password',
+  confirmPassword: 'Confirm Password',
+  resetPassword: 'Reset Password',
+  resetting: 'Resetting...',
+  passwordsDoNotMatch: 'Passwords do not match',
+  resetFailed: 'Reset failed',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

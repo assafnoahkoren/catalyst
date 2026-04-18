@@ -9,9 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
@@ -28,6 +30,11 @@ import { Route as DashboardKnowledgeNewRouteImport } from './routes/dashboard/kn
 import { Route as DashboardCustomersCustomerIdRouteImport } from './routes/dashboard/customers/$customerId'
 import { Route as DashboardAutomationsFlowIdRouteImport } from './routes/dashboard/automations/$flowId'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -41,6 +48,11 @@ const OnboardingRoute = OnboardingRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -128,9 +140,11 @@ const DashboardAutomationsFlowIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/automations/$flowId': typeof DashboardAutomationsFlowIdRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
@@ -147,9 +161,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/automations/$flowId': typeof DashboardAutomationsFlowIdRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
@@ -168,9 +184,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/automations/$flowId': typeof DashboardAutomationsFlowIdRoute
   '/dashboard/customers/$customerId': typeof DashboardCustomersCustomerIdRoute
@@ -190,9 +208,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/forgot-password'
     | '/login'
     | '/onboarding'
     | '/register'
+    | '/reset-password'
     | '/dashboard/'
     | '/dashboard/automations/$flowId'
     | '/dashboard/customers/$customerId'
@@ -209,9 +229,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/forgot-password'
     | '/login'
     | '/onboarding'
     | '/register'
+    | '/reset-password'
     | '/dashboard'
     | '/dashboard/automations/$flowId'
     | '/dashboard/customers/$customerId'
@@ -229,9 +251,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/forgot-password'
     | '/login'
     | '/onboarding'
     | '/register'
+    | '/reset-password'
     | '/dashboard/'
     | '/dashboard/automations/$flowId'
     | '/dashboard/customers/$customerId'
@@ -250,13 +274,22 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
   RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -276,6 +309,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -425,9 +465,11 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
   RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

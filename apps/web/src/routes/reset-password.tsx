@@ -3,45 +3,50 @@ import { useTranslation } from '@catalyst/i18n'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/login')({
-  component: LoginPage,
+export const Route = createFileRoute('/reset-password')({
+  component: ResetPasswordPage,
 })
 
-function LoginPage() {
-  const navigate = useNavigate()
+function ResetPasswordPage() {
   const { t } = useTranslation()
-  const [email, setEmail] = useState('')
+  const navigate = useNavigate()
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
+
+    if (password !== confirmPassword) {
+      setError(t('passwordsDoNotMatch'))
+      return
+    }
+
     setLoading(true)
 
-    const result = await authClient.signIn.email({
-      email,
-      password,
+    const result = await authClient.resetPassword({
+      newPassword: password,
     })
 
     setLoading(false)
 
     if (result.error) {
-      setError(result.error.message ?? t('signInFailed'))
+      setError(result.error.message ?? t('resetFailed'))
       return
     }
 
-    navigate({ to: '/dashboard' })
+    navigate({ to: '/login' })
   }
 
   return (
     <main className='flex min-h-screen items-center justify-center p-8'>
       <div className='w-full max-w-sm space-y-6'>
         <div className='space-y-2 text-center'>
-          <h1 className='text-2xl font-bold'>{t('signInTitle')}</h1>
+          <h1 className='text-2xl font-bold'>{t('resetPasswordTitle')}</h1>
           <p className='text-sm text-muted-foreground'>
-            {t('signInDescription')}
+            {t('resetPasswordDescription')}
           </p>
         </div>
 
@@ -53,32 +58,33 @@ function LoginPage() {
           )}
 
           <div className='space-y-2'>
-            <label htmlFor='email' className='text-sm font-medium'>{t('email')}</label>
-            <input
-              id='email'
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
-              placeholder={t('emailPlaceholder')}
-            />
-          </div>
-
-          <div className='space-y-2'>
-            <label htmlFor='password' className='text-sm font-medium'>{t('password')}</label>
+            <label htmlFor='password' className='text-sm font-medium'>{t('newPassword')}</label>
             <input
               id='password'
               type='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={8}
               className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
               placeholder={t('passwordPlaceholder')}
             />
-            <Link to='/forgot-password' className='mt-1 block text-xs text-primary hover:underline'>
-              {t('forgotPassword')}
-            </Link>
+          </div>
+
+          <div className='space-y-2'>
+            <label htmlFor='confirmPassword' className='text-sm font-medium'>
+              {t('confirmPassword')}
+            </label>
+            <input
+              id='confirmPassword'
+              type='password'
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              minLength={8}
+              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+              placeholder={t('passwordPlaceholder')}
+            />
           </div>
 
           <button
@@ -86,16 +92,15 @@ function LoginPage() {
             disabled={loading}
             className='w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50'
           >
-            {loading ? t('signingIn') : t('signIn')}
+            {loading ? t('resetting') : t('resetPassword')}
           </button>
-        </form>
 
-        <p className='text-center text-sm text-muted-foreground'>
-          {t('noAccount')}{' '}
-          <Link to='/register' className='text-primary underline'>
-            {t('signUp')}
-          </Link>
-        </p>
+          <p className='text-center text-sm text-muted-foreground'>
+            <Link to='/login' className='text-primary underline'>
+              {t('backToLogin')}
+            </Link>
+          </p>
+        </form>
       </div>
     </main>
   )
