@@ -137,7 +137,7 @@ function CustomerDetailPage() {
   }
 
   if (!customer) {
-    return <div className='text-muted-foreground'>Customer not found</div>
+    return <div className='text-muted-foreground'>{t('customerNotFound')}</div>
   }
 
   return (
@@ -288,7 +288,7 @@ function CustomerDetailPage() {
             <h2 className='mb-3 text-sm font-semibold'>{t('activityTimeline')}</h2>
             <div className='space-y-3'>
               {activities.length === 0 && notes.length === 0 && (
-                <p className='text-sm text-muted-foreground'>No activity yet</p>
+                <p className='text-sm text-muted-foreground'>{t('noActivityYet')}</p>
               )}
               {activities.map((activity) => (
                 <div key={activity.id} className='flex gap-3 border-b pb-3 last:border-0'>

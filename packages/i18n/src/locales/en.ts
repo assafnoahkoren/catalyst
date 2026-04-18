@@ -191,6 +191,8 @@ export const en = {
   confirmDeleteMessage: 'This action cannot be undone.',
   deleteStatus: 'Delete status',
   removeMember: 'Remove member',
+  customerNotFound: 'Customer not found',
+  noActivityYet: 'No activity yet',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

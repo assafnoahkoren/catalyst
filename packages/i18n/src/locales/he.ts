@@ -191,4 +191,6 @@ export const he: Translations = {
   confirmDeleteMessage: 'פעולה זו אינה ניתנת לביטול.',
   deleteStatus: 'מחק סטטוס',
   removeMember: 'הסר חבר',
+  customerNotFound: 'לקוח לא נמצא',
+  noActivityYet: 'אין פעילות עדיין',
 }

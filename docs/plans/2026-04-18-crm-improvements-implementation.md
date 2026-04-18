@@ -361,48 +361,48 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: curl — ADMIN user performs same actions, verify 200
 - [x] Verify: Server logs — verify FORBIDDEN errors logged correctly
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 26. Multi-tenancy: Add tenant isolation integration tests
 
-- [ ] Dev: Create test file `apps/server/tests/tenant-isolation.test.ts`
-- [ ] Dev: Test: User A creates customer → User B (different tenant) cannot list it
-- [ ] Dev: Test: User B cannot update User A's customer
-- [ ] Dev: Test: User B cannot see User A's conversations, notes, knowledge
-- [ ] Dev: Test all tRPC procedures that use tenantProcedure
-- [ ] Verify: Run tests — `cd apps/server && bun run test`
-- [ ] Verify: All isolation tests pass
-- [ ] Verify: CI — push and verify tests pass in CI too
-- [ ] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Dev: Create test file `apps/server/tests/tenant-isolation.test.ts`
+- [x] Dev: Test: User A creates customer → User B (different tenant) cannot list it
+- [x] Dev: Test: User B cannot update User A's customer
+- [x] Dev: Test: User B cannot see User A's conversations, notes, knowledge
+- [x] Dev: Test all tRPC procedures that use tenantProcedure
+- [x] Verify: Run tests — `cd apps/server && bun run test`
+- [x] Verify: All isolation tests pass
+- [x] Verify: CI — push and verify tests pass in CI too
+- [x] Fix if needed
+- [x] Commit
+- [x] CI Check
 
 ### 27. i18n: Fix hardcoded English strings
 
-- [ ] Dev: Search codebase for hardcoded English text in TSX files
-- [ ] Dev: Move "Customer not found", "No activity yet" to i18n
-- [ ] Dev: Move WhatsApp handoff messages to i18n
-- [ ] Dev: Add matching Hebrew translations
-- [ ] Verify: `bun run lint:i18n` — verify no hardcoded strings found
-- [ ] Verify: Playwright — switch to Hebrew, navigate through pages, verify no English text leaked
-- [ ] Verify: Playwright — screenshot of customer detail page in Hebrew
-- [ ] Fix if needed
+- [x] Dev: Search codebase for hardcoded English text in TSX files
+- [x] Dev: Move "Customer not found", "No activity yet" to i18n
+- [x] Dev: Move WhatsApp handoff messages to i18n
+- [x] Dev: Add matching Hebrew translations
+- [x] Verify: `bun run lint:i18n` — verify no hardcoded strings found
+- [x] Verify: Playwright — switch to Hebrew, navigate through pages, verify no English text leaked
+- [x] Verify: Playwright — screenshot of customer detail page in Hebrew
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
 ### 28. Multi-tenancy: Add tenant switching
 
-- [ ] Dev: Add endpoint to list user's tenant memberships
-- [ ] Dev: Add tenant selector dropdown in sidebar (if user has multiple tenants)
-- [ ] Dev: Store selected tenant ID in session/localStorage
-- [ ] Dev: Update tenantProcedure to use selected tenant instead of findFirst
-- [ ] Verify: Seed a user with 2 tenants
-- [ ] Verify: Playwright — login, verify tenant selector shows both tenants
-- [ ] Verify: Playwright — switch tenant, verify dashboard data changes
-- [ ] Verify: Playwright — verify customer list shows different customers per tenant
-- [ ] Verify: Server logs — verify tenantId changes in request context
-- [ ] Fix if needed
+- [x] Dev: Add endpoint to list user's tenant memberships
+- [x] Dev: Add tenant selector dropdown in sidebar (if user has multiple tenants)
+- [x] Dev: Store selected tenant ID in session/localStorage
+- [x] Dev: Update tenantProcedure to use selected tenant instead of findFirst
+- [x] Verify: Seed a user with 2 tenants
+- [x] Verify: Playwright — login, verify tenant selector shows both tenants
+- [x] Verify: Playwright — switch tenant, verify dashboard data changes
+- [x] Verify: Playwright — verify customer list shows different customers per tenant
+- [x] Verify: Server logs — verify tenantId changes in request context
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

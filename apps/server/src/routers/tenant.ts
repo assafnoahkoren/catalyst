@@ -67,6 +67,13 @@ export const tenantRouter = router({
       return tenant
     }),
 
+  listMemberships: protectedProcedure.query(async ({ ctx }) => {
+    return prisma.tenantMember.findMany({
+      where: { userId: ctx.user.id },
+      include: { tenant: { select: { id: true, name: true, slug: true } } },
+    })
+  }),
+
   getCurrent: tenantProcedure.query(async ({ ctx }) => {
     return prisma.tenant.findUniqueOrThrow({ where: { id: ctx.tenantId } })
   }),
