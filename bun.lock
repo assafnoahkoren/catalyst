@@ -25,6 +25,7 @@
         "@catalyst/knowledge": "workspace:*",
         "@catalyst/logger": "workspace:*",
         "@catalyst/validation": "workspace:*",
+        "@catalyst/webhook": "workspace:*",
         "@catalyst/whatsapp": "workspace:*",
         "@hono/trpc-server": "^0.4.2",
         "@trpc/server": "^11.16.0",
@@ -172,6 +173,17 @@
         "vitest": "^4.1.4",
       },
     },
+    "packages/webhook": {
+      "name": "@catalyst/webhook",
+      "dependencies": {
+        "@catalyst/db": "workspace:*",
+      },
+      "devDependencies": {
+        "@catalyst/tsconfig": "workspace:*",
+        "typescript": "^5",
+        "vitest": "^4.1.4",
+      },
+    },
     "packages/whatsapp": {
       "name": "@catalyst/whatsapp",
       "devDependencies": {
@@ -267,6 +279,8 @@
     "@catalyst/validation": ["@catalyst/validation@workspace:packages/validation"],
 
     "@catalyst/web": ["@catalyst/web@workspace:apps/web"],
+
+    "@catalyst/webhook": ["@catalyst/webhook@workspace:packages/webhook"],
 
     "@catalyst/whatsapp": ["@catalyst/whatsapp@workspace:packages/whatsapp"],
 

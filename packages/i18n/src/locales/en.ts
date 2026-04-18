@@ -120,6 +120,18 @@ export const en = {
   send: 'Send',
   noConversations: 'No conversations yet',
   noMessages: 'No messages yet',
+  webhookEndpoints: 'Webhook Endpoints',
+  createWebhook: 'Create Webhook',
+  webhookUrl: 'Webhook URL',
+  copyUrl: 'Copy',
+  copied: 'Copied!',
+  fieldMapping: 'Field Mapping',
+  externalField: 'External Field',
+  mapsTo: 'Maps To',
+  active: 'Active',
+  inactive: 'Inactive',
+  noWebhooks: 'No webhooks configured',
+  curlExample: 'Example',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

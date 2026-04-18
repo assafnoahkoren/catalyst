@@ -16,6 +16,7 @@
     "@catalyst/db": "workspace:*",
     "@catalyst/knowledge": "workspace:*",
     "@catalyst/logger": "workspace:*",
+    "@catalyst/webhook": "workspace:*",
     "@catalyst/whatsapp": "workspace:*",
     "@catalyst/validation": "workspace:*",
     "@hono/trpc-server": "^0.4.2",

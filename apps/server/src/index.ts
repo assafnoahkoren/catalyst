@@ -6,6 +6,7 @@ import { cors } from 'hono/cors'
 import { requestLogger } from './middleware/logger'
 import { sessionMiddleware } from './middleware/session'
 import { appRouter } from './routers'
+import { webhookIngestion } from './routes/webhook-ingestion'
 import { whatsappWebhook } from './routes/whatsapp-webhook'
 
 const app = new Hono<{
@@ -35,6 +36,9 @@ app.get('/health', (c) => c.json({ status: 'ok' }))
 
 // Better Auth handler
 app.on(['POST', 'GET'], '/api/auth/**', (c) => auth.handler(c.req.raw))
+
+// Webhook ingestion
+app.route('/api/webhook', webhookIngestion)
 
 // WhatsApp webhook
 app.route('/api/whatsapp', whatsappWebhook)

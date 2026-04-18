@@ -8,6 +8,7 @@ import { customerStatusRouter } from './customer-status'
 import { knowledgeRouter } from './knowledge'
 import { noteRouter } from './note'
 import { tenantRouter } from './tenant'
+import { webhookRouter } from './webhook'
 
 export const appRouter = router({
   auth: authRouter,
@@ -19,6 +20,7 @@ export const appRouter = router({
   activity: activityRouter,
   knowledge: knowledgeRouter,
   conversation: conversationRouter,
+  webhook: webhookRouter,
 })
 
 export type AppRouter = typeof appRouter
