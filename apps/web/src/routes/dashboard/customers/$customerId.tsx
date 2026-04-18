@@ -39,19 +39,26 @@ function CustomerDetailPage() {
   const navigate = useNavigate()
   const [noteBody, setNoteBody] = useState('')
 
-  // eslint-disable-next-line -- bypass deep Prisma Json type inference
-  const client = trpcClient as any
-  const customerQuery = useQuery<CustomerData>({
-    queryKey: ['customer', 'getById', customerId],
-    queryFn: () => client.customer.getById.query({ id: customerId }),
+  const customerQuery = useQuery({
+    queryKey: ['customer', 'getById', customerId] as const,
+    queryFn: async (): Promise<CustomerData> => {
+      const res = await trpcClient.customer.getById.query({ id: customerId })
+      return res as unknown as CustomerData
+    },
   })
-  const activitiesQuery = useQuery<{ items: ActivityItem[] }>({
-    queryKey: ['activity', 'list', customerId],
-    queryFn: () => client.activity.list.query({ customerId, page: 1, pageSize: 50 }),
+  const activitiesQuery = useQuery({
+    queryKey: ['activity', 'list', customerId] as const,
+    queryFn: async (): Promise<{ items: ActivityItem[] }> => {
+      const res = await trpcClient.activity.list.query({ customerId, page: 1, pageSize: 50 })
+      return res as unknown as { items: ActivityItem[] }
+    },
   })
-  const notesQuery = useQuery<NoteItem[]>({
-    queryKey: ['note', 'list', customerId],
-    queryFn: () => client.note.list.query({ customerId }),
+  const notesQuery = useQuery({
+    queryKey: ['note', 'list', customerId] as const,
+    queryFn: async (): Promise<NoteItem[]> => {
+      const res = await trpcClient.note.list.query({ customerId })
+      return res as unknown as NoteItem[]
+    },
   })
 
   const customer = customerQuery.data
@@ -60,7 +67,7 @@ function CustomerDetailPage() {
 
   async function handleAddNote() {
     if (!noteBody.trim()) return
-    await client.note.create.mutate({ customerId, body: noteBody })
+    await trpcClient.note.create.mutate({ customerId, body: noteBody })
     setNoteBody('')
     notesQuery.refetch()
     activitiesQuery.refetch()
