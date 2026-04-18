@@ -1,10 +1,10 @@
-import { openai } from './client'
+import { getOpenAI } from './client'
 
 const EMBEDDING_MODEL = 'text-embedding-3-small'
 const MAX_BATCH_SIZE = 100
 
 export async function embedText(text: string): Promise<number[]> {
-  const response = await openai.embeddings.create({
+  const response = await getOpenAI().embeddings.create({
     model: EMBEDDING_MODEL,
     input: text,
   })
@@ -16,7 +16,7 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
 
   for (let i = 0; i < texts.length; i += MAX_BATCH_SIZE) {
     const batch = texts.slice(i, i + MAX_BATCH_SIZE)
-    const response = await openai.embeddings.create({
+    const response = await getOpenAI().embeddings.create({
       model: EMBEDDING_MODEL,
       input: batch,
     })

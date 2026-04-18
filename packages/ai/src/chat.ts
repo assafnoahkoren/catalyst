@@ -1,5 +1,5 @@
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions'
-import { openai } from './client'
+import { getOpenAI } from './client'
 
 const CHAT_MODEL = 'gpt-4o'
 
@@ -22,7 +22,7 @@ export async function chat(options: ChatOptions): Promise<string> {
     { role: 'user', content: options.userMessage },
   ]
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: CHAT_MODEL,
     messages,
     max_tokens: options.maxTokens ?? 500,
