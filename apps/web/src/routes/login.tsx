@@ -32,7 +32,7 @@ function LoginPage() {
       return
     }
 
-    navigate({ to: '/' })
+    navigate({ to: '/dashboard' })
   }
 
   return (

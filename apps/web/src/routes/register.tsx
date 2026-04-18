@@ -34,7 +34,7 @@ function RegisterPage() {
       return
     }
 
-    navigate({ to: '/' })
+    navigate({ to: '/onboarding' })
   }
 
   return (

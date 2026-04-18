@@ -43,7 +43,7 @@ function OnboardingPage() {
     setLoading(true)
     try {
       await trpcClient.tenant.create.mutate({ name, slug, language })
-      navigate({ to: '/' })
+      navigate({ to: '/dashboard' as '/' })
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err)
       if (message.includes('Slug already taken')) {
