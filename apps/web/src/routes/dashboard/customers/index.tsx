@@ -176,9 +176,11 @@ function CustomerTable() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [page, setPage] = useState(1)
+  const [searchInput, setSearchInput] = useState('')
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState<'name' | 'createdAt' | 'updatedAt'>('createdAt')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const customersQuery = useQuery(
     trpc.customer.list.queryOptions({
@@ -215,18 +217,23 @@ function CustomerTable() {
       <input
         type='search'
         placeholder={t('search')}
-        value={search}
+        value={searchInput}
         onChange={(e) => {
-          setSearch(e.target.value)
-          setPage(1)
+          const val = e.target.value
+          setSearchInput(val)
+          if (debounceRef.current) clearTimeout(debounceRef.current)
+          debounceRef.current = setTimeout(() => {
+            setSearch(val)
+            setPage(1)
+          }, 300)
         }}
         className='w-64 rounded-md border border-input bg-background px-3 py-1.5 text-sm'
       />
 
-      <div className='overflow-x-auto rounded-md border'>
+      <div className='max-h-[60vh] overflow-auto rounded-md border'>
         <table className='w-full text-sm'>
-          <thead>
-            <tr className='border-b bg-muted/50'>
+          <thead className='sticky top-0 z-10'>
+            <tr className='border-b bg-muted'>
               <th
                 className='cursor-pointer px-4 py-2 text-start font-medium'
                 onClick={() => handleSort('name')}
