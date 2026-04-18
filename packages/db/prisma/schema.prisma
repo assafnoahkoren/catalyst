@@ -76,8 +76,9 @@ model Tenant {
   conversations    Conversation[]
   notes            Note[]
   activities       Activity[]
-  automationFlows  AutomationFlow[]
-  webhookEndpoints WebhookEndpoint[]
+  automationFlows    AutomationFlow[]
+  webhookEndpoints   WebhookEndpoint[]
+  knowledgeEntries   KnowledgeEntry[]
 }
 
 model TenantMember {
@@ -236,6 +237,22 @@ model Activity {
   customerId String   @db.ObjectId
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   actorId    String?  @db.ObjectId
+}
+
+model KnowledgeEntry {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  content    String
+  type       String   @default("TEXT")
+  fileUrl    String?
+  sourceUrl  String?
+  question   String?
+  answer     String?
+  chunkCount Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  tenantId String @db.ObjectId
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 }
 
 enum AutomationLogStatus {
