@@ -56,6 +56,20 @@ export const en = {
   showing: 'Showing',
   of: 'of',
   deleteCustomer: 'Delete',
+  customerDetails: 'Customer Details',
+  activityTimeline: 'Activity',
+  notes: 'Notes',
+  addNote: 'Add Note',
+  notePlaceholder: 'Write a note...',
+  save: 'Save',
+  back: 'Back',
+  statusChange: 'Status changed',
+  from: 'from',
+  to: 'to',
+  customerCreated: 'Customer created',
+  noteAdded: 'Note added',
+  assignmentChanged: 'Assignment changed',
+  tags: 'Tags',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

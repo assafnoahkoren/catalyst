@@ -1,0 +1,212 @@
+import { useTranslation } from '@catalyst/i18n'
+import { useQuery } from '@tanstack/react-query'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
+import { trpcClient } from '../../../lib/trpc'
+
+export const Route = createFileRoute('/dashboard/customers/$customerId')({
+  component: CustomerDetailPage,
+})
+
+interface CustomerData {
+  id: string
+  name: string
+  email: string | null
+  phone: string | null
+  tags: string[]
+  status: { id: string; name: string; color: string }
+  createdAt: string
+}
+
+interface ActivityItem {
+  id: string
+  type: string
+  data: Record<string, unknown>
+  createdAt: string
+  actorId: string | null
+}
+
+interface NoteItem {
+  id: string
+  body: string
+  createdAt: string
+  authorId: string
+}
+
+function CustomerDetailPage() {
+  const { customerId } = Route.useParams()
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const [noteBody, setNoteBody] = useState('')
+
+  // eslint-disable-next-line -- bypass deep Prisma Json type inference
+  const client = trpcClient as any
+  const customerQuery = useQuery<CustomerData>({
+    queryKey: ['customer', 'getById', customerId],
+    queryFn: () => client.customer.getById.query({ id: customerId }),
+  })
+  const activitiesQuery = useQuery<{ items: ActivityItem[] }>({
+    queryKey: ['activity', 'list', customerId],
+    queryFn: () => client.activity.list.query({ customerId, page: 1, pageSize: 50 }),
+  })
+  const notesQuery = useQuery<NoteItem[]>({
+    queryKey: ['note', 'list', customerId],
+    queryFn: () => client.note.list.query({ customerId }),
+  })
+
+  const customer = customerQuery.data
+  const activities = activitiesQuery.data?.items ?? []
+  const notes = notesQuery.data ?? []
+
+  async function handleAddNote() {
+    if (!noteBody.trim()) return
+    await client.note.create.mutate({ customerId, body: noteBody })
+    setNoteBody('')
+    notesQuery.refetch()
+    activitiesQuery.refetch()
+  }
+
+  if (customerQuery.isLoading) {
+    return (
+      <div className='animate-pulse space-y-4'>
+        <div className='h-8 w-48 rounded bg-muted' />
+        <div className='h-4 w-32 rounded bg-muted' />
+      </div>
+    )
+  }
+
+  if (!customer) {
+    return <div className='text-muted-foreground'>Customer not found</div>
+  }
+
+  return (
+    <div className='space-y-6'>
+      <div className='flex items-center gap-4'>
+        <button
+          onClick={() => navigate({ to: '/dashboard/customers' as '/' })}
+          className='text-sm text-muted-foreground hover:text-foreground'
+        >
+          {t('back')}
+        </button>
+        <h1 className='text-2xl font-bold'>{customer.name}</h1>
+        <span
+          className='rounded-full px-2 py-0.5 text-xs font-medium text-white'
+          style={{ backgroundColor: customer.status.color }}
+        >
+          {customer.status.name}
+        </span>
+      </div>
+
+      <div className='grid gap-6 lg:grid-cols-3'>
+        {/* Customer info */}
+        <div className='space-y-4 lg:col-span-1'>
+          <div className='rounded-lg border p-4'>
+            <h2 className='mb-3 text-sm font-semibold'>{t('customerDetails')}</h2>
+            <dl className='space-y-2 text-sm'>
+              <div>
+                <dt className='text-muted-foreground'>{t('email')}</dt>
+                <dd>{customer.email ?? '-'}</dd>
+              </div>
+              <div>
+                <dt className='text-muted-foreground'>{t('phone')}</dt>
+                <dd>{customer.phone ?? '-'}</dd>
+              </div>
+              <div>
+                <dt className='text-muted-foreground'>{t('tags')}</dt>
+                <dd className='flex flex-wrap gap-1'>
+                  {customer.tags.length === 0 && '-'}
+                  {customer.tags.map((tag) => (
+                    <span key={tag} className='rounded bg-muted px-1.5 py-0.5 text-xs'>
+                      {tag}
+                    </span>
+                  ))}
+                </dd>
+              </div>
+              <div>
+                <dt className='text-muted-foreground'>{t('createdAt')}</dt>
+                <dd>{new Date(customer.createdAt).toLocaleDateString()}</dd>
+              </div>
+            </dl>
+          </div>
+
+          {/* Add note */}
+          <div className='rounded-lg border p-4'>
+            <h2 className='mb-3 text-sm font-semibold'>{t('addNote')}</h2>
+            <textarea
+              value={noteBody}
+              onChange={(e) => setNoteBody(e.target.value)}
+              placeholder={t('notePlaceholder')}
+              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+              rows={3}
+            />
+            <button
+              onClick={handleAddNote}
+              disabled={!noteBody.trim()}
+              className='mt-2 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50'
+            >
+              {t('save')}
+            </button>
+          </div>
+        </div>
+
+        {/* Activity + Notes timeline */}
+        <div className='space-y-4 lg:col-span-2'>
+          <div className='rounded-lg border p-4'>
+            <h2 className='mb-3 text-sm font-semibold'>{t('activityTimeline')}</h2>
+            <div className='space-y-3'>
+              {activities.length === 0 && notes.length === 0 && (
+                <p className='text-sm text-muted-foreground'>No activity yet</p>
+              )}
+              {activities.map((activity) => (
+                <div key={activity.id} className='flex gap-3 border-b pb-3 last:border-0'>
+                  <div className='mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary' />
+                  <div className='text-sm'>
+                    <p>{formatActivity(activity, t)}</p>
+                    <p className='text-xs text-muted-foreground'>
+                      {new Date(activity.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {notes.length > 0 && (
+            <div className='rounded-lg border p-4'>
+              <h2 className='mb-3 text-sm font-semibold'>{t('notes')}</h2>
+              <div className='space-y-3'>
+                {notes.map((note) => (
+                  <div key={note.id} className='rounded-md bg-muted/50 p-3 text-sm'>
+                    <p>{note.body}</p>
+                    <p className='mt-1 text-xs text-muted-foreground'>
+                      {new Date(note.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function formatActivity(
+  activity: ActivityItem,
+  t: (key: string) => string,
+): string {
+  const data = activity.data as Record<string, string>
+  switch (activity.type) {
+    case 'STATUS_CHANGE':
+      return `${t('statusChange')}: ${data.from} → ${data.to}`
+    case 'CREATED':
+      return t('customerCreated')
+    case 'NOTE':
+      return t('noteAdded')
+    case 'ASSIGNMENT':
+      return t('assignmentChanged')
+    default:
+      return activity.type
+  }
+}
