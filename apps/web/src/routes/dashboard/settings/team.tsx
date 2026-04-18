@@ -21,6 +21,7 @@ function TeamPage() {
   const members = (membersQuery.data ?? []) as MemberData[]
   const [email, setEmail] = useState('')
   const [role, setRole] = useState<'ADMIN' | 'MEMBER'>('MEMBER')
+  const [confirmRemoveId, setConfirmRemoveId] = useState<string | null>(null)
 
   async function handleInvite(e: React.FormEvent) {
     e.preventDefault()
@@ -86,7 +87,7 @@ function TeamPage() {
               </span>
               {m.role !== 'OWNER' && (
                 <button
-                  onClick={() => handleRemove(m.id)}
+                  onClick={() => setConfirmRemoveId(m.id)}
                   className='text-xs text-destructive hover:underline'
                 >
                   {t('remove')}
@@ -96,6 +97,38 @@ function TeamPage() {
           </div>
         ))}
       </div>
+
+      {confirmRemoveId && (
+        <div
+          className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'
+          onClick={() => setConfirmRemoveId(null)}
+        >
+          <div
+            className='w-full max-w-sm rounded-lg bg-card p-6 shadow-xl'
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className='text-lg font-semibold'>{t('areYouSure')}</h3>
+            <p className='mt-2 text-sm text-muted-foreground'>{t('confirmDeleteMessage')}</p>
+            <div className='mt-4 flex justify-end gap-2'>
+              <button
+                onClick={() => setConfirmRemoveId(null)}
+                className='rounded-md border px-4 py-2 text-sm'
+              >
+                {t('cancel')}
+              </button>
+              <button
+                onClick={() => {
+                  handleRemove(confirmRemoveId)
+                  setConfirmRemoveId(null)
+                }}
+                className='rounded-md bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground'
+              >
+                {t('removeMember')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

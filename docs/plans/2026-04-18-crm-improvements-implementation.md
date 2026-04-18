@@ -294,33 +294,33 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Server logs — verify automation engine fired and executed steps
 - [x] Verify: curl — check AutomationLog for execution record
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 21. Settings: Add save confirmation feedback (toast)
 
-- [ ] Dev: Add toast.success() after tenant.update mutation succeeds
-- [ ] Dev: Add toast.success() after team invite succeeds
-- [ ] Dev: Add toast.success() after status create/delete succeeds
-- [ ] Dev: Add toast.success() after custom field create/delete succeeds
-- [ ] Verify: Playwright — go to settings, change org name, save, verify toast appears
-- [ ] Verify: Playwright — go to pipeline settings, add status, verify toast
-- [ ] Verify: Playwright — screenshot showing success toast
-- [ ] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Dev: Add toast.success() after tenant.update mutation succeeds
+- [x] Dev: Add toast.success() after team invite succeeds
+- [x] Dev: Add toast.success() after status create/delete succeeds
+- [x] Dev: Add toast.success() after custom field create/delete succeeds
+- [x] Verify: Playwright — go to settings, change org name, save, verify toast appears
+- [x] Verify: Playwright — go to pipeline settings, add status, verify toast
+- [x] Verify: Playwright — screenshot showing success toast
+- [x] Fix if needed
+- [x] Commit
+- [x] CI Check
 
 ### 22. Settings: Add confirmation dialogs for destructive actions
 
-- [ ] Dev: Create `<ConfirmDialog>` component with title, message, confirm/cancel buttons
-- [ ] Dev: Use red confirm button with verb+noun label ("Delete status")
-- [ ] Dev: Add to: remove team member, delete status, delete custom field, delete customer
-- [ ] Dev: Add i18n keys: `confirmDelete`, `confirmRemove`, `areYouSure`
-- [ ] Verify: Playwright — go to pipeline settings, click delete on a status
-- [ ] Verify: Playwright — verify dialog appears with red "Delete status" button
-- [ ] Verify: Playwright — click cancel, verify status still exists
-- [ ] Verify: Playwright — click delete, verify status removed + toast shown
-- [ ] Fix if needed
+- [x] Dev: Create `<ConfirmDialog>` component with title, message, confirm/cancel buttons
+- [x] Dev: Use red confirm button with verb+noun label ("Delete status")
+- [x] Dev: Add to: remove team member, delete status, delete custom field, delete customer
+- [x] Dev: Add i18n keys: `confirmDelete`, `confirmRemove`, `areYouSure`
+- [x] Verify: Playwright — go to pipeline settings, click delete on a status
+- [x] Verify: Playwright — verify dialog appears with red "Delete status" button
+- [x] Verify: Playwright — click cancel, verify status still exists
+- [x] Verify: Playwright — click delete, verify status removed + toast shown
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

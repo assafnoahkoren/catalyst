@@ -185,4 +185,10 @@ export const he: Translations = {
   creating: 'יוצר...',
   create: 'צור',
   close: 'סגור',
+  confirmDelete: 'מחק',
+  confirmRemove: 'הסר',
+  areYouSure: 'האם אתה בטוח?',
+  confirmDeleteMessage: 'פעולה זו אינה ניתנת לביטול.',
+  deleteStatus: 'מחק סטטוס',
+  removeMember: 'הסר חבר',
 }

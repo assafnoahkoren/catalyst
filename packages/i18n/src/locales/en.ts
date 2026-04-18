@@ -185,6 +185,12 @@ export const en = {
   creating: 'Creating...',
   create: 'Create',
   close: 'Close',
+  confirmDelete: 'Delete',
+  confirmRemove: 'Remove',
+  areYouSure: 'Are you sure?',
+  confirmDeleteMessage: 'This action cannot be undone.',
+  deleteStatus: 'Delete status',
+  removeMember: 'Remove member',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

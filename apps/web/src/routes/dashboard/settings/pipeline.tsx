@@ -24,6 +24,7 @@ function PipelinePage() {
   const statuses = (statusesQuery.data ?? []) as StatusData[]
   const [newName, setNewName] = useState('')
   const [newColor, setNewColor] = useState('#6B7280')
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault()
@@ -70,10 +71,10 @@ function PipelinePage() {
             )}
             {!status.isDefault && (
               <button
-                onClick={() => handleDelete(status.id)}
+                onClick={() => setConfirmDeleteId(status.id)}
                 className='text-xs text-destructive hover:underline'
               >
-                {t('deleteCustomer')}
+                {t('deleteStatus')}
               </button>
             )}
           </div>
@@ -106,6 +107,39 @@ function PipelinePage() {
           {t('addStatus')}
         </button>
       </form>
+
+      {/* Confirm delete dialog */}
+      {confirmDeleteId && (
+        <div
+          className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'
+          onClick={() => setConfirmDeleteId(null)}
+        >
+          <div
+            className='w-full max-w-sm rounded-lg bg-card p-6 shadow-xl'
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className='text-lg font-semibold'>{t('areYouSure')}</h3>
+            <p className='mt-2 text-sm text-muted-foreground'>{t('confirmDeleteMessage')}</p>
+            <div className='mt-4 flex justify-end gap-2'>
+              <button
+                onClick={() => setConfirmDeleteId(null)}
+                className='rounded-md border px-4 py-2 text-sm'
+              >
+                {t('cancel')}
+              </button>
+              <button
+                onClick={() => {
+                  handleDelete(confirmDeleteId)
+                  setConfirmDeleteId(null)
+                }}
+                className='rounded-md bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground'
+              >
+                {t('deleteStatus')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
