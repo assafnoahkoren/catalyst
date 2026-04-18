@@ -348,19 +348,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Verify first 5 return 200/401, 6th returns 429
 - [x] Verify: Server logs — verify rate limit hit logged
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 25. Security: Add consistent role enforcement
 
-- [ ] Dev: Create `adminProcedure` extending `tenantProcedure` with role check
-- [ ] Dev: Apply to: tenant.update, tenant.invite, tenant.removeMember, customerStatus CRUD, customField CRUD
-- [ ] Dev: Return FORBIDDEN for MEMBER role on admin-only endpoints
-- [ ] Verify: curl — create a MEMBER user, try to invite a team member, verify 403
-- [ ] Verify: curl — same MEMBER tries to delete a status, verify 403
-- [ ] Verify: curl — ADMIN user performs same actions, verify 200
-- [ ] Verify: Server logs — verify FORBIDDEN errors logged correctly
-- [ ] Fix if needed
+- [x] Dev: Create `adminProcedure` extending `tenantProcedure` with role check
+- [x] Dev: Apply to: tenant.update, tenant.invite, tenant.removeMember, customerStatus CRUD, customField CRUD
+- [x] Dev: Return FORBIDDEN for MEMBER role on admin-only endpoints
+- [x] Verify: curl — create a MEMBER user, try to invite a team member, verify 403
+- [x] Verify: curl — same MEMBER tries to delete a status, verify 403
+- [x] Verify: curl — ADMIN user performs same actions, verify 200
+- [x] Verify: Server logs — verify FORBIDDEN errors logged correctly
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

@@ -2,7 +2,7 @@ import { prisma } from '@catalyst/db'
 import { createTenantSchema, inviteMemberSchema, updateTenantSchema } from '@catalyst/validation'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
-import { protectedProcedure, router, tenantProcedure } from '../lib/trpc'
+import { adminProcedure, protectedProcedure, router, tenantProcedure } from '../lib/trpc'
 
 const DEFAULT_STATUSES: Record<string, Array<{ name: string; color: string; isClosed: boolean }>> =
   {
@@ -71,7 +71,7 @@ export const tenantRouter = router({
     return prisma.tenant.findUniqueOrThrow({ where: { id: ctx.tenantId } })
   }),
 
-  update: tenantProcedure
+  update: adminProcedure
     .input(updateTenantSchema)
     .mutation(async ({ ctx, input }) => {
       const { settings, ...rest } = input
@@ -91,16 +91,9 @@ export const tenantRouter = router({
     })
   }),
 
-  invite: tenantProcedure
+  invite: adminProcedure
     .input(inviteMemberSchema)
     .mutation(async ({ ctx, input }) => {
-      if (ctx.memberRole === 'MEMBER') {
-        throw new TRPCError({
-          code: 'FORBIDDEN',
-          message: 'Only admins and owners can invite members',
-        })
-      }
-
       const user = await prisma.user.findUnique({ where: { email: input.email } })
       if (!user) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' })
@@ -123,16 +116,9 @@ export const tenantRouter = router({
       })
     }),
 
-  removeMember: tenantProcedure
+  removeMember: adminProcedure
     .input(z.object({ memberId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      if (ctx.memberRole === 'MEMBER') {
-        throw new TRPCError({
-          code: 'FORBIDDEN',
-          message: 'Only admins and owners can remove members',
-        })
-      }
-
       const member = await prisma.tenantMember.findFirst({
         where: { id: input.memberId, tenantId: ctx.tenantId },
       })

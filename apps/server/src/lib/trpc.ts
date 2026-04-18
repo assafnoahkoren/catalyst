@@ -39,3 +39,13 @@ export const tenantProcedure = protectedProcedure.use(async ({ ctx, next }) => {
     },
   })
 })
+
+export const adminProcedure = tenantProcedure.use(async ({ ctx, next }) => {
+  if (ctx.memberRole === 'MEMBER') {
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'Admin or owner access required',
+    })
+  }
+  return next({ ctx })
+})
