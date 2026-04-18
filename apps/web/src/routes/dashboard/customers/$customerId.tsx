@@ -106,7 +106,8 @@ function CustomerDetailPage() {
 
   async function handleCustomFieldSave(key: string, value: unknown) {
     try {
-      const updatedFields = { ...(customer?.customFields ?? {}), [key]: value }
+      const existing = customer?.customFields ?? {}
+      const updatedFields = { ...existing, [key]: value }
       await trpcClient.customer.update.mutate({
         id: customerId,
         customFields: updatedFields as Record<string, unknown>,
