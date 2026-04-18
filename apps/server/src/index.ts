@@ -6,6 +6,7 @@ import { cors } from 'hono/cors'
 import { requestLogger } from './middleware/logger'
 import { sessionMiddleware } from './middleware/session'
 import { appRouter } from './routers'
+import { fileUpload } from './routes/file-upload'
 import { webhookIngestion } from './routes/webhook-ingestion'
 import { whatsappWebhook } from './routes/whatsapp-webhook'
 
@@ -36,6 +37,9 @@ app.get('/health', (c) => c.json({ status: 'ok' }))
 
 // Better Auth handler
 app.on(['POST', 'GET'], '/api/auth/**', (c) => auth.handler(c.req.raw))
+
+// File upload
+app.route('/api/upload', fileUpload)
 
 // Webhook ingestion
 app.route('/api/webhook', webhookIngestion)

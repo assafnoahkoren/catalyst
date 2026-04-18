@@ -266,20 +266,20 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: curl — upload DOCX, verify text extracted
 - [x] Verify: Server logs — no parsing errors
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 19. Knowledge: Add file upload endpoint
 
-- [ ] Dev: Create Hono route accepting multipart/form-data
-- [ ] Dev: Parse uploaded file, chunk, embed, store
-- [ ] Dev: Add upload form to knowledge/new page (drag-and-drop dropzone)
-- [ ] Dev: Show upload progress (parsing → chunking → embedding → done)
-- [ ] Verify: Playwright — navigate to /dashboard/knowledge/new
-- [ ] Verify: Playwright — upload a .txt file via the form
-- [ ] Verify: Playwright — verify entry appears in knowledge list with chunk count > 0
-- [ ] Verify: Server logs — verify embedding pipeline completed without errors
-- [ ] Fix if needed
+- [x] Dev: Create Hono route accepting multipart/form-data
+- [x] Dev: Parse uploaded file, chunk, embed, store
+- [x] Dev: Add upload form to knowledge/new page (drag-and-drop dropzone)
+- [x] Dev: Show upload progress (parsing → chunking → embedding → done)
+- [x] Verify: Playwright — navigate to /dashboard/knowledge/new
+- [x] Verify: Playwright — upload a .txt file via the form
+- [x] Verify: Playwright — verify entry appears in knowledge list with chunk count > 0
+- [x] Verify: Server logs — verify embedding pipeline completed without errors
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

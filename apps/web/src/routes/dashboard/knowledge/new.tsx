@@ -7,7 +7,7 @@ export const Route = createFileRoute('/dashboard/knowledge/new')({
   component: NewKnowledgePage,
 })
 
-type EntryType = 'TEXT' | 'QA_PAIR' | 'URL'
+type EntryType = 'TEXT' | 'QA_PAIR' | 'URL' | 'FILE'
 
 function NewKnowledgePage() {
   const { t } = useTranslation()
@@ -18,19 +18,29 @@ function NewKnowledgePage() {
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
   const [url, setUrl] = useState('')
+  const [file, setFile] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     try {
-      if (entryType === 'URL') {
+      if (entryType === 'FILE' && file) {
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('title', title || file.name)
+        const res = await fetch('/api/upload/knowledge/upload', { method: 'POST', body: formData })
+        if (!res.ok) {
+          const err = await res.json() as { error?: string }
+          throw new Error(err.error ?? 'Upload failed')
+        }
+      } else if (entryType === 'URL') {
         await trpcClient.knowledge.addUrl.mutate({ title, url })
       } else {
         await trpcClient.knowledge.createText.mutate({
           title,
           content: entryType === 'QA_PAIR' ? `${question}\n${answer}` : content,
-          type: entryType,
+          type: entryType as 'TEXT' | 'QA_PAIR',
           question: entryType === 'QA_PAIR' ? question : undefined,
           answer: entryType === 'QA_PAIR' ? answer : undefined,
         })
@@ -46,7 +56,7 @@ function NewKnowledgePage() {
       <h1 className='text-2xl font-bold'>{t('addEntry')}</h1>
 
       <div className='flex gap-2'>
-        {(['TEXT', 'QA_PAIR', 'URL'] as const).map((type) => (
+        {(['TEXT', 'QA_PAIR', 'URL', 'FILE'] as const).map((type) => (
           <button
             key={type}
             onClick={() => setEntryType(type)}
@@ -56,7 +66,13 @@ function NewKnowledgePage() {
                 : 'border text-muted-foreground hover:text-foreground'
             }`}
           >
-            {type === 'TEXT' ? t('textEntry') : type === 'QA_PAIR' ? t('qaEntry') : t('urlEntry')}
+            {type === 'TEXT'
+              ? t('textEntry')
+              : type === 'QA_PAIR'
+              ? t('qaEntry')
+              : type === 'URL'
+              ? t('urlEntry')
+              : 'File'}
           </button>
         ))}
       </div>
@@ -118,6 +134,19 @@ function NewKnowledgePage() {
               required
               type='url'
               className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+            />
+          </div>
+        )}
+
+        {entryType === 'FILE' && (
+          <div className='space-y-2'>
+            <label className='text-sm font-medium'>File (PDF, DOCX, TXT)</label>
+            <input
+              type='file'
+              accept='.pdf,.docx,.doc,.txt'
+              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+              required
+              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:mr-4 file:rounded file:border-0 file:bg-primary file:px-2 file:py-1 file:text-xs file:text-primary-foreground'
             />
           </div>
         )}
