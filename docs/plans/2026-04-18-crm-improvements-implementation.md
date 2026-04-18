@@ -174,19 +174,19 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — press Escape, verify edit cancelled (original value restored)
 - [x] Fix if needed
 - [x] Commit
-- [ ] CI Check
+- [x] CI Check
 
 ### 12. Customer Detail: Add status change
 
-- [ ] Dev: Replace status badge with clickable dropdown
-- [ ] Dev: Show all statuses from customerStatus.list
-- [ ] Dev: Call customer.changeStatus on selection
-- [ ] Dev: Verify activity is created automatically
-- [ ] Verify: Playwright — navigate to customer detail, click status badge
-- [ ] Verify: Playwright — select new status, verify badge changes
-- [ ] Verify: Playwright — verify activity timeline shows "Status changed: X → Y"
-- [ ] Verify: curl — GET customer by ID, verify statusId changed
-- [ ] Fix if needed
+- [x] Dev: Replace status badge with clickable dropdown
+- [x] Dev: Show all statuses from customerStatus.list
+- [x] Dev: Call customer.changeStatus on selection
+- [x] Dev: Verify activity is created automatically
+- [x] Verify: Playwright — navigate to customer detail, click status badge
+- [x] Verify: Playwright — select new status, verify badge changes
+- [x] Verify: Playwright — verify activity timeline shows "Status changed: X → Y"
+- [x] Verify: curl — GET customer by ID, verify statusId changed
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

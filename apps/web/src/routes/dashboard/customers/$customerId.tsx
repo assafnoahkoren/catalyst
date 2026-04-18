@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { trpcClient } from '../../../lib/trpc'
+import { trpc, trpcClient } from '../../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/customers/$customerId')({
   component: CustomerDetailPage,
@@ -62,9 +62,23 @@ function CustomerDetailPage() {
     },
   })
 
+  const statusesQuery = useQuery(trpc.customerStatus.list.queryOptions())
+  const statuses = (statusesQuery.data ?? []) as Array<{ id: string; name: string; color: string }>
+
   const customer = customerQuery.data
   const activities = activitiesQuery.data?.items ?? []
   const notes = notesQuery.data ?? []
+
+  async function handleStatusChange(newStatusId: string) {
+    try {
+      await trpcClient.customer.changeStatus.mutate({ id: customerId, statusId: newStatusId })
+      customerQuery.refetch()
+      activitiesQuery.refetch()
+      toast.success(t('update'))
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+    }
+  }
 
   async function handleFieldSave(field: string, value: string | undefined) {
     try {
@@ -116,12 +130,14 @@ function CustomerDetailPage() {
             className='text-2xl font-bold'
           />
         </h1>
-        <span
-          className='rounded-full px-2 py-0.5 text-xs font-medium text-white'
+        <select
+          value={customer.status.id}
+          onChange={(e) => handleStatusChange(e.target.value)}
+          className='rounded-full border-0 px-2 py-0.5 text-xs font-medium text-white'
           style={{ backgroundColor: customer.status.color }}
         >
-          {customer.status.name}
-        </span>
+          {statuses.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+        </select>
       </div>
 
       <div className='grid gap-6 lg:grid-cols-3'>
