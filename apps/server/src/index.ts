@@ -60,8 +60,10 @@ app.use(
   }),
 )
 
-// Start automation scheduler
-startScheduler(30_000) // Poll every 30 seconds
+// Start automation scheduler (skip during tests)
+if (process.env.NODE_ENV !== 'test') {
+  startScheduler(30_000) // Poll every 30 seconds
+}
 
 const port = Number(process.env.PORT ?? 3001)
 
