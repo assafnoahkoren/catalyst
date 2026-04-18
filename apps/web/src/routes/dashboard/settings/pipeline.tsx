@@ -2,6 +2,7 @@ import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { trpc, trpcClient } from '../../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/settings/pipeline')({
@@ -26,18 +27,28 @@ function PipelinePage() {
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault()
-    await trpcClient.customerStatus.create.mutate({
-      name: newName,
-      color: newColor,
-      order: statuses.length,
-    })
-    setNewName('')
-    statusesQuery.refetch()
+    try {
+      await trpcClient.customerStatus.create.mutate({
+        name: newName,
+        color: newColor,
+        order: statuses.length,
+      })
+      setNewName('')
+      statusesQuery.refetch()
+      toast.success(t('addStatus'))
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+    }
   }
 
   async function handleDelete(id: string) {
-    await trpcClient.customerStatus.delete.mutate({ id })
-    statusesQuery.refetch()
+    try {
+      await trpcClient.customerStatus.delete.mutate({ id })
+      statusesQuery.refetch()
+      toast.success(t('deleteCustomer'))
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+    }
   }
 
   return (

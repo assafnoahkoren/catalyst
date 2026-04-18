@@ -83,20 +83,20 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — click retry button, verify it recovers
 - [x] Verify: Console — verify error is caught, not an unhandled white screen
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 5. Error: Add toast notification system
 
-- [ ] Dev: Install `sonner` (toast library)
-- [ ] Dev: Add `<Toaster />` to root layout
-- [ ] Dev: Replace all inline error divs in mutations with toast.error()
-- [ ] Dev: Add toast.success() after successful mutations (settings save, customer create, etc.)
-- [ ] Verify: Playwright — create a customer, verify success toast appears
-- [ ] Verify: Playwright — trigger an error (e.g., duplicate slug), verify error toast appears
-- [ ] Verify: Playwright — screenshot showing toast notification
-- [ ] Verify: Check that old inline error divs are removed
-- [ ] Fix if needed
+- [x] Dev: Install `sonner` (toast library)
+- [x] Dev: Add `<Toaster />` to root layout
+- [x] Dev: Replace all inline error divs in mutations with toast.error()
+- [x] Dev: Add toast.success() after successful mutations (settings save, customer create, etc.)
+- [x] Verify: Playwright — create a customer, verify success toast appears
+- [x] Verify: Playwright — trigger an error (e.g., duplicate slug), verify error toast appears
+- [x] Verify: Playwright — screenshot showing toast notification
+- [x] Verify: Check that old inline error divs are removed
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

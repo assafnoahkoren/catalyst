@@ -4,6 +4,7 @@ import type { QueryClient } from '@tanstack/react-query'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import type { FallbackProps } from 'react-error-boundary'
 import { ErrorBoundary } from 'react-error-boundary'
+import { Toaster } from 'sonner'
 
 export interface RouterContext {
   queryClient: QueryClient
@@ -41,6 +42,7 @@ function RootLayout() {
 
   return (
     <div dir={dir} className='min-h-screen bg-background text-foreground'>
+      <Toaster position='top-right' richColors closeButton />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Outlet />
       </ErrorBoundary>

@@ -2,6 +2,7 @@ import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { trpc, trpcClient } from '../../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/settings/')({
@@ -27,14 +28,20 @@ function SettingsPage() {
     e.preventDefault()
     setSaving(true)
     const form = new FormData(e.currentTarget)
-    await trpcClient.tenant.update.mutate({
-      name: form.get('name') as string,
-      language: form.get('language') as string,
-      greenApiInstance: form.get('greenApiInstance') as string || undefined,
-      greenApiToken: form.get('greenApiToken') as string || undefined,
-    })
-    tenantQuery.refetch()
-    setSaving(false)
+    try {
+      await trpcClient.tenant.update.mutate({
+        name: form.get('name') as string,
+        language: form.get('language') as string,
+        greenApiInstance: form.get('greenApiInstance') as string || undefined,
+        greenApiToken: form.get('greenApiToken') as string || undefined,
+      })
+      tenantQuery.refetch()
+      toast.success(t('update'))
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+    } finally {
+      setSaving(false)
+    }
   }
 
   if (!tenant) return null

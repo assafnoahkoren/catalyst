@@ -2,6 +2,7 @@ import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { trpc, trpcClient } from '../../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/settings/team')({
@@ -23,14 +24,24 @@ function TeamPage() {
 
   async function handleInvite(e: React.FormEvent) {
     e.preventDefault()
-    await trpcClient.tenant.invite.mutate({ email, role })
-    setEmail('')
-    membersQuery.refetch()
+    try {
+      await trpcClient.tenant.invite.mutate({ email, role })
+      setEmail('')
+      membersQuery.refetch()
+      toast.success(t('invite'))
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+    }
   }
 
   async function handleRemove(memberId: string) {
-    await trpcClient.tenant.removeMember.mutate({ memberId })
-    membersQuery.refetch()
+    try {
+      await trpcClient.tenant.removeMember.mutate({ memberId })
+      membersQuery.refetch()
+      toast.success(t('remove'))
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+    }
   }
 
   return (
