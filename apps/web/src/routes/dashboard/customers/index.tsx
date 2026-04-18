@@ -174,6 +174,7 @@ function KanbanBoard() {
 
 function CustomerTable() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState<'name' | 'createdAt' | 'updatedAt'>('createdAt')
@@ -245,17 +246,20 @@ function CustomerTable() {
           </thead>
           <tbody>
             {customers.map((customer) => (
-              <tr key={customer.id} className='border-b hover:bg-muted/30'>
+              <tr
+                key={customer.id}
+                className='cursor-pointer border-b hover:bg-muted/30'
+                onClick={() => navigate({ to: `/dashboard/customers/${customer.id}` as '/' })}
+              >
                 <td className='px-4 py-2 font-medium'>{customer.name}</td>
                 <td className='px-4 py-2 text-muted-foreground'>
                   {(customer as { email?: string }).email ?? '-'}
                 </td>
                 <td className='px-4 py-2 text-muted-foreground'>{customer.phone ?? '-'}</td>
-                <td className='px-4 py-2'>
+                <td className='px-4 py-2' onClick={(e) => e.stopPropagation()}>
                   <select
                     value={customer.statusId}
-                    onChange={(e) =>
-                      handleStatusChange(customer.id, e.target.value)}
+                    onChange={(e) => handleStatusChange(customer.id, e.target.value)}
                     className='rounded border bg-background px-2 py-1 text-xs'
                   >
                     {statuses.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}

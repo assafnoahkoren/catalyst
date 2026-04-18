@@ -136,28 +136,28 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — verify customer appears in correct status column
 - [x] Verify: Server logs — verify customer.create mutation succeeded
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 9. Table: Add row click navigation
 
-- [ ] Dev: Add onClick to each `<tr>` navigating to customer detail
-- [ ] Dev: Add cursor-pointer to rows
-- [ ] Dev: Ensure status dropdown click doesn't trigger row navigation (stopPropagation)
-- [ ] Verify: Playwright — switch to table view, click a customer row
-- [ ] Verify: Playwright — verify navigated to /dashboard/customers/{id}
-- [ ] Verify: Playwright — verify status dropdown still works without navigating
-- [ ] Fix if needed
+- [x] Dev: Add onClick to each `<tr>` navigating to customer detail
+- [x] Dev: Add cursor-pointer to rows
+- [x] Dev: Ensure status dropdown click doesn't trigger row navigation (stopPropagation)
+- [x] Verify: Playwright — switch to table view, click a customer row
+- [x] Verify: Playwright — verify navigated to /dashboard/customers/{id}
+- [x] Verify: Playwright — verify status dropdown still works without navigating
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
 ### 10. Table: Add "Add Customer" button
 
-- [ ] Dev: Reuse the same add customer modal from kanban task #8
-- [ ] Dev: Add button in table view header
-- [ ] Verify: Playwright — switch to table view, click "Add Customer"
-- [ ] Verify: Playwright — fill form, submit, verify customer appears in table
-- [ ] Fix if needed
+- [x] Dev: Reuse the same add customer modal from kanban task #8
+- [x] Dev: Add button in table view header
+- [x] Verify: Playwright — switch to table view, click "Add Customer"
+- [x] Verify: Playwright — fill form, submit, verify customer appears in table
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 
