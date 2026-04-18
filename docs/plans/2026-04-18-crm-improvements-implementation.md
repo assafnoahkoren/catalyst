@@ -122,20 +122,20 @@ Every task follows this loop. **Verification is mandatory — no skipping.**
 - [x] Verify: Playwright — verify customer detail page shows correct customer data
 - [x] Verify: Playwright — verify drag still works (drag a card, check status change)
 - [x] Fix if needed
-- [ ] Commit
-- [ ] CI Check
+- [x] Commit
+- [x] CI Check
 
 ### 8. Kanban: Add "Add Customer" button
 
-- [ ] Dev: Add "Add Customer" button in page header
-- [ ] Dev: Create add customer modal/form with name, email, phone, status selector
-- [ ] Dev: Call customer.create mutation, refresh kanban on success
-- [ ] Dev: Add i18n keys for the form
-- [ ] Verify: Playwright — click "Add Customer" button, verify modal opens
-- [ ] Verify: Playwright — fill form, submit, verify new card appears in kanban
-- [ ] Verify: Playwright — verify customer appears in correct status column
-- [ ] Verify: Server logs — verify customer.create mutation succeeded
-- [ ] Fix if needed
+- [x] Dev: Add "Add Customer" button in page header
+- [x] Dev: Create add customer modal/form with name, email, phone, status selector
+- [x] Dev: Call customer.create mutation, refresh kanban on success
+- [x] Dev: Add i18n keys for the form
+- [x] Verify: Playwright — click "Add Customer" button, verify modal opens
+- [x] Verify: Playwright — fill form, submit, verify new card appears in kanban
+- [x] Verify: Playwright — verify customer appears in correct status column
+- [x] Verify: Server logs — verify customer.create mutation succeeded
+- [x] Fix if needed
 - [ ] Commit
 - [ ] CI Check
 

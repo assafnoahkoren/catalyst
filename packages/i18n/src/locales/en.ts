@@ -177,6 +177,14 @@ export const en = {
   somethingWentWrong: 'Something went wrong',
   tryAgain: 'Try Again',
   errorDescription: 'An unexpected error occurred. Please try again.',
+  addCustomerTitle: 'Add Customer',
+  customerName: 'Customer Name',
+  customerEmail: 'Email',
+  customerPhone: 'Phone',
+  selectStatus: 'Status',
+  creating: 'Creating...',
+  create: 'Create',
+  close: 'Close',
 } as const satisfies FlatTranslations
 
 // Enforces: same keys as en, all values must be strings, no nesting allowed

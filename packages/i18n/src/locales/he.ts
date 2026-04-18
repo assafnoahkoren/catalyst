@@ -177,4 +177,12 @@ export const he: Translations = {
   somethingWentWrong: 'משהו השתבש',
   tryAgain: 'נסה שוב',
   errorDescription: 'אירעה שגיאה בלתי צפויה. נסה שוב.',
+  addCustomerTitle: 'הוסף לקוח',
+  customerName: 'שם הלקוח',
+  customerEmail: 'אימייל',
+  customerPhone: 'טלפון',
+  selectStatus: 'סטטוס',
+  creating: 'יוצר...',
+  create: 'צור',
+  close: 'סגור',
 }

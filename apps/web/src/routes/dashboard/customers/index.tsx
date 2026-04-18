@@ -2,6 +2,7 @@ import { useTranslation } from '@catalyst/i18n'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useRef, useState } from 'react'
+import { toast } from 'sonner'
 import { trpc, trpcClient } from '../../../lib/trpc'
 
 export const Route = createFileRoute('/dashboard/customers/')({
@@ -15,6 +16,7 @@ function CustomersPage() {
   const [viewMode, setViewMode] = useState<ViewMode>(
     () => (localStorage.getItem('customers-view') as ViewMode) || 'kanban',
   )
+  const [showAddModal, setShowAddModal] = useState(false)
 
   function handleViewChange(mode: ViewMode) {
     setViewMode(mode)
@@ -26,6 +28,12 @@ function CustomersPage() {
       <div className='flex items-center justify-between'>
         <h1 className='text-2xl font-bold'>{t('customers')}</h1>
         <div className='flex gap-2'>
+          <button
+            onClick={() => setShowAddModal(true)}
+            className='rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90'
+          >
+            {t('addCustomer')}
+          </button>
           <div className='flex rounded-md border'>
             <button
               onClick={() => handleViewChange('kanban')}
@@ -52,6 +60,8 @@ function CustomersPage() {
       </div>
 
       {viewMode === 'kanban' ? <KanbanBoard /> : <CustomerTable />}
+
+      {showAddModal && <AddCustomerModal onClose={() => setShowAddModal(false)} />}
     </div>
   )
 }
@@ -279,6 +289,116 @@ function CustomerTable() {
             {t('next')}
           </button>
         </div>
+      </div>
+    </div>
+  )
+}
+
+function AddCustomerModal({ onClose }: { onClose: () => void }) {
+  const { t } = useTranslation()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [statusId, setStatusId] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const statusesQuery = useQuery(trpc.customerStatus.list.queryOptions())
+  const statuses = (statusesQuery.data ?? []) as StatusItem[]
+
+  // Set default status when loaded
+  if (statuses.length > 0 && !statusId) {
+    const defaultStatus = statuses.find((s) => (s as unknown as { isDefault: boolean }).isDefault)
+      ?? statuses[0]
+    if (defaultStatus) setStatusId(defaultStatus.id)
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      await trpcClient.customer.create.mutate({
+        name,
+        statusId,
+        email: email || undefined,
+        phone: phone || undefined,
+      })
+      toast.success(t('addCustomer'))
+      onClose()
+      // Trigger refetch by reloading (simple approach)
+      window.location.reload()
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('somethingWentWrong'))
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div
+      className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'
+      onClick={onClose}
+    >
+      <div
+        className='w-full max-w-md rounded-lg bg-card p-6 shadow-xl'
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className='mb-4 flex items-center justify-between'>
+          <h2 className='text-lg font-semibold'>{t('addCustomerTitle')}</h2>
+          <button onClick={onClose} className='text-muted-foreground hover:text-foreground'>
+            {t('close')}
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div className='space-y-2'>
+            <label className='text-sm font-medium'>{t('customerName')}</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              minLength={1}
+              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+            />
+          </div>
+          <div className='space-y-2'>
+            <label className='text-sm font-medium'>{t('customerEmail')}</label>
+            <input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+            />
+          </div>
+          <div className='space-y-2'>
+            <label className='text-sm font-medium'>{t('customerPhone')}</label>
+            <input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+            />
+          </div>
+          <div className='space-y-2'>
+            <label className='text-sm font-medium'>{t('selectStatus')}</label>
+            <select
+              value={statusId}
+              onChange={(e) => setStatusId(e.target.value)}
+              className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+            >
+              {statuses.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+            </select>
+          </div>
+          <div className='flex gap-2 justify-end'>
+            <button type='button' onClick={onClose} className='rounded-md border px-4 py-2 text-sm'>
+              {t('cancel')}
+            </button>
+            <button
+              type='submit'
+              disabled={loading || !name.trim()}
+              className='rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50'
+            >
+              {loading ? t('creating') : t('create')}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   )
